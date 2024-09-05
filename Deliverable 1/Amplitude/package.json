@@ -1,10 +1,10 @@
 {
   "name": "practical-4",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "frontend/src/index.js",
   "scripts": {
-    "build": "babel server.js –d dist",
-    "start": "npm run build && node dist/server.js"
+    "build": "babel backend/server.js –d backend/dist",
+    "start": "npm run build && node backend/dist/server.js"
   },
   "keywords": [],
   "author": "",

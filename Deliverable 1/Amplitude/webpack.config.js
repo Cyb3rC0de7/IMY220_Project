@@ -2,7 +2,7 @@
 const path = require("path");
 
 module.exports = {
-    entry: path.resolve(__dirname, "frontend/src/index.js"),
+    entry: path.join(__dirname, "frontend/src/index.js"),
     output: {
         path: path.resolve(__dirname, "frontend/public"),
         filename: "bundle.js",
@@ -11,10 +11,10 @@ module.exports = {
     module: {
         rules: [
         {
-            test: /\.js$/,
+            test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: {
-            loader: "babel-loader",
+            loader: ["babel-loader", "css-loader", "style-loader", "file-loader"],
             },
         },
         ],
