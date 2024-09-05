@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = () => { // A component that displays the navigation bar using the Link component from react-router-dom
   return (
     <nav>
       <ul>

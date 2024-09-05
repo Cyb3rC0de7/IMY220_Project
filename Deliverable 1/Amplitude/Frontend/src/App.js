@@ -1,39 +1,48 @@
 //u21669849, Qwinton Knocklein
-import React from 'react';
-import HelloWorld from './components/HelloWorld';
-import RandomMovies from './components/RandomMovies';
+import React, { useState } from 'react';
+import Song from './components/Song';
+import AddSongForm from './components/AddSongForm';
+import PlaylistPreview from './components/PlaylistPreview';
+import ProfilePreview from './components/ProfilePreview';
+import Header from './components/Header';
 
-const movies = [
-    {
-        title: "The Great Adventure",
-        description: "A heartwarming story of friendship and bravery as a group of kids embarks on an unexpected journey through a mysterious forest."
-    },
-    {
-        title: "Future City",
-        description: "A sci-fi thriller set in a dystopian future where a hacker must battle a corrupt corporation to save humanity."
-    },
-    {
-        title: "Laugh Out Loud",
-        description: "A hilarious comedy following three best friends who accidentally enter a reality TV show with unexpected consequences."
-    },
-    {
-        title: "Love and Space",
-        description: "A romantic drama about two astronauts who find love while on a dangerous mission to Mars."
-    },
-    {
-        title: "The Secret of the Ocean",
-        description: "An animated adventure that follows a young girl and her talking dolphin on a quest to discover the lost city of Atlantis."
-    }
-];
+const App = () => {
+  const [songs, setSongs] = useState([]);
+  const [playlists] = useState([
+    { id: 1, name: 'Chill Vibes', creator: 'John', tags: ['chill', 'vibes'] },
+    { id: 2, name: 'Workout Mix', creator: 'Doe', tags: ['workout'] },
+  ]);
 
-function App() {
-    return (
-        <div>
-            <HelloWorld />
-            <h1>Random Movie List</h1>
-            <RandomMovies movies={movies} />
-        </div>
-    );
-}
+  const addSong = (song) => setSongs([...songs, song]);
+
+  return (
+    <div>
+      <Header />
+      <h1>AMPLITUDE</h1>
+      <AddSongForm addSong = {addSong} />
+      <div className = "song-list">
+        {songs.map((song, index) => (
+          <Song key = {index} title = {song.title} artist = {song.artist} />
+        ))}
+      </div>
+      <h2>Playlists</h2>
+      {playlists.map((playlist) => (
+        <PlaylistPreview
+          key = {playlist.id}
+          name = {playlist.name}
+          tags = {playlist.tags}
+          creator = {playlist.creator}
+        />
+      ))}
+      <h2>User Profile</h2>
+      <ProfilePreview
+        name = "John Doe"
+        username = "johnd"
+        pronouns = "he/him"
+        bio = "Music lover and playlist curator."
+      />
+    </div>
+  );
+};
 
 export default App;
