@@ -1,18 +1,18 @@
 //u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
 
-const AddSongForm = ({ addSong }) => {
-    const [title, setTitle] = useState('');
+const AddSongForm = ({ addSong }) => { // A form that allows the user to add a song to the playlist
+    const [title, setTitle] = useState(''); // The title and artist of the song are stored in state
     const [artist, setArtist] = useState('');
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        addSong({ title, artist });
-        setTitle('');
+        e.preventDefault(); // Prevents the page from refreshing when the form is submitted
+        addSong({ title, artist }); // When the form is submitted, the song is added to the playlist
+        setTitle(''); // The input fields are cleared
         setArtist('');
     };
 
-    return (
+    return ( // The form is rendered with input fields for the title and artist of the song
         <form onSubmit = {handleSubmit}>
         <input
             type = "text"

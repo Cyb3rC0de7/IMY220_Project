@@ -1,7 +1,7 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
 
-const Song = ({ title, artist }) => {
+const Song = ({ title, artist }) => { // A component that displays the title and artist of a song
   return (
     <div className = "song">
       <h3>{title}</h3>
