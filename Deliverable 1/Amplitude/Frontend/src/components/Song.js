@@ -1,5 +1,6 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
+import '../styles/song.css';
 
 const Song = ({ title, artist }) => { // A component that displays the title and artist of a song
   return (

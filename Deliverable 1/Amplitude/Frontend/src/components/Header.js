@@ -1,6 +1,7 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/Header.css';
 
 const Header = () => { // A component that displays the navigation bar using the Link component from react-router-dom
   return (

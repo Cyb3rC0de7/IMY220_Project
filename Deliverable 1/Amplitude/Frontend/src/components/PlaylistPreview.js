@@ -1,5 +1,6 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
+import '../styles/PlaylistPreview.css';
 
 const PlaylistPreview = ({ name, tags, creator }) => { // A component that displays the name, tags, and creator of a playlist
   return (
