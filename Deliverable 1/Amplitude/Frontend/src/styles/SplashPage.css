@@ -1,50 +1,97 @@
 /*u21669849, Qwinton Knocklein*/
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Splash Container */
 .splash-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #282c34; /* Dark background */
-  color: white;
+  background-image: url(""); /* Replace with your desired image */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Header */
+.splash-header {
   text-align: center;
+  color: #fff; /* Change to your desired color */
 }
 
 .splash-header h1 {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
+  font-size: 48px;
+  margin-bottom: 20px;
 }
 
 .splash-header p {
-  font-size: 1.5rem;
+  font-size: 24px;
 }
 
+/* Content */
+.splash-content {
+  text-align: center;
+  max-width: 800px;
+  padding: 40px;
+}
+
+/* Intro Section */
 .intro-section {
-  margin: 40px 0;
+  margin-bottom: 40px;
 }
 
 .intro-section h2 {
-  font-size: 2.5rem;
+  font-size: 36px;
+  margin-bottom: 20px;
 }
 
 .intro-section p {
-  margin: 20px 0;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+/* CTA Section */
+.cta-section {
+  background-color: rgba(0, 0, 0, 0.8); /* Change to your desired background color */
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.cta-section h2 {
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.cta-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cta-section li {
+  margin-bottom: 10px;
+  color: #fff;
 }
 
 .auth-buttons {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
-.auth-buttons .btn {
-  background-color: #ff8c00; /* Orange accent for buttons */
-  color: white;
-  padding: 12px 25px;
-  font-size: 1.2rem;
-  border-radius: 5px;
-  margin: 0 10px;
+.btn {
   display: inline-block;
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
 }
 
-.auth-buttons .btn:hover {
-  background-color: #e67e00;
+.btn:hover {
+  background-color: #e0e0e0;
 }

@@ -1,7 +1,6 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/Header';
 import SplashPage from './pages/SplashPage';
 import HomePage from './pages/HomePage';
 import ExplorePage from './pages/ExplorePage';
@@ -13,7 +12,6 @@ import SignUpPage from './pages/SignUpPage';
 const App = () => {
   return (
     <Router>
-      <Header />
       <Routes>
         {/* Splash Page (Default Route) */}
         <Route path="/" element={<SplashPage />} />

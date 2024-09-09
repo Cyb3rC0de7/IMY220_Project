@@ -1,18 +1,18 @@
-//u21669849, Qwinton Knocklein
+// frontend/src/components/Header.js
 import React from 'react';
-import { Link } from 'react-router-dom';
 import '../styles/Header.css';
 
-const Header = () => { // A component that displays the navigation bar using the Link component from react-router-dom
+const Header = () => {
   return (
-    <nav>
-      <ul>
-        <li><Link to = "/">Home</Link></li>
-        <li><Link to = "/explore">Explore</Link></li>
-        <li><Link to = "/library">My Library</Link></li>
-        <li><Link to = "/profile">Profile</Link></li>
-      </ul>
-    </nav>
+    <header className="header-container">
+      <div className="header-content">
+        <input type="text" placeholder="Search" className="search-bar" />
+        <div className="header-right">
+          <img src="https://via.placeholder.com/30" alt="Notifications" className="icon" />
+          <img src="https://via.placeholder.com/40" alt="User Profile" className="user-profile" />
+        </div>
+      </div>
+    </header>
   );
 };
 

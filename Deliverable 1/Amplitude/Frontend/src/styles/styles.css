@@ -1,14 +1,14 @@
 /*u21669849, Qwinton Knocklein*/
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f9f9f9;
+  background-image: "../images/Home-background.jpg";
   margin: 0;
   padding: 0;
-  color: #333;
 }
 
 h1, h2, h3 {
-  color: #333;
+  color: #F14424;
   text-align: center;
 }
 
@@ -22,7 +22,7 @@ a:hover {
 }
 
 button {
-  background-color: #007bff;
+  background-color: #F14424;
   color: white;
   border: none;
   padding: 10px 20px;

@@ -1,7 +1,7 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
 import ProfilePreview from '../components/ProfilePreview';
-//import '../styles/ProfilePage.css';
+import '../styles/ProfilePage.css';
 
 const ProfilePage = () => {
   return (

@@ -1,20 +1,31 @@
 /*u21669849, Qwinton Knocklein*/
-.song {
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    padding: 15px;
-    text-align: center;
-  }
-  
-  .song h3 {
-    margin: 5px 0;
-    color: #333;
-  }
-  
-  .song p {
-    margin: 0;
-    color: #666;
-  }
-  
+.song-card {
+  width: 200px;
+  background-color: #D9D9D9;
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px;
+}
+
+.song-card img {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.song-info {
+  color: white;
+  margin-top: 10px;
+}
+
+.song-info h3 {
+  font-size: 20px;
+  font-family: 'Roboto Serif', serif;
+  font-weight: 600;
+}
+
+.song-info p {
+  font-size: 20px;
+  font-family: 'Roboto Serif', serif;
+  font-weight: 300;
+}
