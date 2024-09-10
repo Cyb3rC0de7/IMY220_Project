@@ -12,7 +12,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url(""); /* Replace with your desired image */
+  background-image: url("../images/Splash-background.png");
   background-size: cover;
   background-position: center;
 }
@@ -20,7 +20,7 @@ body {
 /* Header */
 .splash-header {
   text-align: center;
-  color: #fff; /* Change to your desired color */
+  color: #fff;
 }
 
 .splash-header h1 {

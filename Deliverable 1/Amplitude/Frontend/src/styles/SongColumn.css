@@ -5,7 +5,29 @@
   margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
+  height: calc(100vh - 12.1%);
+  overflow-y: scroll;
 }
+
+  /* custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #0889A6;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #F14424;
+  }
 
 /* Header Section */
 .song-header {
@@ -39,7 +61,7 @@
 /* Song Grid */
 .song-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
 }
 
@@ -49,8 +71,8 @@
 }
 
 .song-item img {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 10px;
 }
 
