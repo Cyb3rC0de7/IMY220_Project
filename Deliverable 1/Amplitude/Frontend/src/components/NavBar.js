@@ -1,5 +1,7 @@
 // frontend/src/components/NavBar.js
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import logo from '../images/Amplitude.png';
 import '../styles/NavBar.css';
 
 const NavBar = () => {
@@ -7,7 +9,7 @@ const NavBar = () => {
     <div className="navbar-container">
       <div className="logo-section">
         <img
-          src="https://via.placeholder.com/75"
+          src={logo}
           alt="Amplitude Logo"
           className="logo"
         />
@@ -15,8 +17,15 @@ const NavBar = () => {
       </div>
 
       <nav className="nav-links">
-        <a href="#">HOME</a>
-        <a href="#">EXPLORE</a>
+        <div className="nav-item">
+          <NavLink to="/home">HOME</NavLink>
+        </div>
+        <div className="nav-item">
+          <NavLink to="/explore">EXPLORE</NavLink>
+        </div>
+        <div className="nav-item">
+          <NavLink to="/library">MY LIBRARY</NavLink>
+        </div>
       </nav>
     </div>
   );

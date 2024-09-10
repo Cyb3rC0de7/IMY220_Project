@@ -4,6 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-image: url('../images/Home-background.jpg');
   justify-content: space-between;
 }
 
@@ -11,22 +12,21 @@
 .content-area {
   display: flex;
   flex: 1;
-  padding: 10px;
   gap: 10px;
 }
 
 .left-column {
   flex-direction: row;
-  width: 25%;
-  flex: 1;
+  width: 20%;
+  flex: 2;
   padding: 10px;
   gap: 10px;
 }
 
 .right-column {
   flex-direction: row;
-  width: 75%;
-  flex: 2;
+  width: 80%;
+  flex: 3;
   padding: 10px;
   gap: 10px;
 }

@@ -3,9 +3,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SplashPage from './pages/SplashPage';
 import HomePage from './pages/HomePage';
-import ExplorePage from './pages/ExplorePage';
-import LibraryPage from './pages/LibraryPage';
-import ProfilePage from './pages/ProfilePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 
@@ -22,9 +19,6 @@ const App = () => {
         
         {/* Main Pages */}
         <Route path="/home" element={<HomePage />} />
-        <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/library" element={<LibraryPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );

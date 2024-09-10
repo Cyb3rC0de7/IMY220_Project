@@ -2,7 +2,7 @@
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #f9f9f9;
-  background-image: "../images/Home-background.jpg";
+  background-image: url('../images/Home-background.jpg');
   margin: 0;
   padding: 0;
 }
@@ -14,7 +14,7 @@ h1, h2, h3 {
 
 a {
   text-decoration: none;
-  color: #007bff;
+  color: #0889A6;
 }
 
 a:hover {
@@ -31,7 +31,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #0889A6;
 }
 
 .container {

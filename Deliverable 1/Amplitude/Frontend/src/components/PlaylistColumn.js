@@ -1,10 +1,10 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
-import '../styles/LeftColumn.css';
+import '../styles/PlaylistColumn.css';
 
-const LeftColumn = ({ playlists }) => {
+const PlaylistColumn = ({ playlists }) => {
   return (
-    <div className="left-column">
+    <div className="playlist-column">
       <h2>Playlists</h2>
       <ul className="playlist-list">
         {playlists.map((playlist) => (
@@ -22,4 +22,4 @@ const LeftColumn = ({ playlists }) => {
   );
 };
 
-export default LeftColumn;
+export default PlaylistColumn;

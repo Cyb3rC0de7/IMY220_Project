@@ -1,11 +1,14 @@
-//u21669849, Qwinton Knocklein
+// frontend/src/components/SongColumn.js
 import React from 'react';
-import '../styles/RightColumn.css';
+import '../styles/SongColumn.css';
 
 const RightColumn = ({ songs }) => {
   return (
-    <div className="right-column">
-      <h2>Songs</h2>
+    <div className="song-column">
+      <div className="song-header">
+        <h2 className="song-title">Songs</h2>
+        <button className="add-song-button">+ Add Song</button>
+      </div>
       <div className="song-grid">
         {songs.map((song) => (
           <div key={song.id} className="song-item">
