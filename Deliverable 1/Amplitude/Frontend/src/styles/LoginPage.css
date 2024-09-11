@@ -1,0 +1,29 @@
+/* General container for the login page */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgba(25, 25, 25, 0.95); /* Dark gray background */
+    padding: 20px;
+    color: white;
+    overflow-y: hidden;
+    text-align: center;
+  }
+  
+  /* Title styling */
+  .login-container h1 {
+    font-size: 36px;
+    color: #F14424; /* Accent color */
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Form and input styles */
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+  }

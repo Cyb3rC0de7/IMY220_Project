@@ -1,6 +1,6 @@
 //u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
-//import '../styles/LoginPage.css';
+import '../styles/LoginPage.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');

@@ -5,20 +5,21 @@ import SplashPage from './pages/SplashPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
+import AddSongPage from './pages/AddSongPage';
+import ProfilePage from './pages/ProfilePage';
+import EditProfilePage from './pages/EditProfilePage';
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        {/* Splash Page (Default Route) */}
         <Route path="/" element={<SplashPage />} />
-        
-        {/* Authentication Pages */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        
-        {/* Main Pages */}
         <Route path="/home" element={<HomePage />} />
+        <Route path="/addSong" element={<AddSongPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/editProfile" element={<EditProfilePage />} />
       </Routes>
     </Router>
   );

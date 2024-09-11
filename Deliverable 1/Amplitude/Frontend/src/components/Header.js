@@ -1,5 +1,6 @@
 // frontend/src/components/Header.js
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import placeholder from '../images/placeholder.png';
 import '../styles/Header.css';
 
@@ -10,7 +11,9 @@ const Header = () => {
         <input type="text" placeholder="Search" className="search-bar" />
         <div className="header-right">
           <img src={placeholder} alt="Notifications" className="icon" />
-          <img src={placeholder} alt="User Profile" className="user-profile" />
+          <NavLink to="/profile" className="nav-link">
+            <img src={placeholder} alt="User Profile" className="user-profile" />
+          </NavLink>
         </div>
       </div>
     </header>

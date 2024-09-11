@@ -1,6 +1,6 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import '../styles/SplashPage.css';
 
 const SplashPage = () => {
@@ -28,8 +28,12 @@ const SplashPage = () => {
             <li>Stay updated with real-time music trends</li>
           </ul>
           <div className="auth-buttons">
-            <Link to="/login" className="btn">Login</Link>
-            <Link to="/signup" className="btn">Sign Up</Link>
+            <NavLink to="/login" className="nav-link">
+              <button className="login-button">Log In</button>
+            </NavLink>
+            <NavLink to="/signup" className="nav-link">
+              <button className="signup-button">Sign Up</button>
+            </NavLink>
           </div>
         </section>
       </div>
