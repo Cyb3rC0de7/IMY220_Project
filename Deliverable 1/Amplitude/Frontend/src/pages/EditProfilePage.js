@@ -66,7 +66,7 @@ const EditProfilePage = () => {
           value={bio}
           onChange={(e) => setBio(e.target.value)}
         />
-        <NavLink to="/profile" className="nav-link">
+        <NavLink to={`/profile/${username}`} className="nav-link">
           <button type="submit">Save Changes</button>
         </NavLink>
       </form>

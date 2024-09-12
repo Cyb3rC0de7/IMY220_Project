@@ -15,7 +15,7 @@ const ProfileColumn = ( {user} ) => {
         <p>Pronouns: {user.pronouns}</p>
         <p>Bio: {user.bio}</p>
       </div>
-        <NavLink to={`/editProfile/${user.username}`} className="nav-link">
+        <NavLink to="/editProfile" className="nav-link">
             <button>Edit</button>
         </NavLink>
     </div>
