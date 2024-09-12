@@ -7,6 +7,7 @@ import '../styles/pages/EditPlaylistPage.css';
 const EditPlaylistPage = () => {
   const [playlistID] = useState('1');
   const [playlistName, setPlaylistName] = useState('Chill Vibes');
+  const [tags, setTags] = useState('chill, relax, study, focus');
   const [description, setDescription] = useState('A collection of relaxing and chill tracks to wind down.');
   const [playlistImage, setPlaylistImage] = useState(null);
 
@@ -46,6 +47,12 @@ const EditPlaylistPage = () => {
           value={playlistName}
           onChange={(e) => setPlaylistName(e.target.value)}
           required
+        />
+        <input
+          type="text"
+          placeholder="#Tags"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
         />
         <textarea
           placeholder="Description"

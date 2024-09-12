@@ -1,5 +1,5 @@
 //u21669849, Qwinton Knocklein
-import React from 'react';
+import React, { useState} from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../components/Header';
@@ -7,6 +7,7 @@ import NavBar from '../components/NavBar';
 import PlaylistColumn from '../components/PlaylistColumn';
 import PlaylistDetails from '../components/PlaylistDetailsColumn';
 import ListSongs from '../components/ListSongsColumn';
+import ListComments from '../components/ListCommentsColumn';
 import Footer from '../components/Footer';
 
 import profilePic from '../images/profile-pic.png'; // Placeholder for user profile images
@@ -15,6 +16,9 @@ import '../styles/pages/PlaylistPage.css';
 
 const PlaylistPage = () => {
   const { id } = useParams();
+  const [showCommentColumn, setShowCommentColumn] = useState(false);
+
+  const toggleShowCommentColumn = () => setShowCommentColumn(!showCommentColumn);
 
   const users = [
     {
@@ -45,6 +49,7 @@ const PlaylistPage = () => {
     {
       id: 1,
       name: 'Chill Vibes',
+      tags: 'chill, relax, study, focus',
       description: 'A collection of relaxing and chill tracks to wind down.',
       creator: 'John Doe',
       thumbnail: placeholder,
@@ -53,11 +58,17 @@ const PlaylistPage = () => {
         { id: 2, name: 'Song 2', artist: 'Artist 2', duration: '4:02', thumbnail: placeholder },
         { id: 3, name: 'Song 3', artist: 'Artist 3', duration: '2:58', thumbnail: placeholder },
         // Add more songs
+      ],
+      comments: [
+        { id: 1, user: 'John Doe', text: 'Great playlist!', date: '2024-08-01' },
+        { id: 2, user: 'Jane Doe', text: 'Love the energy in these songs!', date: '2024-08-02' },
+        // Add more comments
       ]
     },
     {
       id: 2,
       name: 'Workout Beats',
+      tags: 'workout, gym, cardio, running',
       description: 'Pump up your workout with these energetic tunes.',
       creator: 'Jane Doe',
       thumbnail: placeholder,
@@ -66,6 +77,11 @@ const PlaylistPage = () => {
         { id: 5, name: 'Song 5', artist: 'Artist 5', duration: '3:30', thumbnail: placeholder },
         { id: 6, name: 'Song 6', artist: 'Artist 6', duration: '3:55', thumbnail: placeholder },
         // Add more songs
+      ],
+      comments: [
+        { id: 1, user: 'John Doe', text: 'Great playlist!', date: '2021-06-01' },
+        { id: 2, user: 'Jane Doe', text: 'Love the energy in these songs!', date: '2021-06-02' },
+        // Add more comments
       ]
     }
   ];
@@ -93,7 +109,7 @@ const PlaylistPage = () => {
     return <h2>Playlist not found</h2>;
   }
 
-  const { songs } = playlist;
+  const { songs, comments} = playlist;
 
   return (
     <div className="playlist-page">
@@ -105,7 +121,17 @@ const PlaylistPage = () => {
         <div className="right-column">
           <Header user={user} />
           <PlaylistDetails playlist={playlist} />
-          <ListSongs songs={songs} allSongs={allAvailableSongs} />
+
+          <div className='song-comment-toggle'>
+            <button onClick={toggleShowCommentColumn}>
+              {showCommentColumn ? 'Hide Comments' : 'Show Comments'}
+            </button>
+          </div>
+          {showCommentColumn ? (
+            <ListComments comments={comments} />
+          ) : (
+            <ListSongs songs={songs} allSongs={allAvailableSongs} />
+          )}
         </div>
       </div>
       <Footer />

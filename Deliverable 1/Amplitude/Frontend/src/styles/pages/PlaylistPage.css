@@ -26,6 +26,12 @@
     gap: 10px;
 }
 
+.song-comment-toggle {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
 .list-songs {
     height: calc(100vh - 46%);
 }

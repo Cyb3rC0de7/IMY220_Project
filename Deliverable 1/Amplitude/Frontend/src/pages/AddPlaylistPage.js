@@ -47,17 +47,18 @@ const AddPlaylistPage = () => {
           onChange={(e) => setPlaylistName(e.target.value)}
           required
         />
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
         <input
           type="text"
           placeholder="#Tags"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
         />
+        <textarea
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        
         <NavLink to="/home" className="nav-link">
           <button type="submit">Add Playlist</button>
         </NavLink>

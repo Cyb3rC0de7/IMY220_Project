@@ -10,7 +10,8 @@ const PlaylistDetailsColumn = ({ playlist }) => {
       <img src={playlist.thumbnail} alt={playlist.name} className="playlist-thumbnail" />
       <div className="playlist-info">
         <h2>{playlist.name}</h2>
-        <p>Created by: {playlist.creator}</p>
+        <h3>Created by: {playlist.creator}</h3>
+        <p>{playlist.tags}</p>
         <p>{playlist.description}</p>
       </div>
       <NavLink to={{pathname: "/editPlaylist"}} className="nav-link">
