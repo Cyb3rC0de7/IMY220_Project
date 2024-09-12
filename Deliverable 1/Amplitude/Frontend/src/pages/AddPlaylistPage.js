@@ -1,4 +1,4 @@
-// frontend/src/pages/AddPlaylistPage.js
+//u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
