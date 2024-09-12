@@ -1,0 +1,5 @@
+#u21669849, Qwinton Knocklein
+node_modules/
+.git/
+*Dockerfile*
+*env*
