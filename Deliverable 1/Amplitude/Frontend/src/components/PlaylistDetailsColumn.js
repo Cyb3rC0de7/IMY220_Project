@@ -13,7 +13,7 @@ const PlaylistDetailsColumn = ({ playlist }) => {
         <p>Created by: {playlist.creator}</p>
         <p>{playlist.description}</p>
       </div>
-      <NavLink to="/editPlaylist" className="nav-link">
+      <NavLink to={{pathname: "/editPlaylist"}} className="nav-link">
         <button>Edit</button>
       </NavLink>
     </div>

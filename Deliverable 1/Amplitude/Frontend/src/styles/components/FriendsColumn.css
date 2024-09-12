@@ -1,32 +1,31 @@
-/* Friends Column */
+/*u21669849, Qwinton Knocklein*/
 .friends-column {
-    background-color: rgba(25, 25, 25, 0.85);
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    height: calc(100vh - 46%);
-    overflow-y: scroll;
-  }
-  
-  .friends-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 20px;
-  }
-  
-  .friend-item {
-    text-align: center;
-  }
-  
-  .friend-item img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
-  
-  .friend-info h3 {
-    font-size: 18px;
-    color: white;
-    margin-top: 10px;
-  }
-  
+  background-color: rgba(25, 25, 25, 0.85);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  height: calc(100vh - 46%);
+  overflow-y: scroll;
+}
+
+.friends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 20px;
+}
+
+.friend-item {
+  text-align: center;
+}
+
+.friend-item img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.friend-info h3 {
+  font-size: 18px;
+  color: white;
+  margin-top: 10px;
+}

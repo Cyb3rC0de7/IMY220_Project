@@ -1,13 +1,13 @@
-//u21669849, Qwinton Knocklein
+// frontend/src/pages/AddPlaylistPage.js
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import '../styles/pages/EditPlaylistPage.css';
+import '../styles/pages/AddPlaylistPage.css';
 
-const EditPlaylistPage = () => {
-  const [playlistID] = useState('1');
-  const [playlistName, setPlaylistName] = useState('Chill Vibes');
-  const [description, setDescription] = useState('A collection of relaxing and chill tracks to wind down.');
+const AddPlaylistPage = () => {
+  const [playlistName, setPlaylistName] = useState('');
+  const [description, setDescription] = useState('');
+  const [genre, setGenre] = useState('');
   const [playlistImage, setPlaylistImage] = useState(null);
 
   const handleImageChange = (e) => {
@@ -16,12 +16,12 @@ const EditPlaylistPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Playlist updated:', { playlistName, description, playlistImage });
+    console.log('Adding playlist:', { playlistName, description, genre, playlistImage });
   };
 
   return (
-    <div className="edit-playlist-container">
-      <h1>Edit Playlist</h1>
+    <div className="add-playlist-container">
+      <h1>Add a New Playlist</h1>
       <form onSubmit={handleSubmit}>
         <div className="playlist-image-section">
           <label htmlFor="playlistImage">
@@ -51,14 +51,19 @@ const EditPlaylistPage = () => {
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          required
         />
-        <NavLink to={`/playlist/${playlistID}`} className="nav-link">
-          <button type="submit">Save Changes</button>
+        <input
+          type="text"
+          placeholder="Genre"
+          value={genre}
+          onChange={(e) => setGenre(e.target.value)}
+        />
+        <NavLink to="/home" className="nav-link">
+          <button type="submit">Add Playlist</button>
         </NavLink>
       </form>
     </div>
   );
 };
 
-export default EditPlaylistPage;
+export default AddPlaylistPage;

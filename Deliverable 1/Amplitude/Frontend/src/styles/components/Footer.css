@@ -1,4 +1,4 @@
-/* Footer container with padding from all sides */
+/*u21669849, Qwinton Knocklein*/
 .homepage-footer {
   display: flex;
   justify-content: space-between;
@@ -14,7 +14,6 @@
   box-sizing: border-box;
 }
 
-/* Footer left: Rewind, Play/Pause, Skip buttons */
 .footer-left {
   display: flex;
   gap: 10px;
@@ -28,7 +27,6 @@
   cursor: pointer;
 }
 
-/* Footer center: Song image, title, and artist info */
 .footer-center {
   display: flex;
   align-items: center;
@@ -53,7 +51,6 @@
   color: #F14424;
 }
 
-/* Footer right: Volume slider, Shuffle, and Repeat buttons */
 .footer-right {
   display: flex;
   align-items: center;

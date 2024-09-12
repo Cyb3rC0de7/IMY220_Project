@@ -1,4 +1,4 @@
-/* Container for the Edit Profile Page */
+/*u21669849, Qwinton Knocklein*/
 .edit-profile-container {
     display: flex;
     flex-direction: column;
@@ -10,16 +10,14 @@
     padding: 20px;
     text-align: center;
 }
-  
-/* Title styling */
+
 .edit-profile-container h1 {
     font-size: 36px;
     font-weight: bold;
-    color: #F14424; /* Accent color */
+    color: #F14424;
     margin-bottom: 30px;
 }
 
-/* Form and input styles */
 form {
     display: flex;
     flex-direction: column;
@@ -28,7 +26,6 @@ form {
     max-width: 500px;
 }
 
-/* Profile image section */
 .profile-image-section {
     margin-bottom: 20px;
 }
@@ -55,8 +52,4 @@ form {
 
 textarea {
     height: 100px;
-}
-
-textarea::placeholder {
-    color: #ccc; /* Light gray placeholder */
 }

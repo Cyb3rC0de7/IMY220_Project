@@ -1,4 +1,4 @@
-/* Playlist details section */
+/*u21669849, Qwinton Knocklein*/
 .playlist-details {
     display: flex;
     align-items: center;
@@ -6,27 +6,26 @@
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
-  }
-  
-  .playlist-thumbnail {
+}
+
+.playlist-thumbnail {
     width: 150px;
     height: 150px;
     border-radius: 10px;
     margin-right: 20px;
-  }
-  
-  .playlist-info {
+}
+
+.playlist-info {
     flex: 1;
     color: white;
-  }
-  
-  .playlist-info h2 {
+}
+
+.playlist-info h2 {
     margin: 0;
     font-size: 24px;
-  }
-  
-  .playlist-info p {
+}
+
+.playlist-info p {
     margin: 5px 0;
     font-size: 16px;
-  }
-  
+}

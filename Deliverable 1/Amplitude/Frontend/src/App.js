@@ -9,6 +9,7 @@ import AddSongPage from './pages/AddSongPage';
 import ProfilePage from './pages/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage';
 import PlaylistPage from './pages/PlaylistPage';
+import AddPlaylistPage from './pages/AddPlaylistPage';
 import EditPlaylistPage from './pages/EditPlaylistPage';
 import ExplorePage from './pages/ExplorePage';
 import LibraryPage from './pages/LibraryPage';
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/library" element={<LibraryPage />} />
         <Route path="/playlist/:id" element={<PlaylistPage />} />
+        <Route path="/addPlaylist" element={<AddPlaylistPage />} />
         <Route path="/editPlaylist" element={<EditPlaylistPage />} />
       </Routes>
     </Router>
