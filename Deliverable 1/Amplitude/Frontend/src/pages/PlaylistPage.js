@@ -70,6 +70,21 @@ const PlaylistPage = () => {
     }
   ];
 
+  const allAvailableSongs = [
+    { id: 1, name: 'Song 1', artist: 'Artist 1', duration: '3:43', thumbnail: placeholder },
+    { id: 2, name: 'Song 2', artist: 'Artist 2', duration: '3:45', thumbnail: placeholder },
+    { id: 3, name: 'Song 3', artist: 'Artist 3', duration: '3:49', thumbnail: placeholder },
+    { id: 4, name: 'Song 4', artist: 'Artist 4', duration: '3:47', thumbnail: placeholder },
+    { id: 5, name: 'Song 5', artist: 'Artist 1', duration: '3:47', thumbnail: placeholder },
+    { id: 6, name: 'Song 6', artist: 'Artist 2', duration: '2:42', thumbnail: placeholder },
+    { id: 7, name: 'Song 7', artist: 'Artist 3', duration: '3:43', thumbnail: placeholder },
+    { id: 8, name: 'Song 8', artist: 'Artist 4', duration: '3:45', thumbnail: placeholder },
+    { id: 9, name: 'Song 9', artist: 'Artist 1', duration: '3:47', thumbnail: placeholder },
+    { id: 10, name: 'Song 10', artist: 'Artist 2', duration: '2:33', thumbnail: placeholder },
+    { id: 11, name: 'Song 11', artist: 'Artist 3', duration: '2:43', thumbnail: placeholder },
+    { id: 12, name: 'Song 12', artist: 'Artist 4', duration: '2:53', thumbnail: placeholder },
+  ];
+
   const user = users.find((user) => user.username === 'johndoe');
 
   const playlist = playlists.find((playlist) => playlist.id === parseInt(id));
@@ -90,7 +105,7 @@ const PlaylistPage = () => {
         <div className="right-column">
           <Header user={user} />
           <PlaylistDetails playlist={playlist} />
-          <ListSongs songs={songs} />
+          <ListSongs songs={songs} allSongs={allAvailableSongs} />
         </div>
       </div>
       <Footer />

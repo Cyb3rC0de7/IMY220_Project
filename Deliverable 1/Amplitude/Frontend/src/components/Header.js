@@ -3,7 +3,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import placeholder from '../images/placeholder.png';
-import profile_pic from '../images/profile-pic.png';
 import '../styles/components/Header.css';
 
 const Header = ( {user} ) => {

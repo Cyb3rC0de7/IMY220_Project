@@ -82,7 +82,7 @@ const HomePage = () => {
         </div>
         <div className='right-column'>
           <Header user={user} />
-          <SongColumn songs={songs} />
+          <SongColumn songs={songs} isHomePage={true} />
         </div>
       </div>
       <Footer />

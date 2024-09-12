@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import '../styles/pages/AddSongPage.css';
+import '../styles/pages/AddNewSongPage.css';
 
 const AddSongPage = () => {
   const [title, setTitle] = useState('');
@@ -12,7 +12,7 @@ const AddSongPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Adding song:', { title, artist, album, genre });
+    console.log('Adding song:', { title, artist, album, tags });
   };
 
   return (

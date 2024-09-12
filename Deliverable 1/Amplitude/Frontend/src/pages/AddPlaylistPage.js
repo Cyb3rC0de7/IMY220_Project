@@ -7,7 +7,7 @@ import '../styles/pages/AddPlaylistPage.css';
 const AddPlaylistPage = () => {
   const [playlistName, setPlaylistName] = useState('');
   const [description, setDescription] = useState('');
-  const [genre, setGenre] = useState('');
+  const [tags, setTags] = useState('');
   const [playlistImage, setPlaylistImage] = useState(null);
 
   const handleImageChange = (e) => {
@@ -16,7 +16,7 @@ const AddPlaylistPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Adding playlist:', { playlistName, description, genre, playlistImage });
+    console.log('Adding playlist:', { playlistName, description, tags, playlistImage });
   };
 
   return (
@@ -54,9 +54,9 @@ const AddPlaylistPage = () => {
         />
         <input
           type="text"
-          placeholder="Genre"
-          value={genre}
-          onChange={(e) => setGenre(e.target.value)}
+          placeholder="#Tags"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
         />
         <NavLink to="/home" className="nav-link">
           <button type="submit">Add Playlist</button>

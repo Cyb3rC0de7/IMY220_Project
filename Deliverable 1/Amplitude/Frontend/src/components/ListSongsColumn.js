@@ -1,19 +1,30 @@
 //u21669849, Qwinton Knocklein
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+
+import SongColumn from '../components/SongColumn';
 
 import '../styles/components/ListSongsColumn.css';
 
-const ListSongsColumn = ({ songs }) => {
+const ListSongsColumn = ({ songs, allSongs }) => {
+  const [playlistSongs, setPlaylistSongs] = useState(songs);
+  const [showSongColumn, setShowSongColumn] = useState(false);
+
+  const addSongToPlaylist = (selectedSong) => { // Add song to playlist
+    if (!playlistSongs.some(song => song.id === selectedSong.id)) { // Check if song is already in playlist
+      setPlaylistSongs([...playlistSongs, selectedSong]); // Add song to playlist
+    }
+    setShowSongColumn(false); // Hide song column after adding song
+  };
+
+  const toggleShowSongColumn = () => setShowSongColumn(!showSongColumn); // Toggle song column visibility
+
   return (
     <div className="list-songs">
-        <div className="songList-header">
-        <h2 className="songList-title">Songs</h2>
-        <NavLink to="/addSong" className="nav-link">
-          <button type="button">+ Add Song</button>
-        </NavLink>
+      <div className="songList-header">
+        <h2 className="songList-title">Songs in Playlist</h2>
+        <button type="button" onClick={toggleShowSongColumn}>{showSongColumn ? 'Close' : '+ Add Song'}</button>
       </div>
-      {songs.map((song, index) => (
+      {playlistSongs.map((song, index) => (
         <div key={song.id} className={`song-item ${index % 2 === 0 ? 'dark' : 'darker'}`}>
           <img src={song.thumbnail} alt={song.name} className="song-thumbnail" />
           <div className="song-info">
@@ -25,6 +36,9 @@ const ListSongsColumn = ({ songs }) => {
           </div>
         </div>
       ))}
+      {showSongColumn && (
+        <SongColumn songs={allSongs} addSongToPlaylist={addSongToPlaylist} isHomePage={false} />
+      )}
     </div>
   );
 };
