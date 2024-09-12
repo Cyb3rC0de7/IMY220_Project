@@ -1,7 +1,8 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import '../styles/SplashPage.css';
+
+import '../styles/pages/SplashPage.css';
 
 const SplashPage = () => {
   return (

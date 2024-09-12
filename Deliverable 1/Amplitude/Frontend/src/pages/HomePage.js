@@ -1,12 +1,13 @@
-// frontend/src/pages/HomePage.js
+//u21669849, Qwinton Knocklein
 import React from 'react';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import PlaylistColumn from '../components/PlaylistColumn';
 import SongColumn from '../components/SongColumn';
 import Footer from '../components/Footer';
+
 import placeholder from '../images/placeholder.png';
-import '../styles/HomePage.css';
+import '../styles/pages/HomePage.css';
 
 const HomePage = () => {
   const playlists = [

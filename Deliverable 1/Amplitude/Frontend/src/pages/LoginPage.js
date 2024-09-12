@@ -1,6 +1,8 @@
 //u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
-import '../styles/LoginPage.css';
+import { NavLink } from 'react-router-dom';
+
+import '../styles/pages/LoginPage.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -29,7 +31,9 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <NavLink to="/home" className="nav-link">
+          <button type="submit">Login</button>
+        </NavLink>
       </form>
     </div>
   );

@@ -1,6 +1,8 @@
-// frontend/src/pages/EditProfilePage.js
+//u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
-import '../styles/EditProfilePage.css';
+import { NavLink } from 'react-router-dom';
+
+import '../styles/pages/EditProfilePage.css';
 
 const EditProfilePage = () => {
   const [username, setUsername] = useState('johndoe');
@@ -64,8 +66,9 @@ const EditProfilePage = () => {
           value={bio}
           onChange={(e) => setBio(e.target.value)}
         />
-
-        <button type="submit">Save Changes</button>
+        <NavLink to="/profile" className="nav-link">
+          <button type="submit">Save Changes</button>
+        </NavLink>
       </form>
     </div>
   );

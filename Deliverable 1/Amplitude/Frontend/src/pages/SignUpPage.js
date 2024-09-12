@@ -1,7 +1,8 @@
+//u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import HomePage from './HomePage';
-import '../styles/SignUpPage.css';
+
+import '../styles/pages/SignUpPage.css';
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ const SignUpPage = () => {
   return (
     <div className="signup-container">
       <h1>Sign Up</h1>
-      <form onSubmit={/*handleSubmit*/ HomePage}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Username"
@@ -38,7 +39,9 @@ const SignUpPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Sign Up</button>
+        <NavLink to="/home" className="nav-link">
+          <button type="submit">Sign Up</button>
+        </NavLink>
       </form>
     </div>
   );

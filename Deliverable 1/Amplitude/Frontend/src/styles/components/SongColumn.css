@@ -1,6 +1,6 @@
-/* Song Column */
+/*u21669849, Qwinton Knocklein*/
 .song-column {
-  background-color: rgba(25, 25, 25, 0.95); /* Transparent dark gray */
+  background-color: rgba(25, 25, 25, 0.95);
   color: white;
   margin-top: 10px;
   padding: 10px;
@@ -9,7 +9,6 @@
   overflow-y: scroll;
 }
 
-/* Header Section */
 .song-header {
   display: flex;
   justify-content: space-between;
@@ -17,35 +16,17 @@
   margin-bottom: 20px;
 }
 
-/* Song Title */
 .song-title {
   font-size: 32px;
   margin-bottom: 20px;
 }
 
-/* Add Song Button */
-.add-song-button {
-  background-color: #0889A6; /* Accent color */
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.add-song-button:hover {
-  background-color: #077d94; /* Darker shade on hover */
-}
-
-/* Song Grid */
 .song-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
 }
 
-/* Individual Song Item */
 .song-item {
   text-align: center;
 }

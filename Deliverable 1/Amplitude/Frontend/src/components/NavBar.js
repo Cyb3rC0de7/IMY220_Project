@@ -1,8 +1,9 @@
-// frontend/src/components/NavBar.js
+//u21669849, Qwinton Knocklein
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+
 import logo from '../images/Amplitude.png';
-import '../styles/NavBar.css';
+import '../styles/components/NavBar.css';
 
 const NavBar = () => {
   return (

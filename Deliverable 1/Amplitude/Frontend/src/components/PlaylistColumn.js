@@ -1,6 +1,7 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
-import '../styles/PlaylistColumn.css';
+
+import '../styles/components/PlaylistColumn.css';
 
 const PlaylistColumn = ({ playlists }) => {
   return (

@@ -1,8 +1,9 @@
-// frontend/src/components/Header.js
+//u21669849, Qwinton Knocklein
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+
 import placeholder from '../images/placeholder.png';
-import '../styles/Header.css';
+import '../styles/components/Header.css';
 
 const Header = () => {
   return (

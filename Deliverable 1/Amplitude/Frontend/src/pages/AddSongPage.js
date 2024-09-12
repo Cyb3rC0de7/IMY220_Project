@@ -1,6 +1,8 @@
-// frontend/src/pages/AddSongPage.js
+//u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
-import '../styles/AddSongPage.css';
+import { NavLink } from 'react-router-dom';
+
+import '../styles/pages/AddSongPage.css';
 
 const AddSongPage = () => {
   const [title, setTitle] = useState('');
@@ -43,7 +45,9 @@ const AddSongPage = () => {
           value={genre}
           onChange={(e) => setGenre(e.target.value)}
         />
-        <button type="submit">Add Song</button>
+        <NavLink to="/home" className="nav-link">
+          <button type="submit">Add Song</button>
+        </NavLink>
       </form>
     </div>
   );

@@ -8,6 +8,8 @@ import SignUpPage from './pages/SignUpPage';
 import AddSongPage from './pages/AddSongPage';
 import ProfilePage from './pages/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage';
+import ExplorePage from './pages/ExplorePage';
+import LibraryPage from './pages/LibraryPage';
 
 const App = () => {
   return (
@@ -20,6 +22,8 @@ const App = () => {
         <Route path="/addSong" element={<AddSongPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/editProfile" element={<EditProfilePage />} />
+        <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/library" element={<LibraryPage />} />
       </Routes>
     </Router>
   );

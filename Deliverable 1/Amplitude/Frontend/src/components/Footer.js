@@ -1,7 +1,8 @@
-// frontend/src/components/Footer.js
+//u21669849, Qwinton Knocklein
 import React from 'react';
+
 import placeholder from '../images/placeholder.png';
-import '../styles/Footer.css';
+import '../styles/components/Footer.css';
 
 const Footer = () => {
   return (

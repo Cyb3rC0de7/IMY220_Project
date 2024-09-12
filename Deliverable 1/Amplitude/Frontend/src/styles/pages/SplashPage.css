@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(25, 25, 25, 0.95); /* Dark gray background */
-  background-image: url('../images/Splash-background.jpg');
+  background-image: url('../../images/Splash-background.jpg');
   background-size: cover;
   background-position: center;
   color: white;

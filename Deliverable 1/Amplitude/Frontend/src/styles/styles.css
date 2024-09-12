@@ -22,7 +22,7 @@ a:hover {
 }
 
 button {
-  background-color: #0889A6; /* Accent color for button */
+  background-color: #0889A6;
   color: white;
   padding: 15px;
   border: none;
@@ -51,8 +51,8 @@ input[type="email"],
 input[type="password"] {
   padding: 15px;
   margin-bottom: 15px;
-  background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent input fields */
-  border: 1px solid #F14424; /* Accent color for border */
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid #F14424;
   border-radius: 5px;
   color: white;
   font-size: 16px;

@@ -1,15 +1,15 @@
-// frontend/src/pages/ProfilePage.js
+//u21669849, Qwinton Knocklein
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import PlaylistColumn from '../components/PlaylistColumn';
 import Footer from '../components/Footer';
-import placeholder from '../images/placeholder.png'; // Placeholder for profile image
 import FriendsColumn from '../components/FriendsColumn';
-import '../styles/ProfilePage.css';
 import ProfileColumn from '../components/ProfileColumn';
+
+import '../styles/pages/ProfilePage.css';
+import placeholder from '../images/placeholder.png'; // Placeholder for profile image
 
 const ProfilePage = () => {
   const user = {

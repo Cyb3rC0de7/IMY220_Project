@@ -1,6 +1,7 @@
-// frontend/src/components/FriendsColumn.js
+//u21669849, Qwinton Knocklein
 import React from 'react';
-import '../styles/FriendsColumn.css';
+
+import '../styles/components/FriendsColumn.css';
 
 const FriendsColumn = ({ friends }) => {
   return (
