@@ -5,12 +5,12 @@ import { NavLink } from 'react-router-dom';
 import '../styles/pages/LoginPage.css';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Logging in with', { email, password });
+    console.log('Logging in with', { username, password });
   };
 
   return (
@@ -18,10 +18,10 @@ const LoginPage = () => {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="username"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <input
@@ -31,7 +31,7 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <NavLink to="/home" className="nav-link">
+        <NavLink to={`/home`} className="nav-link">
           <button type="submit">Login</button>
         </NavLink>
       </form>

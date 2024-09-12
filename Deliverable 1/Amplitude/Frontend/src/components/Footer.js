@@ -17,9 +17,9 @@ const Footer = () => {
         <img
           src={placeholder}
           alt="Current Song"
-          className="song-thumbnail"
+          className="footer-song-thumbnail"
         />
-        <div className="song-info">
+        <div className="footer-song-info">
           <h3>Current Song</h3>
           <p>Artist Name</p>
         </div>

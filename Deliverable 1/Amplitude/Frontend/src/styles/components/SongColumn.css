@@ -9,41 +9,41 @@
   overflow-y: scroll;
 }
 
-.song-header {
+.songCol-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.song-title {
+.songCol-title {
   font-size: 32px;
   margin-bottom: 20px;
 }
 
-.song-grid {
+.songCol-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
 }
 
-.song-item {
+.songCol-item {
   text-align: center;
 }
 
-.song-item img {
+.songCol-item img {
   width: 150px;
   height: 150px;
   border-radius: 10px;
 }
 
-.song-info h3 {
+.songCol-info h3 {
   font-size: 18px;
   color: white;
   margin-top: 10px;
 }
 
-.song-info p {
+.songCol-info p {
   font-size: 14px;
   color: #D3D3D3;
 }
