@@ -28,9 +28,9 @@
 }
 
 .playlist-column {
-  height: calc(100vh - 44.8%);
+  height: calc(100vh - 57%);
 }
 
 .friends-column {
-  height: calc(100vh - 50%);
+  height: calc(100vh - 62%);
 }

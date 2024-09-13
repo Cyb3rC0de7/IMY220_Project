@@ -24,6 +24,7 @@ const ListSongsColumn = ({ songs, allSongs }) => {
         <h2 className="songList-title">Songs in Playlist</h2>
         <button type="button" onClick={toggleShowSongColumn}>{showSongColumn ? 'Close' : '+ Add Song'}</button>
       </div>
+      
       {playlistSongs.map((song, index) => (
         <div key={song.id} className={`song-item ${index % 2 === 0 ? 'dark' : 'darker'}`}>
           <img src={song.thumbnail} alt={song.name} className="song-thumbnail" />

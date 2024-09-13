@@ -21,9 +21,9 @@ const ListCommentsColumn = ({ comments }) => {
     <div className="list-comments">
       <div className="commentsList-header">
         <h2 className="commentsList-title">Comments</h2>
-        <NavLink to="/addNewComment" className="nav-link">
           <button type="button" >+ Add Comment</button>
-        </NavLink>
+        {/*<NavLink to="/addNewComment" className="nav-link">
+        </NavLink>*/}
       </div>
       
       {playlistComments.map((comment, index) => (

@@ -30,9 +30,9 @@
 }
 
 .playlist-column {
-  height: calc(100vh - 44.8%);
+  height: calc(100vh - 57%);
 }
 
 .song-column {
-  height: calc(100vh - 24%);
+  height: calc(100vh - 30.5%);
 }
