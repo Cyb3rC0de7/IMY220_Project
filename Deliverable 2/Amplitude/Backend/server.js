@@ -37,11 +37,24 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
-// Fetch a single user
+// Fetch a single user by ID
 app.get('/api/users/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const user = await (await db).collection("users").findOne({_id: id});
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Failed to fetch user"});
+    }
+});
+
+// Fetch a single user by username and password
+app.get('/api/users/:username/:password', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const password = req.params.password;
+        const user = await (await db).collection("users").findOne({username: username, passwordHash: password});
         res.json(user);
     } catch (error) {
         console.error(error);
@@ -73,6 +86,31 @@ app.post('/api/users', async (req, res) => {
         res.status(500).json({message: "Failed to create user"});
     }
 });
+
+// Create a single user
+app.post('/api/users/signup', async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+        // Check if the user already exists
+        const existingUser = await db.collection("users").findOne({ username: username });
+        if (existingUser) {
+            return res.status(400).json({ message: "Username already taken" });
+        }
+        // Create an ID for the new user by finding the max ID and incrementing it by 1
+        const maxId = await db.collection('users').find().sort({ _id: -1 }).limit(1).toArray();
+        const id = maxId.length > 0 ? maxId[0]._id + 1 : 1;
+        console.log(id);
+
+        const newUser = { _id: id, username: username, email: email, passwordHash: password }; // You might want to hash the password before saving
+        const user = JSON.parse(JSON.stringify(newUser));
+        console.log(user);
+        await db.collection('users').insertOne(user);
+
+        res.status(201).json({ message: 'User created successfully' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error creating user' });
+    }
+  });
 
 // Delete a single user
 app.delete('/api/users/:id', async (req, res) => {

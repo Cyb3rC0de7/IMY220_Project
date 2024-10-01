@@ -1,5 +1,5 @@
 //u21669849, Qwinton Knocklein
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../components/Header';
@@ -13,61 +13,52 @@ import placeholder from '../images/placeholder.png';
 import '../styles/pages/HomePage.css';
 
 const HomePage = () => {
+  const id = 'user1';
+  //const { id } = useParams();
 
-  const users = [
-    {
-      username: 'johndoe',
-      name: 'John Doe',
-      pronouns: 'he/him',
-      bio: 'Music enthusiast, playlist curator, and lover of all things chill.',
-      profileImage: profilePic,
-      friends: [
-        { id: 1, name: 'Jane Doe', thumbnail: placeholder },
-        { id: 2, name: 'Mike Ross', thumbnail: placeholder },
-      ],
-    },
-    {
-      username: 'janedoe',
-      name: 'Jane Doe',
-      pronouns: 'she/her',
-      bio: 'Pop music addict and playlist guru.',
-      profileImage: placeholder,
-      friends: [
-        { id: 1, name: 'John Doe', thumbnail: placeholder },
-        { id: 2, name: 'Rachel Zane', thumbnail: placeholder },
-      ],
-    },
-  ];
+  const [playlists, setPlaylists] = useState([]);
+  const [songs, setSongs] = useState([]);
+  const [user, setUser] = useState(null);
 
-  const playlists = [
-    { id: 1, name: 'Chill Vibes', creator: 'John Doe', thumbnail: placeholder, liked: true },
-    { id: 2, name: 'Workout Beats', creator: 'Jane Doe', thumbnail: placeholder, liked: false },
-    { id: 3, name: 'Grooves', creator: 'John Doe', thumbnail: placeholder, liked: true },
-    { id: 4, name: 'Jams', creator: 'Jane Doe', thumbnail: placeholder, liked: false },
-    { id: 5, name: 'Jungle Beats', creator: 'John Doe', thumbnail: placeholder, liked: true },
-    { id: 6, name: 'Urban Tunes', creator: 'Jane Doe', thumbnail: placeholder, liked: false },
-    { id: 7, name: 'House', creator: 'John Doe', thumbnail: placeholder, liked: true },
-    { id: 8, name: 'Hip-hop', creator: 'Jane Doe', thumbnail: placeholder, liked: false },
-    { id: 9, name: 'Zen', creator: 'John Doe', thumbnail: placeholder, liked: true },
-    { id: 10, name: 'Meditate', creator: 'Jane Doe', thumbnail: placeholder, liked: false },
-  ];
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`/api/users/${id}`);
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
 
-  const songs = [
-    { id: 1, name: 'Song 1', artist: 'Artist 1', thumbnail: placeholder },
-    { id: 2, name: 'Song 2', artist: 'Artist 2', thumbnail: placeholder },
-    { id: 3, name: 'Song 3', artist: 'Artist 3', thumbnail: placeholder },
-    { id: 4, name: 'Song 4', artist: 'Artist 4', thumbnail: placeholder },
-    { id: 1, name: 'Song 5', artist: 'Artist 1', thumbnail: placeholder },
-    { id: 2, name: 'Song 6', artist: 'Artist 2', thumbnail: placeholder },
-    { id: 3, name: 'Song 7', artist: 'Artist 3', thumbnail: placeholder },
-    { id: 4, name: 'Song 8', artist: 'Artist 4', thumbnail: placeholder },
-    { id: 1, name: 'Song 9', artist: 'Artist 1', thumbnail: placeholder },
-    { id: 2, name: 'Song 10', artist: 'Artist 2', thumbnail: placeholder },
-    { id: 3, name: 'Song 11', artist: 'Artist 3', thumbnail: placeholder },
-    { id: 4, name: 'Song 12', artist: 'Artist 4', thumbnail: placeholder },
-  ];
+    fetchUser();
 
-  const user = users.find((user) => user.username === 'johndoe');
+    const fetchPlaylists = async () => {
+      try {
+        const response = await fetch('/api/playlists');
+        const data = await response.json();
+        setPlaylists(data);
+      } catch (error) {
+        console.error('Error fetching playlists:', error);
+      }
+    };
+  
+    fetchPlaylists();
+
+    const fetchSongs = async () => {
+      try {
+        const response = await fetch('/api/songs');
+        const data = await response.json();
+        setSongs(data);
+      } catch (error) {
+        console.error('Error fetching songs:', error);
+      }
+    };
+
+    fetchSongs();
+
+  }, []);
+  
 
   if (!user) {
     return <h2>User not found</h2>;
