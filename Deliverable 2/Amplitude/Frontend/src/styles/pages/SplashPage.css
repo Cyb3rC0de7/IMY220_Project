@@ -1,0 +1,76 @@
+/*u21669849, Qwinton Knocklein*/
+.splash-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(25, 25, 25, 0.95);
+  background-image: url('../../images/Splash-background.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.splash-header h1 {
+  font-size: 48px;
+  font-weight: bold;
+  color: #F14424;
+  margin-bottom: 10px;
+}
+
+.splash-header p {
+  font-size: 20px;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.splash-content {
+  background-color: rgba(25, 25, 25, 0.95);
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.intro-section h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #F14424;
+  margin-bottom: 20px;
+}
+
+.intro-section p {
+  font-size: 18px;
+  color: #D3D3D3;
+}
+
+.cta-section h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.cta-section ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.cta-section ul li {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #D3D3D3;
+}
+
+.auth-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
