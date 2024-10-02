@@ -121,6 +121,19 @@ app.delete('/api/users/:id', async (req, res) => {
     }
 });
 
+// Get a users playlists
+app.get('/api/playlists/user/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const user = await (await db).collection("users").findOne({username: username});
+        const playlists = await (await db).collection("playlists").find({_id: {$in: user.playlists}}).toArray();
+        res.json(playlists);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Failed to fetch playlists"});
+    }
+});
+
 // Get all playlists
 app.get('/api/playlists', async (req, res) => {
     try {
@@ -154,6 +167,47 @@ app.get('/api/playlists/:playlistID/songs', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Failed to fetch songs"});
+    }
+});
+
+// Add a song to a playlist
+app.post('/api/playlists/:playlistId/addSong/:songId', async (req, res) => {
+    try {
+        const { playlistId, songId } = req.params;
+        const playlist = await (await db).collection("playlists").findOne({ _id: playlistId });
+
+        if (!playlist) {
+            return res.status(404).json({ message: 'Playlist not found' });
+        }
+
+        if (playlist.songs.includes(songId)) {
+            return res.status(400).json({ message: 'Song is already in the playlist' });
+        }
+
+        const result = await (await db).collection("playlists").updateOne(
+            { _id: playlistId },
+            { $push: { songs: songId } }
+        );
+
+        res.json({ message: 'Song added to playlist successfully', result });
+    } catch (error) {
+        console.error('Error adding song to playlist:', error);
+        res.status(500).json({ message: 'Failed to add song to playlist' });
+    }
+});
+
+// Remove a song from a playlist
+app.delete('/api/playlists/:playlistId/removeSong/:songId', async (req, res) => {
+    try {
+      const { playlistId, songId } = req.params;
+      const result = await (await db).collection("playlists").updateOne(
+        { _id: playlistId },
+        { $pull: { songs: songId } } // Remove the song from the playlist
+      );
+      res.json(result);
+    } catch (error) {
+      console.error("Error removing song from playlist:", error);
+      res.status(500).json({ message: "Failed to remove song from playlist" });
     }
 });
 
@@ -249,6 +303,10 @@ app.put('/api/songs/:id', async (req, res) => {
 app.post('/api/songs', async (req, res) => {
     try {
         const newSong = req.body;
+        // Create an ID for the new user by finding the max ID and incrementing it by 1
+        const maxId = await (await db).collection('songs').find().sort({ _id: 1 }).toArray();
+        const id = maxId.length > 0 ? maxId.length + 1 : 1;
+        newSong._id = id.toString();
         const result = await (await db).collection("songs").insertOne(newSong);
         res.json(result);
     } catch (error) {

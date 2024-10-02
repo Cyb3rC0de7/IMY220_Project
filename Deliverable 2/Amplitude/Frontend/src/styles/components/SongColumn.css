@@ -27,6 +27,13 @@
   gap: 20px;
 }
 
+.songCol-btn button {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .songCol-item {
   text-align: center;
 }

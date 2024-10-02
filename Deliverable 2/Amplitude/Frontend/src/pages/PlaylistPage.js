@@ -134,7 +134,7 @@ const PlaylistPage = () => {
           {showCommentColumn ? (
             <ListComments key={`comments-${id}`} comments={comments} />
           ) : (
-            <ListSongs key={`songs-${id}`} songs={songs} allSongs={allAvailableSongs} />
+            <ListSongs key={`songs-${id}`} songs={songs} allSongs={allAvailableSongs} playlistId={playlist._id} />
           )}
         </div>
       </div>
