@@ -16,7 +16,7 @@ const HomePage = () => {
   const [songs, setSongs] = useState([]);
   const [user, setUser] = useState(null);
 
-  // Get the id from session storage
+  // Get the username from session storage
   if (sessionStorage.getItem('username'))
     var username = sessionStorage.getItem('username');
 

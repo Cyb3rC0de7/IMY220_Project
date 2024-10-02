@@ -17,7 +17,7 @@ const SongColumn = ({ songs, addSongToPlaylist, isHomePage }) => {
       </div>
       <div className="songCol-grid">
         {songs.map((song) => (
-          <div key={song.id} className="songCol-item" onClick={() => addSongToPlaylist && addSongToPlaylist(song)}>
+          <div key={song._id} className="songCol-item" onClick={() => addSongToPlaylist && addSongToPlaylist(song)}>
             <img src={song.thumbnail} alt={song.name} />
             <div className="songCol-info">
               <h3>{song.name}</h3>

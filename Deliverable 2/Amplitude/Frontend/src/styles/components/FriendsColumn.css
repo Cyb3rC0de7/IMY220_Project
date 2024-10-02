@@ -14,17 +14,17 @@
   gap: 20px;
 }
 
-.friend-item {
+.friend-card {
   text-align: center;
 }
 
-.friend-item img {
+.friend-card img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
 }
 
-.friend-info h3 {
+.friend-card h3 {
   font-size: 18px;
   color: white;
   margin-top: 10px;

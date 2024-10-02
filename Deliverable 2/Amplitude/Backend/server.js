@@ -63,11 +63,11 @@ app.get('/api/users/:username/:password', async (req, res) => {
 });
 
 // Fetch all friends of a single user
-app.get('/api/users/:username/friends', async (req, res) => {
+app.get('/api/friends/:username', async (req, res) => {
     try {
         const username = req.params.username;
         const user = await (await db).collection("users").findOne({username: username});
-        const friends = await (await db).collection("users").find({username: { $in: user.friends }}).toArray();
+        const friends = await (await db).collection("users").find({username: {$in: user.friends}}).toArray();
         res.json(friends);
     } catch (error) {
         console.error(error);
@@ -144,6 +144,32 @@ app.get('/api/playlists/:id', async (req, res) => {
     }
 });
 
+// Get all songs in a playlist
+app.get('/api/playlists/:playlistID/songs', async (req, res) => {
+    try {
+        const playlistID = req.params.playlistID;
+        const playlist = await (await db).collection("playlists").findOne({_id: playlistID});
+        const songs = await (await db).collection("songs").find({_id: {$in: playlist.songs}}).toArray();
+        res.json(songs);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Failed to fetch songs"});
+    }
+});
+
+// Get all comments in a playlist
+app.get('/api/playlists/:playlistID/comments', async (req, res) => {
+    try {
+        const playlistID = req.params.playlistID;
+        const playlist = await (await db).collection("playlists").findOne({_id: playlistID});
+        const comments = await (await db).collection("comments").find({_id: {$in: playlist.comments}}).toArray();
+        res.json(comments);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Failed to fetch comments"});
+    }
+});
+
 // Update a single playlist
 app.put('/api/playlists/:id', async (req, res) => {
     try {
@@ -191,6 +217,8 @@ app.get('/api/songs', async (req, res) => {
         res.status(500).json({message: "Failed to fetch songs"});
     }
 });
+
+
 
 // Get a single song
 app.get('/api/songs/:id', async (req, res) => {

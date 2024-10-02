@@ -42,8 +42,10 @@ const ProfilePage = () => {
 
     const fetchFriends = async () => {
       try {
-        const response = await fetch(`/api/users/${username}/friends`);
+        const response = await fetch(`/api/friends/${username}`);
+        console.log(response);
         const data = await response.json();
+        console.log(data);
         setFriends(data);
       } catch (error) {
         console.error('Error fetching friends:', error);

@@ -8,14 +8,18 @@ const FriendsColumn = ({ friends }) => {
     <div className="friends-column">
       <h2>Friends</h2>
       <div className="friends-grid">
-        {friends.map((friend) => (
-          <div key={friend.id} className="friend-item">
-            <img src={friend.thumbnail} alt={friend.name} />
-            <div className="friend-info">
-              <h3>{friend.name}</h3>
-            </div>
+        {(friends === null || friends.length === 0) ? (
+          <div className="no-friends">
+            <p>No friends found</p>
           </div>
-        ))}
+        ) : (
+          friends.map((friend) => (
+            <div key={friend._id} className="friend-card">
+              <img src={friend.profileImage} alt="Profile Photo" className='profile-image' />
+              <h3>{friend.username}</h3>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

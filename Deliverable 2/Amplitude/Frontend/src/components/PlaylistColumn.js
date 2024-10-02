@@ -13,20 +13,24 @@ const PlaylistColumn = ({ playlists }) => {
           <button type="button">+ Add</button>
         </NavLink>
       </div>
-      <ul className="playlist-list">
-        {playlists.map((playlist) => (
-          <li key={playlist.id} className="playlist-item">
-            <img src={playlist.thumbnail} alt={playlist.name} />
-            <div className="playlist-info">
-              <NavLink to={`/playlist/${playlist.id}`} className="nav-link">
-                <h3>{playlist.name}</h3>
-              </NavLink>
-              <p>{playlist.creator}</p>
-            </div>
-            <span className="heart-icon">{playlist.liked ? '❤️' : '♡'}</span>
-          </li>
-        ))}
-      </ul>
+      {(playlists === null || playlists.length === 0) ? (
+        <p>No playlists found</p>
+      ) : (
+        <ul className="playlist-list">
+          {playlists.map((playlist) => (
+            <li key={playlist._id} className="playlist-item">
+              <img src={playlist.thumbnail} alt={playlist.name} />
+              <div className="playlist-info">
+                <NavLink to={`/playlist/${playlist._id}`} className="nav-link">
+                  <h3>{playlist.name}</h3>
+                </NavLink>
+                <p>{playlist.creator}</p>
+              </div>
+              <span className="heart-icon">{playlist.liked ? '❤️' : '♡'}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

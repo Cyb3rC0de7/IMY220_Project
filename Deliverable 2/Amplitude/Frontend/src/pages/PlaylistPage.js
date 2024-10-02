@@ -1,5 +1,5 @@
 //u21669849, Qwinton Knocklein
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../components/Header';
@@ -17,99 +17,103 @@ import '../styles/pages/PlaylistPage.css';
 const PlaylistPage = () => {
   const { id } = useParams();
   const [showCommentColumn, setShowCommentColumn] = useState(false);
-
   const toggleShowCommentColumn = () => setShowCommentColumn(!showCommentColumn);
+  const [user, setUser] = useState(null);
+  const [playlist, setPlaylist] = useState(null);
+  const [playlists, setPlaylists] = useState([]);
+  const [allAvailableSongs, setAllAvailableSongs] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [songs, setSongs] = useState([]);
 
-  const users = [
-    {
-      username: 'johndoe',
-      name: 'John Doe',
-      pronouns: 'he/him',
-      bio: 'Music enthusiast, playlist curator, and lover of all things chill.',
-      profileImage: profilePic,
-      friends: [
-        { id: 1, name: 'Jane Doe', thumbnail: placeholder },
-        { id: 2, name: 'Mike Ross', thumbnail: placeholder },
-      ],
-    },
-    {
-      username: 'janedoe',
-      name: 'Jane Doe',
-      pronouns: 'she/her',
-      bio: 'Pop music addict and playlist guru.',
-      profileImage: placeholder,
-      friends: [
-        { id: 1, name: 'John Doe', thumbnail: placeholder },
-        { id: 2, name: 'Rachel Zane', thumbnail: placeholder },
-      ],
-    },
-  ];
+  // Get the username from session storage
+  if (sessionStorage.getItem('username'))
+    var username = sessionStorage.getItem('username');
 
-  const playlists = [
-    {
-      id: 1,
-      name: 'Chill Vibes',
-      tags: 'chill, relax, study, focus',
-      description: 'A collection of relaxing and chill tracks to wind down.',
-      creator: 'John Doe',
-      thumbnail: placeholder,
-      songs: [
-        { id: 1, name: 'Song 1', artist: 'Artist 1', duration: '3:45', thumbnail: placeholder },
-        { id: 2, name: 'Song 2', artist: 'Artist 2', duration: '4:02', thumbnail: placeholder },
-        { id: 3, name: 'Song 3', artist: 'Artist 3', duration: '2:58', thumbnail: placeholder },
-        // Add more songs
-      ],
-      comments: [
-        { id: 1, user: 'John Doe', text: 'Great playlist!', date: '2024-08-01' },
-        { id: 2, user: 'Jane Doe', text: 'Love the energy in these songs!', date: '2024-08-02' },
-        // Add more comments
-      ]
-    },
-    {
-      id: 2,
-      name: 'Workout Beats',
-      tags: 'workout, gym, cardio, running',
-      description: 'Pump up your workout with these energetic tunes.',
-      creator: 'Jane Doe',
-      thumbnail: placeholder,
-      songs: [
-        { id: 4, name: 'Song 4', artist: 'Artist 4', duration: '3:15', thumbnail: placeholder },
-        { id: 5, name: 'Song 5', artist: 'Artist 5', duration: '3:30', thumbnail: placeholder },
-        { id: 6, name: 'Song 6', artist: 'Artist 6', duration: '3:55', thumbnail: placeholder },
-        // Add more songs
-      ],
-      comments: [
-        { id: 1, user: 'John Doe', text: 'Great playlist!', date: '2021-06-01' },
-        { id: 2, user: 'Jane Doe', text: 'Love the energy in these songs!', date: '2021-06-02' },
-        // Add more comments
-      ]
-    }
-  ];
+  useEffect(() => {
+    const fetchPlaylists = async () => {
+      try {
+        const response = await fetch('/api/playlists');
+        const data = await response.json();
+        setPlaylists(data);
+      } catch (error) {
+        console.error('Error fetching playlists:', error);
+      }
+    };
 
-  const allAvailableSongs = [
-    { id: 1, name: 'Song 1', artist: 'Artist 1', duration: '3:43', thumbnail: placeholder },
-    { id: 2, name: 'Song 2', artist: 'Artist 2', duration: '3:45', thumbnail: placeholder },
-    { id: 3, name: 'Song 3', artist: 'Artist 3', duration: '3:49', thumbnail: placeholder },
-    { id: 4, name: 'Song 4', artist: 'Artist 4', duration: '3:47', thumbnail: placeholder },
-    { id: 5, name: 'Song 5', artist: 'Artist 1', duration: '3:47', thumbnail: placeholder },
-    { id: 6, name: 'Song 6', artist: 'Artist 2', duration: '2:42', thumbnail: placeholder },
-    { id: 7, name: 'Song 7', artist: 'Artist 3', duration: '3:43', thumbnail: placeholder },
-    { id: 8, name: 'Song 8', artist: 'Artist 4', duration: '3:45', thumbnail: placeholder },
-    { id: 9, name: 'Song 9', artist: 'Artist 1', duration: '3:47', thumbnail: placeholder },
-    { id: 10, name: 'Song 10', artist: 'Artist 2', duration: '2:33', thumbnail: placeholder },
-    { id: 11, name: 'Song 11', artist: 'Artist 3', duration: '2:43', thumbnail: placeholder },
-    { id: 12, name: 'Song 12', artist: 'Artist 4', duration: '2:53', thumbnail: placeholder },
-  ];
+    const fetchAllAvailableSongs = async () => {
+      try {
+        const response = await fetch('/api/songs');
+        const data = await response.json();
+        setAllAvailableSongs(data);
+      } catch (error) {
+        console.error('Error fetching songs:', error);
+      }
+    };
 
-  const user = users.find((user) => user.username === 'johndoe');
+    fetchPlaylists();
+    fetchAllAvailableSongs();
+  }, []);
 
-  const playlist = playlists.find((playlist) => playlist.id === parseInt(id));
+  useEffect(() => {
+
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`/api/users/${username}`);
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
+  }, [username]);
+
+  useEffect(() => {
+    
+    const fetchPlaylist = async () => {
+      try {
+        const response = await fetch(`/api/playlists/${id}`);
+        const data = await response.json();
+        setPlaylist(data);
+      } catch (error) {
+        console.error('Error fetching playlist:', error);
+      }
+    };
+    
+    const fetchPlaylistComments = async () => {
+      try {
+        const response = await fetch(`/api/playlists/${id}/comments`);
+        const data = await response.json();
+        setComments(data);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    const fetchPlaylistSongs = async () => {
+      try {
+        const response = await fetch(`/api/playlists/${id}/songs`);
+        const data = await response.json();
+        setSongs(data);
+      } catch (error) {
+        console.error('Error fetching playlist songs:', error);
+      }
+    };
+
+    setPlaylist(null);
+    fetchPlaylist();
+    setComments([]);
+    fetchPlaylistComments();
+    setSongs([]);
+    fetchPlaylistSongs();
+
+    setShowCommentColumn(false);
+  }, [id]);
 
   if (!playlist) {
     return <h2>Playlist not found</h2>;
   }
-
-  const { songs, comments} = playlist;
 
   return (
     <div className="playlist-page">
@@ -128,9 +132,9 @@ const PlaylistPage = () => {
             </button>
           </div>
           {showCommentColumn ? (
-            <ListComments comments={comments} />
+            <ListComments key={`comments-${id}`} comments={comments} />
           ) : (
-            <ListSongs songs={songs} allSongs={allAvailableSongs} />
+            <ListSongs key={`songs-${id}`} songs={songs} allSongs={allAvailableSongs} />
           )}
         </div>
       </div>
