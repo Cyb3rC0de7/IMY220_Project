@@ -1,5 +1,5 @@
 //u21669849, Qwinton Knocklein
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../components/Header';
@@ -15,41 +15,46 @@ import placeholder from '../images/placeholder.png'; // Placeholder for images
 
 const ProfilePage = () => {
   const { username } = useParams();
-  
-  const users = [
-    {
-      username: 'johndoe',
-      name: 'John Doe',
-      pronouns: 'he/him',
-      bio: 'Music enthusiast, playlist curator, and lover of all things chill.',
-      profileImage: profilePic,
-      friends: [
-        { id: 1, name: 'Jane Doe', thumbnail: placeholder },
-        { id: 2, name: 'Mike Ross', thumbnail: placeholder },
-      ],
-    },
-    {
-      username: 'janedoe',
-      name: 'Jane Doe',
-      pronouns: 'she/her',
-      bio: 'Pop music addict and playlist guru.',
-      profileImage: placeholder,
-      friends: [
-        { id: 1, name: 'John Doe', thumbnail: placeholder },
-        { id: 2, name: 'Rachel Zane', thumbnail: placeholder },
-      ],
-    },
-  ];
+  const [playlists, setPlaylists] = useState([]);
+  const [user, setUser] = useState(null);
+  const [friends, setFriends] = useState([]);
 
-  const playlists = [
-    { id: 1, name: 'Chill Vibes', creator: 'John Doe', thumbnail: placeholder, liked: true },
-    { id: 2, name: 'Grooves', creator: 'John Doe', thumbnail: placeholder, liked: true },
-    { id: 3, name: 'Jungle Beats', creator: 'John Doe', thumbnail: placeholder, liked: true },
-    { id: 4, name: 'House', creator: 'John Doe', thumbnail: placeholder, liked: true },
-    { id: 5, name: 'Zen', creator: 'John Doe', thumbnail: placeholder, liked: true },
-  ];
+  useEffect(() => {
+    const fetchPlaylists = async () => {
+      try {
+        const response = await fetch('/api/playlists');
+        const data = await response.json();
+        setPlaylists(data);
+      } catch (error) {
+        console.error('Error fetching playlists:', error);
+      }
+    };
 
-  const user = users.find((user) => user.username === username);
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`/api/users/${username}`);
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    const fetchFriends = async () => {
+      try {
+        const response = await fetch(`/api/users/${username}/friends`);
+        const data = await response.json();
+        setFriends(data);
+      } catch (error) {
+        console.error('Error fetching friends:', error);
+      }
+    };
+
+    fetchUser();
+    fetchPlaylists();
+    fetchFriends();
+
+  }, []);
 
   if (!user) {
     return <h2>User not found</h2>;
@@ -65,7 +70,7 @@ const ProfilePage = () => {
         <div className="right-column">
           <Header user={user} />
           <ProfileColumn user={user} />
-          <FriendsColumn friends={user.friends} />
+          <FriendsColumn friends={friends} />
         </div>
       </div>
       <Footer />

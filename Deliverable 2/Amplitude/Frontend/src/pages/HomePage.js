@@ -1,6 +1,5 @@
 //u21669849, Qwinton Knocklein
 import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
 
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
@@ -13,26 +12,15 @@ import placeholder from '../images/placeholder.png';
 import '../styles/pages/HomePage.css';
 
 const HomePage = () => {
-  const id = 'user1';
-  //const { id } = useParams();
-
   const [playlists, setPlaylists] = useState([]);
   const [songs, setSongs] = useState([]);
   const [user, setUser] = useState(null);
 
+  // Get the id from session storage
+  if (sessionStorage.getItem('username'))
+    var username = sessionStorage.getItem('username');
+
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`/api/users/${id}`);
-        const data = await response.json();
-        setUser(data);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
-
-    fetchUser();
-
     const fetchPlaylists = async () => {
       try {
         const response = await fetch('/api/playlists');
@@ -42,8 +30,6 @@ const HomePage = () => {
         console.error('Error fetching playlists:', error);
       }
     };
-  
-    fetchPlaylists();
 
     const fetchSongs = async () => {
       try {
@@ -55,6 +41,18 @@ const HomePage = () => {
       }
     };
 
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`/api/users/${username}`);
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
+    fetchPlaylists();
     fetchSongs();
 
   }, []);

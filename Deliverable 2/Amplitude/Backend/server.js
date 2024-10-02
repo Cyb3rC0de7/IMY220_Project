@@ -37,11 +37,11 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
-// Fetch a single user by ID
-app.get('/api/users/:id', async (req, res) => {
+// Fetch a single user by username
+app.get('/api/users/:username', async (req, res) => {
     try {
-        const id = req.params.id;
-        const user = await (await db).collection("users").findOne({_id: id});
+        const username = req.params.username;
+        const user = await (await db).collection("users").findOne({username: username});
         res.json(user);
     } catch (error) {
         console.error(error);
@@ -62,6 +62,19 @@ app.get('/api/users/:username/:password', async (req, res) => {
     }
 });
 
+// Fetch all friends of a single user
+app.get('/api/users/:username/friends', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const user = await (await db).collection("users").findOne({username: username});
+        const friends = await (await db).collection("users").find({username: { $in: user.friends }}).toArray();
+        res.json(friends);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Failed to fetch friends"});
+    }
+});
+
 // Update a single user
 app.put('/api/users/:id', async (req, res) => {
     try {
@@ -76,36 +89,20 @@ app.put('/api/users/:id', async (req, res) => {
 });
 
 // Create a single user
-app.post('/api/users', async (req, res) => {
-    try {
-        const newUser = req.body;
-        const result = await (await db).collection("users").insertOne(newUser);
-        res.json(result);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({message: "Failed to create user"});
-    }
-});
-
-// Create a single user
 app.post('/api/users/signup', async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const newUser = req.body;
         // Check if the user already exists
-        const existingUser = await db.collection("users").findOne({ username: username });
+        const existingUser = await (await db).collection("users").findOne({ username: newUser.username });
         if (existingUser) {
             return res.status(400).json({ message: "Username already taken" });
         }
         // Create an ID for the new user by finding the max ID and incrementing it by 1
-        const maxId = await db.collection('users').find().sort({ _id: -1 }).limit(1).toArray();
-        const id = maxId.length > 0 ? maxId[0]._id + 1 : 1;
-        console.log(id);
-
-        const newUser = { _id: id, username: username, email: email, passwordHash: password }; // You might want to hash the password before saving
-        const user = JSON.parse(JSON.stringify(newUser));
-        console.log(user);
-        await db.collection('users').insertOne(user);
-
+        const maxId = await (await db).collection('users').find().sort({ _id: -1 }).limit(1).toArray();
+        const id = maxId.length > 0 ? parseInt(maxId[0]._id) + 1 : 1;
+        newUser._id = id.toString();
+        // Insert the new user into the database
+        const result = await (await db).collection("users").insertOne(newUser);
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
       res.status(500).json({ message: 'Error creating user' });

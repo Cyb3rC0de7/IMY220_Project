@@ -81,21 +81,21 @@ app.get('/api/users', /*#__PURE__*/function () {
   };
 }());
 
-// Fetch a single user by ID
-app.get('/api/users/:id', /*#__PURE__*/function () {
+// Fetch a single user by username
+app.get('/api/users/:username', /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
-    var id, user;
+    var username, user;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _context2.prev = 0;
-          id = req.params.id;
+          username = req.params.username;
           _context2.next = 4;
           return db;
         case 4:
           _context2.next = 6;
           return _context2.sent.collection("users").findOne({
-            _id: id
+            username: username
           });
         case 6:
           user = _context2.sent;
@@ -161,79 +161,92 @@ app.get('/api/users/:username/:password', /*#__PURE__*/function () {
   };
 }());
 
-// Update a single user
-app.put('/api/users/:id', /*#__PURE__*/function () {
+// Fetch all friends of a single user
+app.get('/api/users/:id/friends', /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
-    var id, updatedUser, result;
+    var id, user, friends;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
           _context4.prev = 0;
           id = req.params.id;
-          updatedUser = req.body;
-          _context4.next = 5;
+          _context4.next = 4;
           return db;
-        case 5:
-          _context4.next = 7;
-          return _context4.sent.collection("users").updateOne({
+        case 4:
+          _context4.next = 6;
+          return _context4.sent.collection("users").findOne({
             _id: id
-          }, {
-            $set: updatedUser
           });
-        case 7:
-          result = _context4.sent;
-          res.json(result);
-          _context4.next = 15;
-          break;
+        case 6:
+          user = _context4.sent;
+          _context4.next = 9;
+          return db;
+        case 9:
+          _context4.next = 11;
+          return _context4.sent.collection("users").find({
+            _id: {
+              $in: user.friends
+            }
+          }).toArray();
         case 11:
-          _context4.prev = 11;
+          friends = _context4.sent;
+          res.json(friends);
+          _context4.next = 19;
+          break;
+        case 15:
+          _context4.prev = 15;
           _context4.t0 = _context4["catch"](0);
           console.error(_context4.t0);
           res.status(500).json({
-            message: "Failed to update user"
+            message: "Failed to fetch friends"
           });
-        case 15:
+        case 19:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[0, 11]]);
+    }, _callee4, null, [[0, 15]]);
   }));
   return function (_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }());
 
-// Create a single user
-app.post('/api/users', /*#__PURE__*/function () {
+// Update a single user
+app.put('/api/users/:id', /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
-    var newUser, result;
+    var id, updatedUser, result;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
           _context5.prev = 0;
-          newUser = req.body;
-          _context5.next = 4;
+          id = req.params.id;
+          updatedUser = req.body;
+          _context5.next = 5;
           return db;
-        case 4:
-          _context5.next = 6;
-          return _context5.sent.collection("users").insertOne(newUser);
-        case 6:
+        case 5:
+          _context5.next = 7;
+          return _context5.sent.collection("users").updateOne({
+            _id: id
+          }, {
+            $set: updatedUser
+          });
+        case 7:
           result = _context5.sent;
           res.json(result);
-          _context5.next = 14;
+          _context5.next = 15;
           break;
-        case 10:
-          _context5.prev = 10;
+        case 11:
+          _context5.prev = 11;
           _context5.t0 = _context5["catch"](0);
           console.error(_context5.t0);
           res.status(500).json({
-            message: "Failed to create user"
+            message: "Failed to update user"
           });
-        case 14:
+        case 15:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[0, 10]]);
+    }, _callee5, null, [[0, 11]]);
   }));
   return function (_x9, _x10) {
     return _ref5.apply(this, arguments);
@@ -243,61 +256,64 @@ app.post('/api/users', /*#__PURE__*/function () {
 // Create a single user
 app.post('/api/users/signup', /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
-    var _req$body, username, email, password, existingUser, maxId, id, newUser, user;
+    var newUser, existingUser, maxId, id, result;
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
           _context6.prev = 0;
-          _req$body = req.body, username = _req$body.username, email = _req$body.email, password = _req$body.password; // Check if the user already exists
+          newUser = req.body; // Check if the user already exists
           _context6.next = 4;
-          return db.collection("users").findOne({
-            username: username
-          });
+          return db;
         case 4:
+          _context6.next = 6;
+          return _context6.sent.collection("users").findOne({
+            username: newUser.username
+          });
+        case 6:
           existingUser = _context6.sent;
           if (!existingUser) {
-            _context6.next = 7;
+            _context6.next = 9;
             break;
           }
           return _context6.abrupt("return", res.status(400).json({
             message: "Username already taken"
           }));
-        case 7:
-          _context6.next = 9;
-          return db.collection('users').find().sort({
+        case 9:
+          _context6.next = 11;
+          return db;
+        case 11:
+          _context6.next = 13;
+          return _context6.sent.collection('users').find().sort({
             _id: -1
           }).limit(1).toArray();
-        case 9:
+        case 13:
           maxId = _context6.sent;
-          id = maxId.length > 0 ? maxId[0]._id + 1 : 1;
-          console.log(id);
-          newUser = {
-            _id: id,
-            username: username,
-            email: email,
-            passwordHash: password
-          }; // You might want to hash the password before saving
-          user = JSON.parse(JSON.stringify(newUser));
-          console.log(user);
-          _context6.next = 17;
-          return db.collection('users').insertOne(user);
-        case 17:
+          id = maxId.length > 0 ? parseInt(maxId[0]._id) + 1 : 1;
+          newUser._id = id.toString();
+          // Insert the new user into the database
+          _context6.next = 18;
+          return db;
+        case 18:
+          _context6.next = 20;
+          return _context6.sent.collection("users").insertOne(newUser);
+        case 20:
+          result = _context6.sent;
           res.status(201).json({
             message: 'User created successfully'
           });
-          _context6.next = 23;
+          _context6.next = 27;
           break;
-        case 20:
-          _context6.prev = 20;
+        case 24:
+          _context6.prev = 24;
           _context6.t0 = _context6["catch"](0);
           res.status(500).json({
             message: 'Error creating user'
           });
-        case 23:
+        case 27:
         case "end":
           return _context6.stop();
       }
-    }, _callee6, null, [[0, 20]]);
+    }, _callee6, null, [[0, 24]]);
   }));
   return function (_x11, _x12) {
     return _ref6.apply(this, arguments);

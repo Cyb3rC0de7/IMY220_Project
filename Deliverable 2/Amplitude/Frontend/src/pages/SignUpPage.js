@@ -23,18 +23,19 @@ const SignUpPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, passwordHash: password }),
       });
 
       if (response.ok) {
+        const data = await response.json();
         setSuccess(true); // Set success state if signup is successful
+        sessionStorage.setItem('username', data.username);
         navigate('/home'); // Redirect to homepage
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Error signing up'); // Display error message from server
       }
     } catch (error) {
-      console.error('Error signing up:', error);
       setError('Something went wrong. Please try again.');
     }
   };

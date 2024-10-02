@@ -22,7 +22,8 @@ const LoginPage = () => {
 
         if (data) {
           // If login is successful, redirect to the home page
-          console.log('Login successful:', data);
+          // Create a session for the user ID
+          sessionStorage.setItem('username', data.username);
           navigate('/home');
         } else {
           // If the user is not found, show an error
