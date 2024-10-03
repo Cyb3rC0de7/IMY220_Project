@@ -316,16 +316,20 @@ app.post('/api/songs', async (req, res) => {
 });
 
 // Delete a single song
-app.delete('/api/songs/:id', async (req, res) => {
+app.delete('/api/songs/:songId', async (req, res) => {
     try {
-        const id = req.params.id;
-        const result = await (await db).collection("songs").deleteOne({_id: id});
-        res.json(result);
+        const { songId } = req.params;
+        const result = await (await db).collection('songs').deleteOne({ _id: songId });
+        await (await db).collection('playlists').updateMany(
+            {},
+            { $pull: { songs: songId } }
+        );
+        res.status(200).json(result);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({message: "Failed to delete song"});
+        res.status(500).json({ message: "Failed to remove song from database" });
     }
 });
+
 
 // Get all comments
 app.get('/api/comments', async (req, res) => {

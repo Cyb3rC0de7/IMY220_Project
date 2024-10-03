@@ -5,13 +5,14 @@ import SongColumn from '../components/SongColumn';
 
 import '../styles/components/ListSongsColumn.css';
 
-const ListSongsColumn = ({ songs, allSongs, playlistId }) => { 
-  const [playlistSongs, setPlaylistSongs] = useState(songs);
+const ListSongsColumn = ({ playlistId }) => { 
+  const [playlistSongs, setPlaylistSongs] = useState([]);
   const [showSongColumn, setShowSongColumn] = useState(false);
   const [isRemoveMode, setIsRemoveMode] = useState(false); // To toggle between Add and Remove modes
 
   // Fetch the songs for the playlist when playlistId changes
   useEffect(() => {
+
     const fetchPlaylistSongs = async () => {
       try {
         const response = await fetch(`/api/playlists/${playlistId}/songs`);
@@ -108,7 +109,11 @@ const ListSongsColumn = ({ songs, allSongs, playlistId }) => {
       ))}
 
       {showSongColumn && (
-        <SongColumn songs={allSongs} addSongToPlaylist={addSongToPlaylist} isHomePage={false} />
+        <SongColumn 
+          addSongToPlaylist={addSongToPlaylist} 
+          removeSongFromPlaylist={removeSongFromPlaylist} 
+          isHomePage={false} 
+        />
       )}
     </div>
   );

@@ -983,38 +983,47 @@ app.post('/api/songs', /*#__PURE__*/function () {
 }());
 
 // Delete a single song
-app["delete"]('/api/songs/:id', /*#__PURE__*/function () {
+app["delete"]('/api/songs/:songId', /*#__PURE__*/function () {
   var _ref22 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee22(req, res) {
-    var id, result;
+    var songId, result;
     return _regeneratorRuntime().wrap(function _callee22$(_context22) {
       while (1) switch (_context22.prev = _context22.next) {
         case 0:
           _context22.prev = 0;
-          id = req.params.id;
+          songId = req.params.songId;
           _context22.next = 4;
           return db;
         case 4:
           _context22.next = 6;
-          return _context22.sent.collection("songs").deleteOne({
-            _id: id
+          return _context22.sent.collection('songs').deleteOne({
+            _id: songId
           });
         case 6:
           result = _context22.sent;
-          res.json(result);
-          _context22.next = 14;
-          break;
-        case 10:
-          _context22.prev = 10;
-          _context22.t0 = _context22["catch"](0);
-          console.error(_context22.t0);
-          res.status(500).json({
-            message: "Failed to delete song"
+          _context22.next = 9;
+          return db;
+        case 9:
+          _context22.next = 11;
+          return _context22.sent.collection('playlists').updateMany({}, {
+            $pull: {
+              songs: songId
+            }
           });
+        case 11:
+          res.status(200).json(result);
+          _context22.next = 17;
+          break;
         case 14:
+          _context22.prev = 14;
+          _context22.t0 = _context22["catch"](0);
+          res.status(500).json({
+            message: "Failed to remove song from database"
+          });
+        case 17:
         case "end":
           return _context22.stop();
       }
-    }, _callee22, null, [[0, 10]]);
+    }, _callee22, null, [[0, 14]]);
   }));
   return function (_x43, _x44) {
     return _ref22.apply(this, arguments);

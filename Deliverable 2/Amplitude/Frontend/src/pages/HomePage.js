@@ -7,8 +7,6 @@ import PlaylistColumn from '../components/PlaylistColumn';
 import SongColumn from '../components/SongColumn';
 import Footer from '../components/Footer';
 
-import profilePic from '../images/profile-pic.png';
-import placeholder from '../images/placeholder.png';
 import '../styles/pages/HomePage.css';
 
 const HomePage = () => {

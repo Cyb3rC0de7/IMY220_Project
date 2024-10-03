@@ -10,8 +10,6 @@ import ListSongs from '../components/ListSongsColumn';
 import ListComments from '../components/ListCommentsColumn';
 import Footer from '../components/Footer';
 
-import profilePic from '../images/profile-pic.png'; // Placeholder for user profile images
-import placeholder from '../images/placeholder.png'; // Placeholder for song thumbnails
 import '../styles/pages/PlaylistPage.css';
 
 const PlaylistPage = () => {
@@ -21,9 +19,7 @@ const PlaylistPage = () => {
   const [user, setUser] = useState(null);
   const [playlist, setPlaylist] = useState(null);
   const [playlists, setPlaylists] = useState([]);
-  const [allAvailableSongs, setAllAvailableSongs] = useState([]);
   const [comments, setComments] = useState([]);
-  const [songs, setSongs] = useState([]);
 
   // Get the username from session storage
   if (sessionStorage.getItem('username'))
@@ -40,18 +36,7 @@ const PlaylistPage = () => {
       }
     };
 
-    const fetchAllAvailableSongs = async () => {
-      try {
-        const response = await fetch('/api/songs');
-        const data = await response.json();
-        setAllAvailableSongs(data);
-      } catch (error) {
-        console.error('Error fetching songs:', error);
-      }
-    };
-
     fetchPlaylists();
-    fetchAllAvailableSongs();
   }, []);
 
   useEffect(() => {
@@ -91,22 +76,10 @@ const PlaylistPage = () => {
       }
     };
 
-    const fetchPlaylistSongs = async () => {
-      try {
-        const response = await fetch(`/api/playlists/${id}/songs`);
-        const data = await response.json();
-        setSongs(data);
-      } catch (error) {
-        console.error('Error fetching playlist songs:', error);
-      }
-    };
-
     setPlaylist(null);
     fetchPlaylist();
     setComments([]);
     fetchPlaylistComments();
-    setSongs([]);
-    fetchPlaylistSongs();
 
     setShowCommentColumn(false);
   }, [id]);
@@ -134,7 +107,7 @@ const PlaylistPage = () => {
           {showCommentColumn ? (
             <ListComments key={`comments-${id}`} comments={comments} />
           ) : (
-            <ListSongs key={`songs-${id}`} songs={songs} allSongs={allAvailableSongs} playlistId={playlist._id} />
+            <ListSongs key={`songs-${id}`} playlistId={playlist._id} />
           )}
         </div>
       </div>
