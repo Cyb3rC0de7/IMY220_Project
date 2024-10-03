@@ -744,34 +744,45 @@ app.put('/api/playlists/:id', /*#__PURE__*/function () {
 // Create a single playlist
 app.post('/api/playlists', /*#__PURE__*/function () {
   var _ref16 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee16(req, res) {
-    var newPlaylist, result;
+    var newPlaylist, maxId, id, result;
     return _regeneratorRuntime().wrap(function _callee16$(_context16) {
       while (1) switch (_context16.prev = _context16.next) {
         case 0:
           _context16.prev = 0;
-          newPlaylist = req.body;
+          newPlaylist = req.body; // Create an ID for the new user by finding the max ID and incrementing it by 1
           _context16.next = 4;
           return db;
         case 4:
           _context16.next = 6;
-          return _context16.sent.collection("playlists").insertOne(newPlaylist);
+          return _context16.sent.collection('playlists').find().sort({
+            _id: 1
+          }).toArray();
         case 6:
+          maxId = _context16.sent;
+          id = maxId.length > 0 ? maxId.length + 1 : 1;
+          newPlaylist._id = id.toString();
+          _context16.next = 11;
+          return db;
+        case 11:
+          _context16.next = 13;
+          return _context16.sent.collection("playlists").insertOne(newPlaylist);
+        case 13:
           result = _context16.sent;
           res.json(result);
-          _context16.next = 14;
+          _context16.next = 21;
           break;
-        case 10:
-          _context16.prev = 10;
+        case 17:
+          _context16.prev = 17;
           _context16.t0 = _context16["catch"](0);
           console.error(_context16.t0);
           res.status(500).json({
             message: "Failed to create playlist"
           });
-        case 14:
+        case 21:
         case "end":
           return _context16.stop();
       }
-    }, _callee16, null, [[0, 10]]);
+    }, _callee16, null, [[0, 17]]);
   }));
   return function (_x31, _x32) {
     return _ref16.apply(this, arguments);

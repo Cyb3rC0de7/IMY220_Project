@@ -1,10 +1,26 @@
 //u21669849, Qwinton Knocklein
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useEffect } from 'react-router-dom';
 
 import '../styles/components/PlaylistColumn.css';
 
-const PlaylistColumn = ({ playlists }) => {
+const PlaylistColumn = () => {
+  const [playlists, setPlaylists] = useState([]);
+
+  useEffect(() => {
+    const fetchPlaylists = async () => {
+      try {
+        const response = await fetch('/api/playlists');
+        const data = await response.json();
+        setPlaylists(data);
+      } catch (error) {
+        console.error('Error fetching playlists:', error);
+      }
+    };
+
+    fetchPlaylists();
+  }, []);
+
   return (
     <div className="playlist-column">
       <div className="playlist-header">

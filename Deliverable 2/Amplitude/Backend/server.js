@@ -241,7 +241,15 @@ app.put('/api/playlists/:id', async (req, res) => {
 app.post('/api/playlists', async (req, res) => {
     try {
         const newPlaylist = req.body;
+        // Create an ID for the new user by finding the max ID and incrementing it by 1
+        const maxId = await (await db).collection('playlists').find().sort({ _id: 1 }).toArray();
+        const id = maxId.length > 0 ? maxId.length + 1 : 1;
+        newPlaylist._id = id.toString();
         const result = await (await db).collection("playlists").insertOne(newPlaylist);
+
+        // Add the playlist to the user's playlists
+        await (await db).collection("users").updateOne({username: newPlaylist.creator}, {$push: {playlists: newPlaylist._id}});
+
         res.json(result);
     } catch (error) {
         console.error(error);

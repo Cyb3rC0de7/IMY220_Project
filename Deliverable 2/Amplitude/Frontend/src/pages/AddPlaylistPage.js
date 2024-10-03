@@ -1,68 +1,77 @@
 //u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import '../styles/pages/AddPlaylistPage.css';
 
 const AddPlaylistPage = () => {
-  const [playlistName, setPlaylistName] = useState('');
+  const [name, setPlaylistName] = useState('');
   const [description, setDescription] = useState('');
-  const [tags, setTags] = useState('');
-  const [playlistImage, setPlaylistImage] = useState(null);
+  const [creator, setCreator] = useState(sessionStorage.getItem('username'));
+  const [thumbnail, setThumbnail] = useState('');
+  const [songs, setSongs] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    setPlaylistImage(URL.createObjectURL(e.target.files[0]));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newPlaylist = {
+      name,
+      description,
+      creator,
+      thumbnail,
+      songs,
+      comments,
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Adding playlist:', { playlistName, description, tags, playlistImage });
+    try {
+      const response = await fetch('/api/playlists', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newPlaylist),
+      });
+
+      if (response.ok) {
+        navigate('/home');
+      } else {
+        const data = await response.json();
+        setError(data.message || 'Failed to add the playlist');
+      }
+    } catch (error) {
+      setError('An error occurred while adding the playlist');
+    }
+
   };
 
   return (
     <div className="add-playlist-container">
       <h1>Add a New Playlist</h1>
       <form onSubmit={handleSubmit}>
-        <div className="playlist-image-section">
-          <label htmlFor="playlistImage">
-            {playlistImage ? (
-              <img src={playlistImage} alt="Playlist" className="playlist-image" />
-            ) : (
-              <div className="placeholder">Upload Playlist Image</div>
-            )}
-          </label>
-          <input
-            type="file"
-            id="playlistImage"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: 'none' }}
-          />
-        </div>
-
         <input
           type="text"
           placeholder="Playlist Name"
-          value={playlistName}
+          value={name}
           onChange={(e) => setPlaylistName(e.target.value)}
           required
-        />
-        <input
-          type="text"
-          placeholder="#Tags"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
         />
         <textarea
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        
-        <NavLink to="/home" className="nav-link">
-          <button type="submit">Add Playlist</button>
-        </NavLink>
+        <textarea
+          placeholder="Thumbnail URL"
+          value={thumbnail}
+          onChange={(e) => setThumbnail(e.target.value)}
+        />
+        <button type="submit">Add Playlist</button>
       </form>
+      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };

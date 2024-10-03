@@ -94,8 +94,6 @@ const AddSongPage = () => {
 
         <button type="submit">Add Song</button>
       </form>
-
-      {/* Display any errors */}
       {error && <p className="error-message">{error}</p>}
     </div>
   );
