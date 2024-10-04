@@ -75,12 +75,54 @@ app.get('/api/friends/:username', async (req, res) => {
     }
 });
 
-// Update a single user
-app.put('/api/users/:id', async (req, res) => {
+// Add a friend to a user
+app.post('/api/friends/:username/addFriend/:friendUsername', async (req, res) => {
     try {
-        const id = req.params.id;
+        const { username, friendUsername } = req.params;
+        const user = await (await db).collection("users").findOne({username: username});
+        const friend = await (await db).collection("users").findOne({username: friendUsername});
+
+        if (!user || !friend) {
+            return res.status(404).json({ message: 'User or friend not found' });
+        }
+
+        if (user.friends.includes(friendUsername)) {
+            return res.status(400).json({ message: 'User is already friends with this user' });
+        }
+        
+        const result = await (await db).collection("users").updateOne(
+            { username: username },
+            { $push: { friends: friendUsername } } // Add the friend to the user's friends
+        );
+
+        res.json({ message: 'Friend added successfully', result });
+    } catch (error) {
+        console.error('Error adding friend:', error);
+        res.status(500).json({ message: 'Failed to add friend' });
+    }
+});
+
+// Remove a friend from a user
+app.delete('/api/friends/:username/removeFriend/:friendUsername', async (req, res) => {
+    try {
+        const { username, friendUsername } = req.params;
+        const result = await (await db).collection("users").updateOne(
+            { username: username },
+            { $pull: { friends: friendUsername } } // Remove the friend from the user's friends
+        );
+        res.json(result);
+    } catch (error) {
+        console.error('Error removing friend:', error);
+        res.status(500).json({ message: 'Failed to remove friend' });
+    }
+});
+
+// Update a single user
+app.put('/api/users/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
         const updatedUser = req.body;
-        const result = await (await db).collection("users").updateOne({_id: id}, {$set: updatedUser});
+        const result = await (await db).collection("users").updateOne({username}, {$set: updatedUser});
         res.json(result);
     } catch (error) {
         console.error(error);
@@ -379,7 +421,15 @@ app.put('/api/comments/:id', async (req, res) => {
 app.post('/api/comments', async (req, res) => {
     try {
         const newComment = req.body;
+        // Create an ID for the new comment by finding the max ID and incrementing it by 1
+        const maxId = await (await db).collection('comments').find().sort({ _id: 1 }).toArray();
+        const id = maxId.length > 0 ? maxId.length + 1 : 1;
+        newComment._id = id.toString();
         const result = await (await db).collection("comments").insertOne(newComment);
+
+        // Add the comment to the playlist's comments
+        await (await db).collection("playlists").updateOne({_id: newComment.playlistId}, {$push: {comments: newComment._id}});
+
         res.json(result);
     } catch (error) {
         console.error(error);
@@ -392,12 +442,51 @@ app.delete('/api/comments/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const result = await (await db).collection("comments").deleteOne({_id: id});
+
+        // Remove the comment from the playlist's comments
+        await (await db).collection("playlists").updateMany(
+            {},
+            { $pull: { comments: id } }
+        );
         res.json(result);
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Failed to delete comment"});
     }
 });
+
+// Search API to search playlists, songs, and friends
+app.get('/api/search', async (req, res) => {
+    try {
+      const query = req.query.q; // Get search query from query parameters
+  
+      const dbInstance = await db;
+  
+      // Search playlists
+      const playlists = await dbInstance.collection('playlists').find({ 
+        name: { $regex: query, $options: 'i' } 
+      }).toArray();
+  
+      // Search songs
+      const songs = await dbInstance.collection('songs').find({ 
+        title: { $regex: query, $options: 'i' } 
+      }).toArray();
+  
+      // Search users/friends by username or name
+      const friends = await dbInstance.collection('users').find({
+        $or: [
+          { username: { $regex: query, $options: 'i' } },
+          { name: { $regex: query, $options: 'i' } }
+        ]
+      }).toArray();
+  
+      res.json({ playlists, songs, friends });
+    } catch (error) {
+      console.error('Error searching:', error);
+      res.status(500).json({ message: 'Error performing search' });
+    }
+  });
+  
 
 
 app.get('*', (req, res) => {

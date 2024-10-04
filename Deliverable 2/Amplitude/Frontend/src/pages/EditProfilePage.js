@@ -1,53 +1,64 @@
 //u21669849, Qwinton Knocklein
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/pages/EditProfilePage.css';
 
 const EditProfilePage = () => {
-  const [username, setUsername] = useState('johndoe');
-  const [name, setName] = useState('John Doe');
-  const [pronouns, setPronouns] = useState('he/him');
-  const [bio, setBio] = useState('Music enthusiast, playlist curator, and lover of all things chill.');
-  const [profileImage, setProfileImage] = useState(null);
+  const { username } = useParams();
+  const [name, setName] = useState('');
+  const [pronouns, setPronouns] = useState('');
+  const [bio, setBio] = useState('');
+  const [profileImage, setProfileImage] = useState('');
+  const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    setProfileImage(URL.createObjectURL(e.target.files[0]));
-  };
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await fetch(`/api/users/${username}`);
+        const data = await response.json();
+        setName(data.name);
+        setPronouns(data.pronouns);
+        setBio(data.bio);
+        setProfileImage(data.profileImage);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
 
-  const handleSubmit = (e) => {
+    fetchUserProfile();
+  }, [username]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Profile updated:', { username, name, pronouns, bio, profileImage });
+
+    const updatedProfile = {
+      name,
+      pronouns,
+      bio,
+      profileImage,
+    };
+
+    try {
+      const response = await fetch(`/api/users/${username}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedProfile),
+      });
+
+      if (response.ok) {
+        navigate(`/profile/${username}`);
+      } else {
+        console.error('Error updating profile');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   };
 
   return (
     <div className="edit-profile-container">
       <h1>Edit Profile</h1>
       <form onSubmit={handleSubmit}>
-        <div className="profile-image-section">
-          <label htmlFor="profileImage">
-            {profileImage ? (
-              <img src={profileImage} alt="Profile" className="profile-image" />
-            ) : (
-              <div className="placeholder">Upload Profile Image</div>
-            )}
-          </label>
-          <input
-            type="file"
-            id="profileImage"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: 'none' }}
-          />
-        </div>
-
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
         <input
           type="text"
           placeholder="Name"
@@ -66,9 +77,12 @@ const EditProfilePage = () => {
           value={bio}
           onChange={(e) => setBio(e.target.value)}
         />
-        <NavLink to={`/profile/${username}`} className="nav-link">
-          <button type="submit">Save Changes</button>
-        </NavLink>
+        <textarea
+          placeholder="Profile Image URL"
+          value={profileImage}
+          onChange={(e) => setProfileImage(e.target.value)}
+        />
+        <button type="submit">Save Changes</button>
       </form>
     </div>
   );

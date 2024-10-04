@@ -3,7 +3,7 @@ import React from 'react';
 
 import '../styles/components/FriendsColumn.css';
 
-const FriendsColumn = ({ friends }) => {
+const FriendsColumn = ({ friends, onFriendClick }) => {
   return (
     <div className="friends-column">
       <h2>Friends</h2>
@@ -14,7 +14,7 @@ const FriendsColumn = ({ friends }) => {
           </div>
         ) : (
           friends.map((friend) => (
-            <div key={friend._id} className="friend-card">
+            <div key={friend._id} className="friend-card" onClick={() => onFriendClick(friend.username)}>
               <img src={friend.profileImage} alt="Profile Photo" className='profile-image' />
               <h3>{friend.username}</h3>
             </div>

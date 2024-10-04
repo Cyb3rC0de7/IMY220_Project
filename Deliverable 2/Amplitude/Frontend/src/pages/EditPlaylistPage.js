@@ -1,58 +1,67 @@
 //u21669849, Qwinton Knocklein
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/pages/EditPlaylistPage.css';
 
 const EditPlaylistPage = () => {
-  const [playlistID] = useState('1');
-  const [playlistName, setPlaylistName] = useState('Chill Vibes');
-  const [tags, setTags] = useState('chill, relax, study, focus');
-  const [description, setDescription] = useState('A collection of relaxing and chill tracks to wind down.');
-  const [playlistImage, setPlaylistImage] = useState(null);
+  const { playlistId } = useParams(); // Get playlistID from the URL
+  const [name, setPlaylistName] = useState('');
+  const [description, setDescription] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
+  const navigate = useNavigate(); // To redirect after updating
 
-  const handleImageChange = (e) => {
-    setPlaylistImage(URL.createObjectURL(e.target.files[0]));
-  };
+  useEffect(() => {
+    const fetchPlaylist = async () => {
+      try {
+        const response = await fetch(`/api/playlists/${playlistId}`);
+        const data = await response.json();
+        setPlaylistName(data.name);
+        setDescription(data.description);
+        setThumbnail(data.thumbnail);
+      } catch (error) {
+        console.error('Error fetching playlist:', error);
+      }
+    };
 
-  const handleSubmit = (e) => {
+    fetchPlaylist(); // Fetch playlist data
+  }, [playlistId]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Playlist updated:', { playlistName, description, playlistImage });
+
+    const updatedPlaylist = {
+      name,
+      description,
+      thumbnail,
+    };
+
+    try {
+      const response = await fetch(`/api/playlists/${playlistId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedPlaylist),
+      });
+
+      if (response.ok) {
+        navigate(`/playlist/${playlistId}`); // Redirect to the playlist page after update
+      } else {
+        console.error('Error updating playlist');
+      }
+    } catch (error) {
+      console.error('Error updating playlist:', error);
+    }
   };
 
   return (
     <div className="edit-playlist-container">
       <h1>Edit Playlist</h1>
       <form onSubmit={handleSubmit}>
-        <div className="playlist-image-section">
-          <label htmlFor="playlistImage">
-            {playlistImage ? (
-              <img src={playlistImage} alt="Playlist" className="playlist-image" />
-            ) : (
-              <div className="placeholder">Upload Playlist Image</div>
-            )}
-          </label>
-          <input
-            type="file"
-            id="playlistImage"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: 'none' }}
-          />
-        </div>
-
         <input
           type="text"
           placeholder="Playlist Name"
-          value={playlistName}
+          value={name}
           onChange={(e) => setPlaylistName(e.target.value)}
           required
-        />
-        <input
-          type="text"
-          placeholder="#Tags"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
         />
         <textarea
           placeholder="Description"
@@ -60,9 +69,13 @@ const EditPlaylistPage = () => {
           onChange={(e) => setDescription(e.target.value)}
           required
         />
-        <NavLink to={`/playlist/${playlistID}`} className="nav-link">
-          <button type="submit">Save Changes</button>
-        </NavLink>
+        <textarea
+          placeholder="Thumbnail URL"
+          value={thumbnail}
+          onChange={(e) => setThumbnail(e.target.value)}
+          required
+        />
+        <button type="submit">Save Changes</button>
       </form>
     </div>
   );

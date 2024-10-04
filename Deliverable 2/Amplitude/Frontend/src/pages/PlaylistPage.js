@@ -13,13 +13,12 @@ import Footer from '../components/Footer';
 import '../styles/pages/PlaylistPage.css';
 
 const PlaylistPage = () => {
-  const { id } = useParams();
+  const { playlistId } = useParams();
   const [showCommentColumn, setShowCommentColumn] = useState(false);
   const toggleShowCommentColumn = () => setShowCommentColumn(!showCommentColumn);
   const [user, setUser] = useState(null);
   const [playlist, setPlaylist] = useState(null);
   const [playlists, setPlaylists] = useState([]);
-  const [comments, setComments] = useState([]);
 
   // Get the username from session storage
   if (sessionStorage.getItem('username'))
@@ -58,31 +57,19 @@ const PlaylistPage = () => {
     
     const fetchPlaylist = async () => {
       try {
-        const response = await fetch(`/api/playlists/${id}`);
+        const response = await fetch(`/api/playlists/${playlistId}`);
         const data = await response.json();
         setPlaylist(data);
       } catch (error) {
         console.error('Error fetching playlist:', error);
       }
     };
-    
-    const fetchPlaylistComments = async () => {
-      try {
-        const response = await fetch(`/api/playlists/${id}/comments`);
-        const data = await response.json();
-        setComments(data);
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
-    };
 
     setPlaylist(null);
     fetchPlaylist();
-    setComments([]);
-    fetchPlaylistComments();
 
     setShowCommentColumn(false);
-  }, [id]);
+  }, [playlistId]);
 
   if (!playlist) {
     return <h2>Playlist not found</h2>;
@@ -105,9 +92,9 @@ const PlaylistPage = () => {
             </button>
           </div>
           {showCommentColumn ? (
-            <ListComments key={`comments-${id}`} comments={comments} />
+            <ListComments key={`comments-${playlistId}`} playlistId={playlist._id} />
           ) : (
-            <ListSongs key={`songs-${id}`} playlistId={playlist._id} />
+            <ListSongs key={`songs-${playlistId}`} playlistId={playlist._id} />
           )}
         </div>
       </div>

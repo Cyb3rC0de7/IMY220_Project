@@ -1,16 +1,19 @@
 //u21669849, Qwinton Knocklein
-import React from 'react';
-import { NavLink, useEffect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import '../styles/components/PlaylistColumn.css';
 
 const PlaylistColumn = () => {
   const [playlists, setPlaylists] = useState([]);
 
+  if (sessionStorage.getItem('username'))
+    var username = sessionStorage.getItem('username');
+
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const response = await fetch('/api/playlists');
+        const response = await fetch(`/api/playlists/user/${username}`);
         const data = await response.json();
         setPlaylists(data);
       } catch (error) {

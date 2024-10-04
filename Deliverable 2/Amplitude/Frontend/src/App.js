@@ -25,13 +25,13 @@ const App = () => {
         <Route path="/home/" element={<HomePage />} />
         <Route path="/addNewSong" element={<AddNewSongPage />} />
         <Route path="/profile/:username" element={<ProfilePage />} />
-        <Route path="/editProfile/" element={<EditProfilePage />} />
+        <Route path="/editProfile/:username" element={<EditProfilePage />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/library" element={<LibraryPage />} />
-        <Route path="/playlist/:id" element={<PlaylistPage />} />
+        <Route path="/playlist/:playlistId" element={<PlaylistPage />} />
         <Route path="/addPlaylist" element={<AddPlaylistPage />} />
-        <Route path="/editPlaylist" element={<EditPlaylistPage />} />
-        <Route path="/addNewComment" element={<AddCommentPage />} />
+        <Route path="/editPlaylist/:playlistId" element={<EditPlaylistPage />} />
+        <Route path="/playlist/:playlistId/addComment" element={<AddCommentPage />} />
       </Routes>
     </Router>
   );

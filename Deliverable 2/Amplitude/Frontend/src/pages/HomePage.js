@@ -11,7 +11,6 @@ import '../styles/pages/HomePage.css';
 
 const HomePage = () => {
   const [playlists, setPlaylists] = useState([]);
-  const [songs, setSongs] = useState([]);
   const [user, setUser] = useState(null);
 
   // Get the username from session storage
@@ -21,21 +20,11 @@ const HomePage = () => {
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const response = await fetch(`/api/playlists/user/${username}`);
+        const response = await fetch(`/api/playlists`);
         const data = await response.json();
         setPlaylists(data);
       } catch (error) {
         console.error('Error fetching playlists:', error);
-      }
-    };
-
-    const fetchSongs = async () => {
-      try {
-        const response = await fetch('/api/songs');
-        const data = await response.json();
-        setSongs(data);
-      } catch (error) {
-        console.error('Error fetching songs:', error);
       }
     };
 
@@ -51,7 +40,6 @@ const HomePage = () => {
 
     fetchUser();
     fetchPlaylists();
-    fetchSongs();
 
   }, []);
   
@@ -69,7 +57,7 @@ const HomePage = () => {
         </div>
         <div className='right-column'>
           <Header user={user} />
-          <SongColumn songs={songs} isHomePage={true} />
+          <SongColumn playlists={playlists} isHomePage={true} />
         </div>
       </div>
       <Footer />

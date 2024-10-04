@@ -1,17 +1,48 @@
 //u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 
 import '../styles/pages/AddCommentPage.css';
 
-const AddCommentPage = ({ addComment }) => {
-    const [comment, setComment] = useState('');
+const AddCommentPage = () => {
+    const { playlistId } = useParams();
+    const [text, setComment] = useState('');
+    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+    const [user, setUser] = useState(sessionStorage.getItem('username'));
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const comment = {
+            playlistId,
+            user,
+            text,
+            date,
+        };
     
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        addComment({ text: comment, date: new Date().toLocaleString() });
-        setComment('');
+        try {
+            const response = await fetch('/api/comments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comment),
+            });
+
+            if (response.ok) {
+                navigate(`/playlist/${playlistId}`);
+            } else {
+                const data = await response.json();
+                setError(data.message || 'Failed to add the comment');
+            }
+        } catch (error) {
+            setError('An error occurred while adding the comment');
+        }
+
     };
+    
     
     return (
         <div className="add-comment-container">
@@ -19,14 +50,13 @@ const AddCommentPage = ({ addComment }) => {
         <form onSubmit={handleSubmit}>
             <textarea
             placeholder="Type your comment here..."
-            value={comment}
+            value={text}
             onChange={(e) => setComment(e.target.value)}
             />
-            <NavLink to="/playlist/1" className="nav-link">
-                <button type="submit">Submit</button>
-                <button type="button">Cancel</button>
-            </NavLink>
+            <button type="submit">Submit</button>
         </form>
+        <NavLink to={`/playlist/${playlistId}`}>Back to Playlist</NavLink>
+        {error && <p className="error-message">{error}</p>}
         </div>
     );
 };

@@ -4,8 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import '../styles/components/ProfileColumn.css';
 
-const ProfileColumn = ( {user} ) => {
-
+const ProfileColumn = ({ user, isEditable, isFriend, onAddFriend, onRemoveFriend }) => {
   return (
     <div className="user-details">
       <img src={user.profileImage} alt={user.name} className="profile-image" />
@@ -15,9 +14,20 @@ const ProfileColumn = ( {user} ) => {
         <p>Pronouns: {user.pronouns}</p>
         <p>Bio: {user.bio}</p>
       </div>
-        <NavLink to="/editProfile" className="nav-link">
-            <button>Edit</button>
+      
+      {isEditable ? (
+        <NavLink to={`/editProfile/${user.username}`} className="nav-link">
+          <button>Edit</button>
         </NavLink>
+      ) : (
+        <div>
+          {isFriend ? (
+            <button onClick={onRemoveFriend}>Remove Friend</button>
+          ) : (
+            <button onClick={onAddFriend}>Add Friend</button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
