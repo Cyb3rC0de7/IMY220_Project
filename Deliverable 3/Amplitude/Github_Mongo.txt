@@ -1,0 +1,5 @@
+u21669849, Qwinton Knocklein
+
+GitHub Link: https://github.com/Cyb3rC0de7/IMY220_Project
+
+MongoDB connection string: "mongodb+srv://u21669849:1LESJq7aveLKqK8s@imy220.hspd6.mongodb.net/?retryWrites=true&w=majority&appName=IMY220"

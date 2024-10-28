@@ -1,0 +1,23 @@
+INSTRUCTIONS FOR RUNNING THE PROJECT
+
+Prerequisites:
+    1. Ensure Docker Desktop is installed
+    2. Ensure the VS Code Docker Extension is installed
+
+Steps to run the project:
+    1. Clone the GitHub Repository
+    2. Navigate to the project directory
+    3. Run Docker Compose: 
+        docker-compose up --build
+    
+    This command builds the Docker Image, starts the container and then connects to the MongoDB Atlas database.
+
+To access the application:
+    Go to the URL:
+        http://localhost:3000
+
+To stop the application:
+    Press Ctrl+C in the terminal and docker will stop RUNNING
+
+To remove the container:
+    docker-compose down

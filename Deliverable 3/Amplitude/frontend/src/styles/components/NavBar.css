@@ -1,0 +1,62 @@
+/*u21669849, Qwinton Knocklein*/
+.navbar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  min-height: 30vh;
+  background-color: rgba(25, 25, 25, 0.95);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+}
+
+.logo-text {
+  font-size: 36px;
+  font-weight: bold;
+  color: #F14424;
+}
+
+.nav-links {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.nav-item {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  display: block;
+}
+
+.active {
+  background-color: #0889A6;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.nav-item + .nav-item {
+  margin-top: 10px;
+}

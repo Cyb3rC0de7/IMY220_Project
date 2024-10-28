@@ -1,0 +1,101 @@
+/*u21669849, Qwinton Knocklein*/
+.header-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #0889A6;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.search-bar {
+  width: 40%;
+  padding: 10px;
+  margin-left: 20%;
+  border-radius: 5px;
+  border: none;
+  background-color: #252525 !important;
+  color: white !important;
+}
+
+.search-results-dropdown {
+  position: relative;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 360px;
+  margin-left: 170px;
+  width: 40%;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 10px;
+}
+
+.search-result-item {
+  display: block;
+  padding: 8px 12px;
+  color: black;
+  text-decoration: none;
+}
+
+.search-result-item:hover {
+  background-color: #f1f1f1;
+}
+
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-right .icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+}
+
+.profile-container {
+  position: relative;
+}
+
+.user-profile {
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 10;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 8px 12px;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}

@@ -1,0 +1,36 @@
+/*u21669849, Qwinton Knocklein*/
+.profile-page {
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: hidden;
+}
+
+.content-area {
+  display: flex;
+  gap: 10px;
+}
+
+.left-column {
+  flex-direction: row;
+  width: 25%;
+  padding: 10px;
+  gap: 10px;
+}
+
+.right-column {
+  flex-direction: column;
+  width: 75%;
+  padding: 10px;
+  gap: 10px;
+}
+
+.playlist-column {
+  height: calc(100vh - 57%);
+}
+
+.friends-column {
+  height: calc(100vh - 62%);
+}
