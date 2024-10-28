@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import '../styles/components/PlaylistColumn.css';
 
-const PlaylistColumn = () => {
+const MyPlaylistColumn = () => {
   const [playlists, setPlaylists] = useState([]);
 
   if (sessionStorage.getItem('username'))
@@ -54,4 +54,4 @@ const PlaylistColumn = () => {
   );
 };
 
-export default PlaylistColumn;
+export default MyPlaylistColumn;

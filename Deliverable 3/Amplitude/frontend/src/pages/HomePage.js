@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
-import PlaylistColumn from '../components/PlaylistColumn';
+import MyPlaylistColumn from '../components/MyPlaylistColumn';
 import SongColumn from '../components/SongColumn';
 import Footer from '../components/Footer';
 
@@ -53,7 +53,7 @@ const HomePage = () => {
       <div className="content-area">
         <div className='left-column'>
           <NavBar user={user} />
-          <PlaylistColumn playlists={playlists} />
+          <MyPlaylistColumn playlists={playlists} />
         </div>
         <div className='right-column'>
           <Header user={user} />

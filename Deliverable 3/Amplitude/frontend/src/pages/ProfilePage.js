@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
-import PlaylistColumn from '../components/PlaylistColumn';
+import MyPlaylistColumn from '../components/MyPlaylistColumn';
 import Footer from '../components/Footer';
 import FriendsColumn from '../components/FriendsColumn';
 import ProfileColumn from '../components/ProfileColumn';
@@ -118,7 +118,7 @@ const ProfilePage = () => {
       <div className="content-area">
         <div className="left-column">
           <NavBar />
-          <PlaylistColumn playlists={playlists} />
+          <MyPlaylistColumn playlists={playlists} />
         </div>
         <div className="right-column">
           <Header user={Owner} />

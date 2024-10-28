@@ -163,7 +163,7 @@ app.delete('/api/users/:id', async (req, res) => {
     }
 });
 
-// Get a users playlists
+// Get a users created playlists
 app.get('/api/playlists/user/:username', async (req, res) => {
     try {
         const username = req.params.username;
@@ -175,6 +175,66 @@ app.get('/api/playlists/user/:username', async (req, res) => {
         res.status(500).json({message: "Failed to fetch playlists"});
     }
 });
+
+// Get a users liked playlists
+app.get('/api/playlists/liked/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const user = await (await db).collection("users").findOne({username: username});
+        const playlists = await (await db).collection("playlists").find({_id: {$in: user.likes}}).toArray();
+        res.json(playlists);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Failed to fetch playlists"});
+    }
+});
+
+// Like a playlist
+app.post('/api/playlists/:id/like', async (req, res) => {
+    const { userId } = req.body;
+    const playlistId = req.params.id;
+
+    try {
+        await (await db).collection("users").updateOne(
+        { _id: userId },
+        { $addToSet: { likes: playlistId } }
+        );
+
+        await (await db).collection("playlists").updateOne(
+        { _id: playlistId },
+        { $addToSet: { likedBy: userId } }
+        );
+
+        res.status(200).json({ message: "Playlist liked successfully" });
+    } catch (error) {
+        console.error("Error liking playlist:", error);
+        res.status(500).json({ message: "Failed to like playlist" });
+    }
+});
+
+// Unlike a playlist
+app.post('/api/playlists/:id/unlike', async (req, res) => {
+    const { userId } = req.body;
+    const playlistId = req.params.id;
+
+    try {
+        await (await db).collection("users").updateOne(
+        { _id: userId },
+        { $pull: { likes: playlistId } }
+        );
+
+        await (await db).collection("playlists").updateOne(
+        { _id: playlistId },
+        { $pull: { likedBy: userId } }
+        );
+
+        res.status(200).json({ message: "Playlist unliked successfully" });
+    } catch (error) {
+        console.error("Error unliking playlist:", error);
+        res.status(500).json({ message: "Failed to unlike playlist" });
+    }
+});
+  
 
 // Get all playlists
 app.get('/api/playlists', async (req, res) => {

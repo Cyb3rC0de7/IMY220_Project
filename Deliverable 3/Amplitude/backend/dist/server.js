@@ -19,26 +19,26 @@ function connectToDatabase() {
   return _connectToDatabase.apply(this, arguments);
 }
 function _connectToDatabase() {
-  _connectToDatabase = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee31() {
-    return _regeneratorRuntime().wrap(function _callee31$(_context31) {
-      while (1) switch (_context31.prev = _context31.next) {
+  _connectToDatabase = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee34() {
+    return _regeneratorRuntime().wrap(function _callee34$(_context34) {
+      while (1) switch (_context34.prev = _context34.next) {
         case 0:
-          _context31.prev = 0;
-          _context31.next = 3;
+          _context34.prev = 0;
+          _context34.next = 3;
           return client.connect();
         case 3:
           console.log("Connected to the database");
-          return _context31.abrupt("return", client.db("Amplitude"));
+          return _context34.abrupt("return", client.db("Amplitude"));
         case 7:
-          _context31.prev = 7;
-          _context31.t0 = _context31["catch"](0);
-          console.error(_context31.t0);
+          _context34.prev = 7;
+          _context34.t0 = _context34["catch"](0);
+          console.error(_context34.t0);
           process.exit(1);
         case 11:
         case "end":
-          return _context31.stop();
+          return _context34.stop();
       }
-    }, _callee31, null, [[0, 7]]);
+    }, _callee34, null, [[0, 7]]);
   }));
   return _connectToDatabase.apply(this, arguments);
 }
@@ -484,7 +484,7 @@ app["delete"]('/api/users/:id', /*#__PURE__*/function () {
   };
 }());
 
-// Get a users playlists
+// Get a users created playlists
 app.get('/api/playlists/user/:username', /*#__PURE__*/function () {
   var _ref10 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee10(req, res) {
     var username, user, playlists;
@@ -534,234 +534,233 @@ app.get('/api/playlists/user/:username', /*#__PURE__*/function () {
   };
 }());
 
-// Get all playlists
-app.get('/api/playlists', /*#__PURE__*/function () {
+// Get a users liked playlists
+app.get('/api/playlists/liked/:username', /*#__PURE__*/function () {
   var _ref11 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee11(req, res) {
-    var playlists;
+    var username, user, playlists;
     return _regeneratorRuntime().wrap(function _callee11$(_context11) {
       while (1) switch (_context11.prev = _context11.next) {
         case 0:
           _context11.prev = 0;
-          _context11.next = 3;
+          username = req.params.username;
+          _context11.next = 4;
           return db;
-        case 3:
-          _context11.next = 5;
-          return _context11.sent.collection("playlists").find().toArray();
-        case 5:
+        case 4:
+          _context11.next = 6;
+          return _context11.sent.collection("users").findOne({
+            username: username
+          });
+        case 6:
+          user = _context11.sent;
+          _context11.next = 9;
+          return db;
+        case 9:
+          _context11.next = 11;
+          return _context11.sent.collection("playlists").find({
+            _id: {
+              $in: user.likes
+            }
+          }).toArray();
+        case 11:
           playlists = _context11.sent;
           res.json(playlists);
-          _context11.next = 13;
+          _context11.next = 19;
           break;
-        case 9:
-          _context11.prev = 9;
+        case 15:
+          _context11.prev = 15;
           _context11.t0 = _context11["catch"](0);
           console.error(_context11.t0);
           res.status(500).json({
             message: "Failed to fetch playlists"
           });
-        case 13:
+        case 19:
         case "end":
           return _context11.stop();
       }
-    }, _callee11, null, [[0, 9]]);
+    }, _callee11, null, [[0, 15]]);
   }));
   return function (_x21, _x22) {
     return _ref11.apply(this, arguments);
   };
 }());
 
-// Get a single playlist
-app.get('/api/playlists/:id', /*#__PURE__*/function () {
+// Like a playlist
+app.post('/api/playlists/:id/like', /*#__PURE__*/function () {
   var _ref12 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee12(req, res) {
-    var id, playlist;
+    var userId, playlistId;
     return _regeneratorRuntime().wrap(function _callee12$(_context12) {
       while (1) switch (_context12.prev = _context12.next) {
         case 0:
-          _context12.prev = 0;
-          id = req.params.id;
-          _context12.next = 4;
+          userId = req.body.userId;
+          playlistId = req.params.id;
+          _context12.prev = 2;
+          _context12.next = 5;
           return db;
-        case 4:
-          _context12.next = 6;
-          return _context12.sent.collection("playlists").findOne({
-            _id: id
+        case 5:
+          _context12.next = 7;
+          return _context12.sent.collection("users").updateOne({
+            _id: userId
+          }, {
+            $addToSet: {
+              likes: playlistId
+            }
           });
-        case 6:
-          playlist = _context12.sent;
-          res.json(playlist);
-          _context12.next = 14;
+        case 7:
+          _context12.next = 9;
+          return db;
+        case 9:
+          _context12.next = 11;
+          return _context12.sent.collection("playlists").updateOne({
+            _id: playlistId
+          }, {
+            $addToSet: {
+              likedBy: userId
+            }
+          });
+        case 11:
+          res.status(200).json({
+            message: "Playlist liked successfully"
+          });
+          _context12.next = 18;
           break;
-        case 10:
-          _context12.prev = 10;
-          _context12.t0 = _context12["catch"](0);
-          console.error(_context12.t0);
-          res.status(500).json({
-            message: "Failed to fetch playlist"
-          });
         case 14:
+          _context12.prev = 14;
+          _context12.t0 = _context12["catch"](2);
+          console.error("Error liking playlist:", _context12.t0);
+          res.status(500).json({
+            message: "Failed to like playlist"
+          });
+        case 18:
         case "end":
           return _context12.stop();
       }
-    }, _callee12, null, [[0, 10]]);
+    }, _callee12, null, [[2, 14]]);
   }));
   return function (_x23, _x24) {
     return _ref12.apply(this, arguments);
   };
 }());
 
-// Get all songs in a playlist
-app.get('/api/playlists/:playlistID/songs', /*#__PURE__*/function () {
+// Unlike a playlist
+app.post('/api/playlists/:id/unlike', /*#__PURE__*/function () {
   var _ref13 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee13(req, res) {
-    var playlistID, playlist, songs;
+    var userId, playlistId;
     return _regeneratorRuntime().wrap(function _callee13$(_context13) {
       while (1) switch (_context13.prev = _context13.next) {
         case 0:
-          _context13.prev = 0;
-          playlistID = req.params.playlistID;
-          _context13.next = 4;
+          userId = req.body.userId;
+          playlistId = req.params.id;
+          _context13.prev = 2;
+          _context13.next = 5;
           return db;
-        case 4:
-          _context13.next = 6;
-          return _context13.sent.collection("playlists").findOne({
-            _id: playlistID
+        case 5:
+          _context13.next = 7;
+          return _context13.sent.collection("users").updateOne({
+            _id: userId
+          }, {
+            $pull: {
+              likes: playlistId
+            }
           });
-        case 6:
-          playlist = _context13.sent;
+        case 7:
           _context13.next = 9;
           return db;
         case 9:
           _context13.next = 11;
-          return _context13.sent.collection("songs").find({
-            _id: {
-              $in: playlist.songs
+          return _context13.sent.collection("playlists").updateOne({
+            _id: playlistId
+          }, {
+            $pull: {
+              likedBy: userId
             }
-          }).toArray();
-        case 11:
-          songs = _context13.sent;
-          res.json(songs);
-          _context13.next = 19;
-          break;
-        case 15:
-          _context13.prev = 15;
-          _context13.t0 = _context13["catch"](0);
-          console.error(_context13.t0);
-          res.status(500).json({
-            message: "Failed to fetch songs"
           });
-        case 19:
+        case 11:
+          res.status(200).json({
+            message: "Playlist unliked successfully"
+          });
+          _context13.next = 18;
+          break;
+        case 14:
+          _context13.prev = 14;
+          _context13.t0 = _context13["catch"](2);
+          console.error("Error unliking playlist:", _context13.t0);
+          res.status(500).json({
+            message: "Failed to unlike playlist"
+          });
+        case 18:
         case "end":
           return _context13.stop();
       }
-    }, _callee13, null, [[0, 15]]);
+    }, _callee13, null, [[2, 14]]);
   }));
   return function (_x25, _x26) {
     return _ref13.apply(this, arguments);
   };
 }());
 
-// Add a song to a playlist
-app.post('/api/playlists/:playlistId/addSong/:songId', /*#__PURE__*/function () {
+// Get all playlists
+app.get('/api/playlists', /*#__PURE__*/function () {
   var _ref14 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee14(req, res) {
-    var _req$params3, playlistId, songId, playlist, result;
+    var playlists;
     return _regeneratorRuntime().wrap(function _callee14$(_context14) {
       while (1) switch (_context14.prev = _context14.next) {
         case 0:
           _context14.prev = 0;
-          _req$params3 = req.params, playlistId = _req$params3.playlistId, songId = _req$params3.songId;
-          _context14.next = 4;
+          _context14.next = 3;
           return db;
-        case 4:
-          _context14.next = 6;
-          return _context14.sent.collection("playlists").findOne({
-            _id: playlistId
-          });
-        case 6:
-          playlist = _context14.sent;
-          if (playlist) {
-            _context14.next = 9;
-            break;
-          }
-          return _context14.abrupt("return", res.status(404).json({
-            message: 'Playlist not found'
-          }));
-        case 9:
-          if (!playlist.songs.includes(songId)) {
-            _context14.next = 11;
-            break;
-          }
-          return _context14.abrupt("return", res.status(400).json({
-            message: 'Song is already in the playlist'
-          }));
-        case 11:
+        case 3:
+          _context14.next = 5;
+          return _context14.sent.collection("playlists").find().toArray();
+        case 5:
+          playlists = _context14.sent;
+          res.json(playlists);
           _context14.next = 13;
-          return db;
-        case 13:
-          _context14.next = 15;
-          return _context14.sent.collection("playlists").updateOne({
-            _id: playlistId
-          }, {
-            $push: {
-              songs: songId
-            }
-          });
-        case 15:
-          result = _context14.sent;
-          res.json({
-            message: 'Song added to playlist successfully',
-            result: result
-          });
-          _context14.next = 23;
           break;
-        case 19:
-          _context14.prev = 19;
+        case 9:
+          _context14.prev = 9;
           _context14.t0 = _context14["catch"](0);
-          console.error('Error adding song to playlist:', _context14.t0);
+          console.error(_context14.t0);
           res.status(500).json({
-            message: 'Failed to add song to playlist'
+            message: "Failed to fetch playlists"
           });
-        case 23:
+        case 13:
         case "end":
           return _context14.stop();
       }
-    }, _callee14, null, [[0, 19]]);
+    }, _callee14, null, [[0, 9]]);
   }));
   return function (_x27, _x28) {
     return _ref14.apply(this, arguments);
   };
 }());
 
-// Remove a song from a playlist
-app["delete"]('/api/playlists/:playlistId/removeSong/:songId', /*#__PURE__*/function () {
+// Get a single playlist
+app.get('/api/playlists/:id', /*#__PURE__*/function () {
   var _ref15 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee15(req, res) {
-    var _req$params4, playlistId, songId, result;
+    var id, playlist;
     return _regeneratorRuntime().wrap(function _callee15$(_context15) {
       while (1) switch (_context15.prev = _context15.next) {
         case 0:
           _context15.prev = 0;
-          _req$params4 = req.params, playlistId = _req$params4.playlistId, songId = _req$params4.songId;
+          id = req.params.id;
           _context15.next = 4;
           return db;
         case 4:
           _context15.next = 6;
-          return _context15.sent.collection("playlists").updateOne({
-            _id: playlistId
-          }, {
-            $pull: {
-              songs: songId
-            }
-          } // Remove the song from the playlist
-          );
+          return _context15.sent.collection("playlists").findOne({
+            _id: id
+          });
         case 6:
-          result = _context15.sent;
-          res.json(result);
+          playlist = _context15.sent;
+          res.json(playlist);
           _context15.next = 14;
           break;
         case 10:
           _context15.prev = 10;
           _context15.t0 = _context15["catch"](0);
-          console.error("Error removing song from playlist:", _context15.t0);
+          console.error(_context15.t0);
           res.status(500).json({
-            message: "Failed to remove song from playlist"
+            message: "Failed to fetch playlist"
           });
         case 14:
         case "end":
@@ -774,10 +773,10 @@ app["delete"]('/api/playlists/:playlistId/removeSong/:songId', /*#__PURE__*/func
   };
 }());
 
-// Get all comments in a playlist
-app.get('/api/playlists/:playlistID/comments', /*#__PURE__*/function () {
+// Get all songs in a playlist
+app.get('/api/playlists/:playlistID/songs', /*#__PURE__*/function () {
   var _ref16 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee16(req, res) {
-    var playlistID, playlist, comments;
+    var playlistID, playlist, songs;
     return _regeneratorRuntime().wrap(function _callee16$(_context16) {
       while (1) switch (_context16.prev = _context16.next) {
         case 0:
@@ -796,14 +795,14 @@ app.get('/api/playlists/:playlistID/comments', /*#__PURE__*/function () {
           return db;
         case 9:
           _context16.next = 11;
-          return _context16.sent.collection("comments").find({
+          return _context16.sent.collection("songs").find({
             _id: {
-              $in: playlist.comments
+              $in: playlist.songs
             }
           }).toArray();
         case 11:
-          comments = _context16.sent;
-          res.json(comments);
+          songs = _context16.sent;
+          res.json(songs);
           _context16.next = 19;
           break;
         case 15:
@@ -811,7 +810,7 @@ app.get('/api/playlists/:playlistID/comments', /*#__PURE__*/function () {
           _context16.t0 = _context16["catch"](0);
           console.error(_context16.t0);
           res.status(500).json({
-            message: "Failed to fetch comments"
+            message: "Failed to fetch songs"
           });
         case 19:
         case "end":
@@ -824,80 +823,245 @@ app.get('/api/playlists/:playlistID/comments', /*#__PURE__*/function () {
   };
 }());
 
-// Update a single playlist
-app.put('/api/playlists/:id', /*#__PURE__*/function () {
+// Add a song to a playlist
+app.post('/api/playlists/:playlistId/addSong/:songId', /*#__PURE__*/function () {
   var _ref17 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee17(req, res) {
-    var id, updatedPlaylist, result;
+    var _req$params3, playlistId, songId, playlist, result;
     return _regeneratorRuntime().wrap(function _callee17$(_context17) {
       while (1) switch (_context17.prev = _context17.next) {
         case 0:
           _context17.prev = 0;
-          id = req.params.id;
-          updatedPlaylist = req.body;
-          _context17.next = 5;
+          _req$params3 = req.params, playlistId = _req$params3.playlistId, songId = _req$params3.songId;
+          _context17.next = 4;
           return db;
-        case 5:
-          _context17.next = 7;
-          return _context17.sent.collection("playlists").updateOne({
-            _id: id
-          }, {
-            $set: updatedPlaylist
+        case 4:
+          _context17.next = 6;
+          return _context17.sent.collection("playlists").findOne({
+            _id: playlistId
           });
-        case 7:
-          result = _context17.sent;
-          res.json(result);
-          _context17.next = 15;
-          break;
+        case 6:
+          playlist = _context17.sent;
+          if (playlist) {
+            _context17.next = 9;
+            break;
+          }
+          return _context17.abrupt("return", res.status(404).json({
+            message: 'Playlist not found'
+          }));
+        case 9:
+          if (!playlist.songs.includes(songId)) {
+            _context17.next = 11;
+            break;
+          }
+          return _context17.abrupt("return", res.status(400).json({
+            message: 'Song is already in the playlist'
+          }));
         case 11:
-          _context17.prev = 11;
-          _context17.t0 = _context17["catch"](0);
-          console.error(_context17.t0);
-          res.status(500).json({
-            message: "Failed to update playlist"
+          _context17.next = 13;
+          return db;
+        case 13:
+          _context17.next = 15;
+          return _context17.sent.collection("playlists").updateOne({
+            _id: playlistId
+          }, {
+            $push: {
+              songs: songId
+            }
           });
         case 15:
+          result = _context17.sent;
+          res.json({
+            message: 'Song added to playlist successfully',
+            result: result
+          });
+          _context17.next = 23;
+          break;
+        case 19:
+          _context17.prev = 19;
+          _context17.t0 = _context17["catch"](0);
+          console.error('Error adding song to playlist:', _context17.t0);
+          res.status(500).json({
+            message: 'Failed to add song to playlist'
+          });
+        case 23:
         case "end":
           return _context17.stop();
       }
-    }, _callee17, null, [[0, 11]]);
+    }, _callee17, null, [[0, 19]]);
   }));
   return function (_x33, _x34) {
     return _ref17.apply(this, arguments);
   };
 }());
 
-// Create a single playlist
-app.post('/api/playlists', /*#__PURE__*/function () {
+// Remove a song from a playlist
+app["delete"]('/api/playlists/:playlistId/removeSong/:songId', /*#__PURE__*/function () {
   var _ref18 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee18(req, res) {
-    var newPlaylist, maxId, id, result;
+    var _req$params4, playlistId, songId, result;
     return _regeneratorRuntime().wrap(function _callee18$(_context18) {
       while (1) switch (_context18.prev = _context18.next) {
         case 0:
           _context18.prev = 0;
-          newPlaylist = req.body; // Create an ID for the new user by finding the max ID and incrementing it by 1
+          _req$params4 = req.params, playlistId = _req$params4.playlistId, songId = _req$params4.songId;
           _context18.next = 4;
           return db;
         case 4:
           _context18.next = 6;
-          return _context18.sent.collection('playlists').find().sort({
+          return _context18.sent.collection("playlists").updateOne({
+            _id: playlistId
+          }, {
+            $pull: {
+              songs: songId
+            }
+          } // Remove the song from the playlist
+          );
+        case 6:
+          result = _context18.sent;
+          res.json(result);
+          _context18.next = 14;
+          break;
+        case 10:
+          _context18.prev = 10;
+          _context18.t0 = _context18["catch"](0);
+          console.error("Error removing song from playlist:", _context18.t0);
+          res.status(500).json({
+            message: "Failed to remove song from playlist"
+          });
+        case 14:
+        case "end":
+          return _context18.stop();
+      }
+    }, _callee18, null, [[0, 10]]);
+  }));
+  return function (_x35, _x36) {
+    return _ref18.apply(this, arguments);
+  };
+}());
+
+// Get all comments in a playlist
+app.get('/api/playlists/:playlistID/comments', /*#__PURE__*/function () {
+  var _ref19 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee19(req, res) {
+    var playlistID, playlist, comments;
+    return _regeneratorRuntime().wrap(function _callee19$(_context19) {
+      while (1) switch (_context19.prev = _context19.next) {
+        case 0:
+          _context19.prev = 0;
+          playlistID = req.params.playlistID;
+          _context19.next = 4;
+          return db;
+        case 4:
+          _context19.next = 6;
+          return _context19.sent.collection("playlists").findOne({
+            _id: playlistID
+          });
+        case 6:
+          playlist = _context19.sent;
+          _context19.next = 9;
+          return db;
+        case 9:
+          _context19.next = 11;
+          return _context19.sent.collection("comments").find({
+            _id: {
+              $in: playlist.comments
+            }
+          }).toArray();
+        case 11:
+          comments = _context19.sent;
+          res.json(comments);
+          _context19.next = 19;
+          break;
+        case 15:
+          _context19.prev = 15;
+          _context19.t0 = _context19["catch"](0);
+          console.error(_context19.t0);
+          res.status(500).json({
+            message: "Failed to fetch comments"
+          });
+        case 19:
+        case "end":
+          return _context19.stop();
+      }
+    }, _callee19, null, [[0, 15]]);
+  }));
+  return function (_x37, _x38) {
+    return _ref19.apply(this, arguments);
+  };
+}());
+
+// Update a single playlist
+app.put('/api/playlists/:id', /*#__PURE__*/function () {
+  var _ref20 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee20(req, res) {
+    var id, updatedPlaylist, result;
+    return _regeneratorRuntime().wrap(function _callee20$(_context20) {
+      while (1) switch (_context20.prev = _context20.next) {
+        case 0:
+          _context20.prev = 0;
+          id = req.params.id;
+          updatedPlaylist = req.body;
+          _context20.next = 5;
+          return db;
+        case 5:
+          _context20.next = 7;
+          return _context20.sent.collection("playlists").updateOne({
+            _id: id
+          }, {
+            $set: updatedPlaylist
+          });
+        case 7:
+          result = _context20.sent;
+          res.json(result);
+          _context20.next = 15;
+          break;
+        case 11:
+          _context20.prev = 11;
+          _context20.t0 = _context20["catch"](0);
+          console.error(_context20.t0);
+          res.status(500).json({
+            message: "Failed to update playlist"
+          });
+        case 15:
+        case "end":
+          return _context20.stop();
+      }
+    }, _callee20, null, [[0, 11]]);
+  }));
+  return function (_x39, _x40) {
+    return _ref20.apply(this, arguments);
+  };
+}());
+
+// Create a single playlist
+app.post('/api/playlists', /*#__PURE__*/function () {
+  var _ref21 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee21(req, res) {
+    var newPlaylist, maxId, id, result;
+    return _regeneratorRuntime().wrap(function _callee21$(_context21) {
+      while (1) switch (_context21.prev = _context21.next) {
+        case 0:
+          _context21.prev = 0;
+          newPlaylist = req.body; // Create an ID for the new user by finding the max ID and incrementing it by 1
+          _context21.next = 4;
+          return db;
+        case 4:
+          _context21.next = 6;
+          return _context21.sent.collection('playlists').find().sort({
             _id: 1
           }).toArray();
         case 6:
-          maxId = _context18.sent;
+          maxId = _context21.sent;
           id = maxId.length > 0 ? maxId.length + 1 : 1;
           newPlaylist._id = id.toString();
-          _context18.next = 11;
+          _context21.next = 11;
           return db;
         case 11:
-          _context18.next = 13;
-          return _context18.sent.collection("playlists").insertOne(newPlaylist);
+          _context21.next = 13;
+          return _context21.sent.collection("playlists").insertOne(newPlaylist);
         case 13:
-          result = _context18.sent;
-          _context18.next = 16;
+          result = _context21.sent;
+          _context21.next = 16;
           return db;
         case 16:
-          _context18.next = 18;
-          return _context18.sent.collection("users").updateOne({
+          _context21.next = 18;
+          return _context21.sent.collection("users").updateOne({
             username: newPlaylist.creator
           }, {
             $push: {
@@ -906,459 +1070,318 @@ app.post('/api/playlists', /*#__PURE__*/function () {
           });
         case 18:
           res.json(result);
-          _context18.next = 25;
+          _context21.next = 25;
           break;
         case 21:
-          _context18.prev = 21;
-          _context18.t0 = _context18["catch"](0);
-          console.error(_context18.t0);
+          _context21.prev = 21;
+          _context21.t0 = _context21["catch"](0);
+          console.error(_context21.t0);
           res.status(500).json({
             message: "Failed to create playlist"
           });
         case 25:
         case "end":
-          return _context18.stop();
-      }
-    }, _callee18, null, [[0, 21]]);
-  }));
-  return function (_x35, _x36) {
-    return _ref18.apply(this, arguments);
-  };
-}());
-
-// Delete a single playlist
-app["delete"]('/api/playlists/:id', /*#__PURE__*/function () {
-  var _ref19 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee19(req, res) {
-    var id, result;
-    return _regeneratorRuntime().wrap(function _callee19$(_context19) {
-      while (1) switch (_context19.prev = _context19.next) {
-        case 0:
-          _context19.prev = 0;
-          id = req.params.id;
-          _context19.next = 4;
-          return db;
-        case 4:
-          _context19.next = 6;
-          return _context19.sent.collection("playlists").deleteOne({
-            _id: id
-          });
-        case 6:
-          result = _context19.sent;
-          res.json(result);
-          _context19.next = 14;
-          break;
-        case 10:
-          _context19.prev = 10;
-          _context19.t0 = _context19["catch"](0);
-          console.error(_context19.t0);
-          res.status(500).json({
-            message: "Failed to delete playlist"
-          });
-        case 14:
-        case "end":
-          return _context19.stop();
-      }
-    }, _callee19, null, [[0, 10]]);
-  }));
-  return function (_x37, _x38) {
-    return _ref19.apply(this, arguments);
-  };
-}());
-
-// Get all songs
-app.get('/api/songs', /*#__PURE__*/function () {
-  var _ref20 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee20(req, res) {
-    var songs;
-    return _regeneratorRuntime().wrap(function _callee20$(_context20) {
-      while (1) switch (_context20.prev = _context20.next) {
-        case 0:
-          _context20.prev = 0;
-          _context20.next = 3;
-          return db;
-        case 3:
-          _context20.next = 5;
-          return _context20.sent.collection("songs").find().toArray();
-        case 5:
-          songs = _context20.sent;
-          res.json(songs);
-          _context20.next = 13;
-          break;
-        case 9:
-          _context20.prev = 9;
-          _context20.t0 = _context20["catch"](0);
-          console.error(_context20.t0);
-          res.status(500).json({
-            message: "Failed to fetch songs"
-          });
-        case 13:
-        case "end":
-          return _context20.stop();
-      }
-    }, _callee20, null, [[0, 9]]);
-  }));
-  return function (_x39, _x40) {
-    return _ref20.apply(this, arguments);
-  };
-}());
-
-// Get a single song
-app.get('/api/songs/:id', /*#__PURE__*/function () {
-  var _ref21 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee21(req, res) {
-    var id, song;
-    return _regeneratorRuntime().wrap(function _callee21$(_context21) {
-      while (1) switch (_context21.prev = _context21.next) {
-        case 0:
-          _context21.prev = 0;
-          id = req.params.id;
-          _context21.next = 4;
-          return db;
-        case 4:
-          _context21.next = 6;
-          return _context21.sent.collection("songs").findOne({
-            _id: id
-          });
-        case 6:
-          song = _context21.sent;
-          res.json(song);
-          _context21.next = 14;
-          break;
-        case 10:
-          _context21.prev = 10;
-          _context21.t0 = _context21["catch"](0);
-          console.error(_context21.t0);
-          res.status(500).json({
-            message: "Failed to fetch song"
-          });
-        case 14:
-        case "end":
           return _context21.stop();
       }
-    }, _callee21, null, [[0, 10]]);
+    }, _callee21, null, [[0, 21]]);
   }));
   return function (_x41, _x42) {
     return _ref21.apply(this, arguments);
   };
 }());
 
-// Update a single song
-app.put('/api/songs/:id', /*#__PURE__*/function () {
+// Delete a single playlist
+app["delete"]('/api/playlists/:id', /*#__PURE__*/function () {
   var _ref22 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee22(req, res) {
-    var id, updatedSong, result;
+    var id, result;
     return _regeneratorRuntime().wrap(function _callee22$(_context22) {
       while (1) switch (_context22.prev = _context22.next) {
         case 0:
           _context22.prev = 0;
           id = req.params.id;
-          updatedSong = req.body;
-          _context22.next = 5;
+          _context22.next = 4;
           return db;
-        case 5:
-          _context22.next = 7;
-          return _context22.sent.collection("songs").updateOne({
+        case 4:
+          _context22.next = 6;
+          return _context22.sent.collection("playlists").deleteOne({
             _id: id
-          }, {
-            $set: updatedSong
           });
-        case 7:
+        case 6:
           result = _context22.sent;
           res.json(result);
-          _context22.next = 15;
+          _context22.next = 14;
           break;
-        case 11:
-          _context22.prev = 11;
+        case 10:
+          _context22.prev = 10;
           _context22.t0 = _context22["catch"](0);
           console.error(_context22.t0);
           res.status(500).json({
-            message: "Failed to update song"
+            message: "Failed to delete playlist"
           });
-        case 15:
+        case 14:
         case "end":
           return _context22.stop();
       }
-    }, _callee22, null, [[0, 11]]);
+    }, _callee22, null, [[0, 10]]);
   }));
   return function (_x43, _x44) {
     return _ref22.apply(this, arguments);
   };
 }());
 
-// Create a single song
-app.post('/api/songs', /*#__PURE__*/function () {
+// Get all songs
+app.get('/api/songs', /*#__PURE__*/function () {
   var _ref23 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee23(req, res) {
-    var newSong, maxId, id, result;
+    var songs;
     return _regeneratorRuntime().wrap(function _callee23$(_context23) {
       while (1) switch (_context23.prev = _context23.next) {
         case 0:
           _context23.prev = 0;
-          newSong = req.body; // Create an ID for the new user by finding the max ID and incrementing it by 1
-          _context23.next = 4;
+          _context23.next = 3;
           return db;
-        case 4:
-          _context23.next = 6;
-          return _context23.sent.collection('songs').find().sort({
-            _id: 1
-          }).toArray();
-        case 6:
-          maxId = _context23.sent;
-          id = maxId.length > 0 ? maxId.length + 1 : 1;
-          newSong._id = id.toString();
-          _context23.next = 11;
-          return db;
-        case 11:
+        case 3:
+          _context23.next = 5;
+          return _context23.sent.collection("songs").find().toArray();
+        case 5:
+          songs = _context23.sent;
+          res.json(songs);
           _context23.next = 13;
-          return _context23.sent.collection("songs").insertOne(newSong);
-        case 13:
-          result = _context23.sent;
-          res.json(result);
-          _context23.next = 21;
           break;
-        case 17:
-          _context23.prev = 17;
+        case 9:
+          _context23.prev = 9;
           _context23.t0 = _context23["catch"](0);
           console.error(_context23.t0);
           res.status(500).json({
-            message: "Failed to create song"
+            message: "Failed to fetch songs"
           });
-        case 21:
+        case 13:
         case "end":
           return _context23.stop();
       }
-    }, _callee23, null, [[0, 17]]);
+    }, _callee23, null, [[0, 9]]);
   }));
   return function (_x45, _x46) {
     return _ref23.apply(this, arguments);
   };
 }());
 
-// Delete a single song
-app["delete"]('/api/songs/:songId', /*#__PURE__*/function () {
+// Get a single song
+app.get('/api/songs/:id', /*#__PURE__*/function () {
   var _ref24 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee24(req, res) {
-    var songId, result;
+    var id, song;
     return _regeneratorRuntime().wrap(function _callee24$(_context24) {
       while (1) switch (_context24.prev = _context24.next) {
         case 0:
           _context24.prev = 0;
-          songId = req.params.songId;
+          id = req.params.id;
           _context24.next = 4;
           return db;
         case 4:
           _context24.next = 6;
-          return _context24.sent.collection('songs').deleteOne({
-            _id: songId
+          return _context24.sent.collection("songs").findOne({
+            _id: id
           });
         case 6:
-          result = _context24.sent;
-          _context24.next = 9;
-          return db;
-        case 9:
-          _context24.next = 11;
-          return _context24.sent.collection('playlists').updateMany({}, {
-            $pull: {
-              songs: songId
-            }
-          });
-        case 11:
-          res.status(200).json(result);
-          _context24.next = 17;
+          song = _context24.sent;
+          res.json(song);
+          _context24.next = 14;
           break;
-        case 14:
-          _context24.prev = 14;
+        case 10:
+          _context24.prev = 10;
           _context24.t0 = _context24["catch"](0);
+          console.error(_context24.t0);
           res.status(500).json({
-            message: "Failed to remove song from database"
+            message: "Failed to fetch song"
           });
-        case 17:
+        case 14:
         case "end":
           return _context24.stop();
       }
-    }, _callee24, null, [[0, 14]]);
+    }, _callee24, null, [[0, 10]]);
   }));
   return function (_x47, _x48) {
     return _ref24.apply(this, arguments);
   };
 }());
 
-// Get all comments
-app.get('/api/comments', /*#__PURE__*/function () {
+// Update a single song
+app.put('/api/songs/:id', /*#__PURE__*/function () {
   var _ref25 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee25(req, res) {
-    var comments;
+    var id, updatedSong, result;
     return _regeneratorRuntime().wrap(function _callee25$(_context25) {
       while (1) switch (_context25.prev = _context25.next) {
         case 0:
           _context25.prev = 0;
-          _context25.next = 3;
-          return db;
-        case 3:
+          id = req.params.id;
+          updatedSong = req.body;
           _context25.next = 5;
-          return _context25.sent.collection("comments").find().toArray();
+          return db;
         case 5:
-          comments = _context25.sent;
-          res.json(comments);
-          _context25.next = 13;
+          _context25.next = 7;
+          return _context25.sent.collection("songs").updateOne({
+            _id: id
+          }, {
+            $set: updatedSong
+          });
+        case 7:
+          result = _context25.sent;
+          res.json(result);
+          _context25.next = 15;
           break;
-        case 9:
-          _context25.prev = 9;
+        case 11:
+          _context25.prev = 11;
           _context25.t0 = _context25["catch"](0);
           console.error(_context25.t0);
           res.status(500).json({
-            message: "Failed to fetch comments"
+            message: "Failed to update song"
           });
-        case 13:
+        case 15:
         case "end":
           return _context25.stop();
       }
-    }, _callee25, null, [[0, 9]]);
+    }, _callee25, null, [[0, 11]]);
   }));
   return function (_x49, _x50) {
     return _ref25.apply(this, arguments);
   };
 }());
 
-// Get a single comment
-app.get('/api/comments/:id', /*#__PURE__*/function () {
+// Create a single song
+app.post('/api/songs', /*#__PURE__*/function () {
   var _ref26 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee26(req, res) {
-    var id, comment;
+    var newSong, maxId, id, result;
     return _regeneratorRuntime().wrap(function _callee26$(_context26) {
       while (1) switch (_context26.prev = _context26.next) {
         case 0:
           _context26.prev = 0;
-          id = req.params.id;
+          newSong = req.body; // Create an ID for the new user by finding the max ID and incrementing it by 1
           _context26.next = 4;
           return db;
         case 4:
           _context26.next = 6;
-          return _context26.sent.collection("comments").findOne({
-            _id: id
-          });
+          return _context26.sent.collection('songs').find().sort({
+            _id: 1
+          }).toArray();
         case 6:
-          comment = _context26.sent;
-          res.json(comment);
-          _context26.next = 14;
+          maxId = _context26.sent;
+          id = maxId.length > 0 ? maxId.length + 1 : 1;
+          newSong._id = id.toString();
+          _context26.next = 11;
+          return db;
+        case 11:
+          _context26.next = 13;
+          return _context26.sent.collection("songs").insertOne(newSong);
+        case 13:
+          result = _context26.sent;
+          res.json(result);
+          _context26.next = 21;
           break;
-        case 10:
-          _context26.prev = 10;
+        case 17:
+          _context26.prev = 17;
           _context26.t0 = _context26["catch"](0);
           console.error(_context26.t0);
           res.status(500).json({
-            message: "Failed to fetch comment"
+            message: "Failed to create song"
           });
-        case 14:
+        case 21:
         case "end":
           return _context26.stop();
       }
-    }, _callee26, null, [[0, 10]]);
+    }, _callee26, null, [[0, 17]]);
   }));
   return function (_x51, _x52) {
     return _ref26.apply(this, arguments);
   };
 }());
 
-// Update a single comment
-app.put('/api/comments/:id', /*#__PURE__*/function () {
+// Delete a single song
+app["delete"]('/api/songs/:songId', /*#__PURE__*/function () {
   var _ref27 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee27(req, res) {
-    var id, updatedComment, result;
+    var songId, result;
     return _regeneratorRuntime().wrap(function _callee27$(_context27) {
       while (1) switch (_context27.prev = _context27.next) {
         case 0:
           _context27.prev = 0;
-          id = req.params.id;
-          updatedComment = req.body;
-          _context27.next = 5;
+          songId = req.params.songId;
+          _context27.next = 4;
           return db;
-        case 5:
-          _context27.next = 7;
-          return _context27.sent.collection("comments").updateOne({
-            _id: id
-          }, {
-            $set: updatedComment
+        case 4:
+          _context27.next = 6;
+          return _context27.sent.collection('songs').deleteOne({
+            _id: songId
           });
-        case 7:
+        case 6:
           result = _context27.sent;
-          res.json(result);
-          _context27.next = 15;
-          break;
-        case 11:
-          _context27.prev = 11;
-          _context27.t0 = _context27["catch"](0);
-          console.error(_context27.t0);
-          res.status(500).json({
-            message: "Failed to update comment"
+          _context27.next = 9;
+          return db;
+        case 9:
+          _context27.next = 11;
+          return _context27.sent.collection('playlists').updateMany({}, {
+            $pull: {
+              songs: songId
+            }
           });
-        case 15:
+        case 11:
+          res.status(200).json(result);
+          _context27.next = 17;
+          break;
+        case 14:
+          _context27.prev = 14;
+          _context27.t0 = _context27["catch"](0);
+          res.status(500).json({
+            message: "Failed to remove song from database"
+          });
+        case 17:
         case "end":
           return _context27.stop();
       }
-    }, _callee27, null, [[0, 11]]);
+    }, _callee27, null, [[0, 14]]);
   }));
   return function (_x53, _x54) {
     return _ref27.apply(this, arguments);
   };
 }());
 
-// Create a single comment
-app.post('/api/comments', /*#__PURE__*/function () {
+// Get all comments
+app.get('/api/comments', /*#__PURE__*/function () {
   var _ref28 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee28(req, res) {
-    var newComment, maxId, id, result;
+    var comments;
     return _regeneratorRuntime().wrap(function _callee28$(_context28) {
       while (1) switch (_context28.prev = _context28.next) {
         case 0:
           _context28.prev = 0;
-          newComment = req.body; // Create an ID for the new comment by finding the max ID and incrementing it by 1
-          _context28.next = 4;
+          _context28.next = 3;
           return db;
-        case 4:
-          _context28.next = 6;
-          return _context28.sent.collection('comments').find().sort({
-            _id: 1
-          }).toArray();
-        case 6:
-          maxId = _context28.sent;
-          id = maxId.length > 0 ? maxId.length + 1 : 1;
-          newComment._id = id.toString();
-          _context28.next = 11;
-          return db;
-        case 11:
+        case 3:
+          _context28.next = 5;
+          return _context28.sent.collection("comments").find().toArray();
+        case 5:
+          comments = _context28.sent;
+          res.json(comments);
           _context28.next = 13;
-          return _context28.sent.collection("comments").insertOne(newComment);
-        case 13:
-          result = _context28.sent;
-          _context28.next = 16;
-          return db;
-        case 16:
-          _context28.next = 18;
-          return _context28.sent.collection("playlists").updateOne({
-            _id: newComment.playlistId
-          }, {
-            $push: {
-              comments: newComment._id
-            }
-          });
-        case 18:
-          res.json(result);
-          _context28.next = 25;
           break;
-        case 21:
-          _context28.prev = 21;
+        case 9:
+          _context28.prev = 9;
           _context28.t0 = _context28["catch"](0);
           console.error(_context28.t0);
           res.status(500).json({
-            message: "Failed to create comment"
+            message: "Failed to fetch comments"
           });
-        case 25:
+        case 13:
         case "end":
           return _context28.stop();
       }
-    }, _callee28, null, [[0, 21]]);
+    }, _callee28, null, [[0, 9]]);
   }));
   return function (_x55, _x56) {
     return _ref28.apply(this, arguments);
   };
 }());
 
-// Delete a single comment
-app["delete"]('/api/comments/:id', /*#__PURE__*/function () {
+// Get a single comment
+app.get('/api/comments/:id', /*#__PURE__*/function () {
   var _ref29 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee29(req, res) {
-    var id, result;
+    var id, comment;
     return _regeneratorRuntime().wrap(function _callee29$(_context29) {
       while (1) switch (_context29.prev = _context29.next) {
         case 0:
@@ -1368,56 +1391,197 @@ app["delete"]('/api/comments/:id', /*#__PURE__*/function () {
           return db;
         case 4:
           _context29.next = 6;
-          return _context29.sent.collection("comments").deleteOne({
+          return _context29.sent.collection("comments").findOne({
             _id: id
           });
         case 6:
-          result = _context29.sent;
-          _context29.next = 9;
-          return db;
-        case 9:
-          _context29.next = 11;
-          return _context29.sent.collection("playlists").updateMany({}, {
-            $pull: {
-              comments: id
-            }
-          });
-        case 11:
-          res.json(result);
-          _context29.next = 18;
+          comment = _context29.sent;
+          res.json(comment);
+          _context29.next = 14;
           break;
-        case 14:
-          _context29.prev = 14;
+        case 10:
+          _context29.prev = 10;
           _context29.t0 = _context29["catch"](0);
           console.error(_context29.t0);
           res.status(500).json({
-            message: "Failed to delete comment"
+            message: "Failed to fetch comment"
           });
-        case 18:
+        case 14:
         case "end":
           return _context29.stop();
       }
-    }, _callee29, null, [[0, 14]]);
+    }, _callee29, null, [[0, 10]]);
   }));
   return function (_x57, _x58) {
     return _ref29.apply(this, arguments);
   };
 }());
 
-// Search API to search playlists, songs, and friends
-app.get('/api/search', /*#__PURE__*/function () {
+// Update a single comment
+app.put('/api/comments/:id', /*#__PURE__*/function () {
   var _ref30 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee30(req, res) {
-    var query, dbInstance, playlists, songs, friends;
+    var id, updatedComment, result;
     return _regeneratorRuntime().wrap(function _callee30$(_context30) {
       while (1) switch (_context30.prev = _context30.next) {
         case 0:
           _context30.prev = 0;
-          query = req.query.q; // Get search query from query parameters
-          _context30.next = 4;
+          id = req.params.id;
+          updatedComment = req.body;
+          _context30.next = 5;
+          return db;
+        case 5:
+          _context30.next = 7;
+          return _context30.sent.collection("comments").updateOne({
+            _id: id
+          }, {
+            $set: updatedComment
+          });
+        case 7:
+          result = _context30.sent;
+          res.json(result);
+          _context30.next = 15;
+          break;
+        case 11:
+          _context30.prev = 11;
+          _context30.t0 = _context30["catch"](0);
+          console.error(_context30.t0);
+          res.status(500).json({
+            message: "Failed to update comment"
+          });
+        case 15:
+        case "end":
+          return _context30.stop();
+      }
+    }, _callee30, null, [[0, 11]]);
+  }));
+  return function (_x59, _x60) {
+    return _ref30.apply(this, arguments);
+  };
+}());
+
+// Create a single comment
+app.post('/api/comments', /*#__PURE__*/function () {
+  var _ref31 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee31(req, res) {
+    var newComment, maxId, id, result;
+    return _regeneratorRuntime().wrap(function _callee31$(_context31) {
+      while (1) switch (_context31.prev = _context31.next) {
+        case 0:
+          _context31.prev = 0;
+          newComment = req.body; // Create an ID for the new comment by finding the max ID and incrementing it by 1
+          _context31.next = 4;
           return db;
         case 4:
-          dbInstance = _context30.sent;
-          _context30.next = 7;
+          _context31.next = 6;
+          return _context31.sent.collection('comments').find().sort({
+            _id: 1
+          }).toArray();
+        case 6:
+          maxId = _context31.sent;
+          id = maxId.length > 0 ? maxId.length + 1 : 1;
+          newComment._id = id.toString();
+          _context31.next = 11;
+          return db;
+        case 11:
+          _context31.next = 13;
+          return _context31.sent.collection("comments").insertOne(newComment);
+        case 13:
+          result = _context31.sent;
+          _context31.next = 16;
+          return db;
+        case 16:
+          _context31.next = 18;
+          return _context31.sent.collection("playlists").updateOne({
+            _id: newComment.playlistId
+          }, {
+            $push: {
+              comments: newComment._id
+            }
+          });
+        case 18:
+          res.json(result);
+          _context31.next = 25;
+          break;
+        case 21:
+          _context31.prev = 21;
+          _context31.t0 = _context31["catch"](0);
+          console.error(_context31.t0);
+          res.status(500).json({
+            message: "Failed to create comment"
+          });
+        case 25:
+        case "end":
+          return _context31.stop();
+      }
+    }, _callee31, null, [[0, 21]]);
+  }));
+  return function (_x61, _x62) {
+    return _ref31.apply(this, arguments);
+  };
+}());
+
+// Delete a single comment
+app["delete"]('/api/comments/:id', /*#__PURE__*/function () {
+  var _ref32 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee32(req, res) {
+    var id, result;
+    return _regeneratorRuntime().wrap(function _callee32$(_context32) {
+      while (1) switch (_context32.prev = _context32.next) {
+        case 0:
+          _context32.prev = 0;
+          id = req.params.id;
+          _context32.next = 4;
+          return db;
+        case 4:
+          _context32.next = 6;
+          return _context32.sent.collection("comments").deleteOne({
+            _id: id
+          });
+        case 6:
+          result = _context32.sent;
+          _context32.next = 9;
+          return db;
+        case 9:
+          _context32.next = 11;
+          return _context32.sent.collection("playlists").updateMany({}, {
+            $pull: {
+              comments: id
+            }
+          });
+        case 11:
+          res.json(result);
+          _context32.next = 18;
+          break;
+        case 14:
+          _context32.prev = 14;
+          _context32.t0 = _context32["catch"](0);
+          console.error(_context32.t0);
+          res.status(500).json({
+            message: "Failed to delete comment"
+          });
+        case 18:
+        case "end":
+          return _context32.stop();
+      }
+    }, _callee32, null, [[0, 14]]);
+  }));
+  return function (_x63, _x64) {
+    return _ref32.apply(this, arguments);
+  };
+}());
+
+// Search API to search playlists, songs, and friends
+app.get('/api/search', /*#__PURE__*/function () {
+  var _ref33 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee33(req, res) {
+    var query, dbInstance, playlists, songs, friends;
+    return _regeneratorRuntime().wrap(function _callee33$(_context33) {
+      while (1) switch (_context33.prev = _context33.next) {
+        case 0:
+          _context33.prev = 0;
+          query = req.query.q; // Get search query from query parameters
+          _context33.next = 4;
+          return db;
+        case 4:
+          dbInstance = _context33.sent;
+          _context33.next = 7;
           return dbInstance.collection('playlists').find({
             name: {
               $regex: query,
@@ -1425,8 +1589,8 @@ app.get('/api/search', /*#__PURE__*/function () {
             }
           }).toArray();
         case 7:
-          playlists = _context30.sent;
-          _context30.next = 10;
+          playlists = _context33.sent;
+          _context33.next = 10;
           return dbInstance.collection('songs').find({
             title: {
               $regex: query,
@@ -1434,8 +1598,8 @@ app.get('/api/search', /*#__PURE__*/function () {
             }
           }).toArray();
         case 10:
-          songs = _context30.sent;
-          _context30.next = 13;
+          songs = _context33.sent;
+          _context33.next = 13;
           return dbInstance.collection('users').find({
             $or: [{
               username: {
@@ -1450,29 +1614,29 @@ app.get('/api/search', /*#__PURE__*/function () {
             }]
           }).toArray();
         case 13:
-          friends = _context30.sent;
+          friends = _context33.sent;
           res.json({
             playlists: playlists,
             songs: songs,
             friends: friends
           });
-          _context30.next = 21;
+          _context33.next = 21;
           break;
         case 17:
-          _context30.prev = 17;
-          _context30.t0 = _context30["catch"](0);
-          console.error('Error searching:', _context30.t0);
+          _context33.prev = 17;
+          _context33.t0 = _context33["catch"](0);
+          console.error('Error searching:', _context33.t0);
           res.status(500).json({
             message: 'Error performing search'
           });
         case 21:
         case "end":
-          return _context30.stop();
+          return _context33.stop();
       }
-    }, _callee30, null, [[0, 17]]);
+    }, _callee33, null, [[0, 17]]);
   }));
-  return function (_x59, _x60) {
-    return _ref30.apply(this, arguments);
+  return function (_x65, _x66) {
+    return _ref33.apply(this, arguments);
   };
 }());
 app.get('*', function (req, res) {

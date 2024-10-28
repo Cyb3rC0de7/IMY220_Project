@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
-import PlaylistColumn from '../components/PlaylistColumn';
+import MyPlaylistColumn from '../components/MyPlaylistColumn';
 import PlaylistDetails from '../components/PlaylistDetailsColumn';
 import ListSongs from '../components/ListSongsColumn';
 import ListComments from '../components/ListCommentsColumn';
@@ -80,7 +80,7 @@ const PlaylistPage = () => {
       <div className="content-area">
         <div className="left-column">
             <NavBar />
-            <PlaylistColumn playlists={playlists}/>
+            <MyPlaylistColumn playlists={playlists}/>
         </div>
         <div className="right-column">
           <Header user={user} />
