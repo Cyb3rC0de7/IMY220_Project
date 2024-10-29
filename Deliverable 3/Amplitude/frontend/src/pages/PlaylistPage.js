@@ -19,10 +19,21 @@ const PlaylistPage = () => {
   const [user, setUser] = useState(null);
   const [playlist, setPlaylist] = useState(null);
   const [playlists, setPlaylists] = useState([]);
+  const [likedPlaylists, setLikedPlaylists] = useState([]);
 
   // Get the username from session storage
   if (sessionStorage.getItem('username'))
     var username = sessionStorage.getItem('username');
+
+  const fetchLikedPlaylists = async () => {
+    try {
+      const response = await fetch(`/api/playlists/liked/${username}`);
+      const data = await response.json();
+      setLikedPlaylists(data.map((playlist) => playlist._id)); // Store only the IDs of liked playlists
+    } catch (error) {
+      console.error('Error fetching liked playlists:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchPlaylists = async () => {
@@ -36,6 +47,7 @@ const PlaylistPage = () => {
     };
 
     fetchPlaylists();
+    fetchLikedPlaylists();
   }, []);
 
   useEffect(() => {
@@ -71,6 +83,28 @@ const PlaylistPage = () => {
     setShowCommentColumn(false);
   }, [playlistId]);
 
+  // Toggle like/unlike for playlists
+  const handleLikeToggle = async (playlistId) => {
+    const isLiked = likedPlaylists.includes(playlistId);
+    const url = `/api/playlists/${playlistId}/${isLiked ? 'unlike' : 'like'}`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user._id })
+      });
+
+      if (response.ok) {
+        fetchLikedPlaylists(); // Refresh liked playlists
+      } else {
+        console.error('Error toggling like');
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
+  };
+
   if (!playlist) {
     return <h2>Playlist not found</h2>;
   }
@@ -80,7 +114,7 @@ const PlaylistPage = () => {
       <div className="content-area">
         <div className="left-column">
             <NavBar />
-            <MyPlaylistColumn playlists={playlists}/>
+            <MyPlaylistColumn playlists={playlists} likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle}/>
         </div>
         <div className="right-column">
           <Header user={user} />

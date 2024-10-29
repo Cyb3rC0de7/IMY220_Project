@@ -1,55 +1,57 @@
-//u21669849, Qwinton Knocklein
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import likedIcon from '../images/heart.png';
+import unlikedIcon from '../images/heart-no.png';
+import '../styles/components/MyPlaylistColumn.css';
 
-import '../styles/components/PlaylistColumn.css';
-
-const MyPlaylistColumn = () => {
-  const [playlists, setPlaylists] = useState([]);
-
-  if (sessionStorage.getItem('username'))
-    var username = sessionStorage.getItem('username');
+const MyPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
+  const [userPlaylists, setUserPlaylists] = useState([]);
+  const navigate = useNavigate();
+  const username = sessionStorage.getItem('username');
 
   useEffect(() => {
-    const fetchPlaylists = async () => {
+    const fetchUserPlaylists = async () => {
       try {
-        const response = await fetch(`/api/playlists/user/${username}`);
+        const response = await fetch(`/api/playlists/user/${ user ? user.username : username }`);
         const data = await response.json();
-        setPlaylists(data);
+        setUserPlaylists(data);
       } catch (error) {
-        console.error('Error fetching playlists:', error);
+        console.error('Error fetching user playlists:', error);
       }
     };
 
-    fetchPlaylists();
-  }, []);
+    fetchUserPlaylists();
+  }, [user]);
 
   return (
     <div className="playlist-column">
-      <div className="playlist-header">
-        <h2 className="playlist-title">My Playlists</h2>
-        <NavLink to="/addPlaylist" className="nav-link">
-          <button type="button">+ Add</button>
-        </NavLink>
+      <div className="playlistCol-header">
+        <h2>{user.username != username ? `${user.name}'s` : 'My'} Playlists</h2>
       </div>
-      {(playlists === null || playlists.length === 0) ? (
-        <p>No playlists found</p>
-      ) : (
-        <ul className="playlist-list">
-          {playlists.map((playlist) => (
-            <li key={playlist._id} className="playlist-item">
-              <img src={playlist.thumbnail} alt={playlist.name} />
-              <div className="playlist-info">
-                <NavLink to={`/playlist/${playlist._id}`} className="nav-link">
-                  <h3>{playlist.name}</h3>
-                </NavLink>
-                <p>{playlist.creator}</p>
-              </div>
-              <span className="heart-icon">{playlist.liked ? '❤️' : '♡'}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="playlistCol-grid">
+        {userPlaylists.map((playlist) => (
+          <div
+            key={playlist._id}
+            className="playlist-item"
+            onClick={() => navigate(`/playlist/${playlist._id}`)}
+          >
+            <img src={playlist.thumbnail || '/images/placeholder.png'} alt={playlist.name} />
+            <div className="playlist-info">
+              <h3>{playlist.name}</h3>
+              <p>{playlist.description}</p>
+            </div>
+            <img
+              src={likedPlaylists.includes(playlist._id) ? likedIcon : unlikedIcon}
+              alt={likedPlaylists.includes(playlist._id) ? 'Unlike' : 'Like'}
+              className="heart-icon"
+              onClick={(e) => {
+                e.stopPropagation();
+                onLikeToggle(playlist._id);
+              }}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

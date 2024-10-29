@@ -1,55 +1,50 @@
 /*u21669849, Qwinton Knocklein*/
 .allPlaylist-column {
-    background-color: rgba(25, 25, 25, 0.95);
-    color: white;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    height: calc(100vh - 32%);
-    overflow-y: scroll;
-  }
-  
-  .allPlaylistCol-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .allPlaylistCol-title {
-    font-size: 32px;
-    margin-bottom: 20px;
-  }
-  
-  .allPlaylistCol-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
-  }
-  
-  .allPlaylistCol-btn button {
-    margin: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .allPlaylistCol-item {
-    text-align: center;
-  }
-  
-  .allPlaylistCol-item img {
-    width: 150px;
-    height: 150px;
-    border-radius: 10px;
-  }
-  
-  .allPlaylistCol-info h3 {
-    font-size: 18px;
-    color: white;
-    margin-top: 10px;
-  }
-  
-  .allPlaylistCol-info p {
-    font-size: 14px;
-    color: #D3D3D3;
-  }
+  background-color: rgba(25, 25, 25, 0.95); /* Transparent dark gray */
+  color: white;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  overflow-y: scroll;
+  height: calc(100vh - 30%);
+}
+
+.allPlaylist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.allPlaylist-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.allPlaylist-list {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+}
+
+.allPlaylist-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.allPlaylist-item img {
+  border-radius: 10px;
+  width: 75px;
+  height: 75px;
+}
+
+.allPlaylist-info {
+  margin-left: 15px;
+}
+
+.heart-icon {
+  width: 40px !important;
+  height: 40px !important;
+}
