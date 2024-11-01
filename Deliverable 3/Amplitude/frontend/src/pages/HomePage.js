@@ -86,7 +86,7 @@ const HomePage = () => {
       <div className="content-area">
         <div className='left-column'>
           <NavBar user={user} />
-          <MyPlaylistColumn playlists={playlists} user={user} likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle} />
+          <MyPlaylistColumn user={user} likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle} />
         </div>
         <div className='right-column'>
           <Header user={user} />

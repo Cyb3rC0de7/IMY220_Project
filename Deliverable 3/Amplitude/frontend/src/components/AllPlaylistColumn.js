@@ -26,7 +26,7 @@ const AllPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
   return (
     <div className="allPlaylist-column">
       <div className="allPlaylistCol-header">
-        <h2>All Playlists</h2>
+        <h1>All Playlists</h1>
       </div>
       <div className="allPlaylistCol-grid">
         {playlists.map((playlist) => (

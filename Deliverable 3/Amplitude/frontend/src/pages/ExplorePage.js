@@ -10,7 +10,6 @@ import Footer from '../components/Footer';
 import '../styles/pages/ExplorePage.css';
 
 const ExplorePage = () => {
-  const [playlists, setPlaylists] = useState([]);
   const [likedPlaylists, setLikedPlaylists] = useState([]);
   const [user, setUser] = useState(null);
 
@@ -28,16 +27,6 @@ const ExplorePage = () => {
     }
   };
 
-  const fetchPlaylists = async () => {
-    try {
-      const response = await fetch('/api/playlists');
-      const data = await response.json();
-      setPlaylists(data);
-    } catch (error) {
-      console.error('Error fetching playlists:', error);
-    }
-  };
-
   const fetchLikedPlaylists = async () => {
     try {
       const response = await fetch(`/api/playlists/liked/${username}`);
@@ -50,7 +39,6 @@ const ExplorePage = () => {
 
   useEffect(() => {
     fetchUser();
-    fetchPlaylists();
     fetchLikedPlaylists();
   }, [user]);
 
@@ -86,7 +74,7 @@ const ExplorePage = () => {
       <div className="content-area">
         <div className='left-column'>
           <NavBar user={user} />
-          <MyPlaylistColumn playlists={playlists} user={user} likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle} />
+          <MyPlaylistColumn user={user} likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle} />
         </div>
         <div className='right-column'>
           <Header user={user} />
