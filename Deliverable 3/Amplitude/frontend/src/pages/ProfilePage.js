@@ -55,7 +55,6 @@ const ProfilePage = () => {
         const playlistResponse = await fetch(`/api/playlists/user/${username}`);
         const playlistData = await playlistResponse.json();
         setPlaylists(playlistData);
-        console.log(playlistData);
 
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -51,7 +51,7 @@ const SongColumn = ({ addSongToPlaylist, removeSongFromPlaylist, isHomePage }) =
   return (
     <div className="song-column">
       <div className="songCol-header">
-        <h2 className="songCol-title">Songs</h2>
+        <h1 className="songCol-title">Songs</h1>
         {isHomePage ? (
           <div className='songCol-btn'>
             <NavLink to="/addNewSong" className="nav-link">

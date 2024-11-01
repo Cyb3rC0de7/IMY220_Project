@@ -7,7 +7,6 @@ import unlikedIcon from '../images/heart-no.png';
 import '../styles/components/PlaylistDetailsColumn.css';
 
 const PlaylistDetailsColumn = ({ playlist, user, isLiked, onLikeToggle }) => {
-  const username = sessionStorage.getItem('username');
 
   // Check if the logged-in user is the creator of the playlist
   const isCreator = playlist.creator === user?.username;
@@ -17,7 +16,7 @@ const PlaylistDetailsColumn = ({ playlist, user, isLiked, onLikeToggle }) => {
       <img src={playlist.thumbnail} alt={playlist.name} className="playlist-thumbnail" />
       <div className="playlist-info">
         <h2>{playlist.name}</h2>
-        <h3>Created by: {playlist.creator}</h3>
+        <h3>Created by: {<NavLink to={`/profile/${playlist.creator}`}>{playlist.creator}</NavLink>}</h3>
         <p>{playlist.tags}</p>
         <p>{playlist.description}</p>
       </div>
