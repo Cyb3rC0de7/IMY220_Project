@@ -1,6 +1,6 @@
-/*u21669849, Qwinton Knocklein*/
+/* u21669849, Qwinton Knocklein */
 .playlist-column {
-  background-color: rgba(25, 25, 25, 0.95); /* Transparent dark gray */
+  background-color: rgba(25, 25, 25, 0.95);
   color: white;
   margin-top: 10px;
   padding: 10px;
@@ -8,16 +8,28 @@
   overflow-y: scroll;
 }
 
-.playlist-header {
+.playlistCol-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
 .playlist-title {
   font-size: 28px;
-  margin-bottom: 20px;
+  margin: 0 10px;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.nav-arrow,
+.add-playlist-btn {
+  background: none;
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
 }
 
 .playlist-list {

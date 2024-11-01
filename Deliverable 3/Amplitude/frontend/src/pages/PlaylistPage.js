@@ -118,7 +118,7 @@ const PlaylistPage = () => {
         </div>
         <div className="right-column">
           <Header user={user} />
-          <PlaylistDetails playlist={playlist} />
+          <PlaylistDetails playlist={playlist} user={user} onLikeToggle={handleLikeToggle} isLiked={likedPlaylists.includes(playlist._id)} />
 
           <div className='song-comment-toggle'>
             <button onClick={toggleShowCommentColumn}>
@@ -128,7 +128,7 @@ const PlaylistPage = () => {
           {showCommentColumn ? (
             <ListComments key={`comments-${playlistId}`} playlistId={playlist._id} />
           ) : (
-            <ListSongs key={`songs-${playlistId}`} playlistId={playlist._id} />
+            <ListSongs key={`songs-${playlistId}`} playlistId={playlist._id} isCreator={user?.username === playlist.creator}/>
           )}
         </div>
       </div>

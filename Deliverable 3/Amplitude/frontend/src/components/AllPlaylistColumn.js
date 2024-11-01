@@ -37,7 +37,9 @@ const AllPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
           >
             <img src={playlist.thumbnail || '/images/placeholder.png'} alt={playlist.name} />
             <div className="allPlaylist-info">
-              <h3>{playlist.name}</h3>
+              <h2>{playlist.name}</h2>
+              <h3>Created by: {playlist.creator}</h3>
+              <p>{playlist.tags}</p>
               <p>{playlist.description}</p>
             </div>
             <img

@@ -5,7 +5,7 @@ import SongColumn from '../components/SongColumn';
 
 import '../styles/components/ListSongsColumn.css';
 
-const ListSongsColumn = ({ playlistId }) => { 
+const ListSongsColumn = ({ playlistId, isCreator }) => { 
   const [playlistSongs, setPlaylistSongs] = useState([]);
   const [showSongColumn, setShowSongColumn] = useState(false);
   const [isRemoveMode, setIsRemoveMode] = useState(false); // To toggle between Add and Remove modes
@@ -77,14 +77,14 @@ const ListSongsColumn = ({ playlistId }) => {
     <div className="list-songs">
       <div className="songList-header">
         <h2 className="songList-title">Songs in Playlist</h2>
-        <div className="songList-btn">
+        {isCreator ? (<div className="songList-btn">
           <button type="button" onClick={toggleShowSongColumn}>
             {showSongColumn ? 'Close' : '+ Add Song'}
           </button>
           <button type="button" onClick={toggleRemoveMode}>
             {isRemoveMode ? 'Cancel Remove' : 'Remove Song'}
           </button>
-        </div>
+        </div>): null}
       </div>
 
       {playlistSongs.map((song, index) => (
