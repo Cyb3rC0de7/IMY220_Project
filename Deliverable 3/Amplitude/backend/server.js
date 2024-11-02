@@ -90,9 +90,14 @@ app.post('/api/friends/:username/addFriend/:friendUsername', async (req, res) =>
             return res.status(400).json({ message: 'User is already friends with this user' });
         }
         
+        // Add the friend to the user's friends, and the user to the friend's friends
         const result = await (await db).collection("users").updateOne(
             { username: username },
-            { $push: { friends: friendUsername } } // Add the friend to the user's friends
+            { $push: { friends: friendUsername } }
+        );
+        await (await db).collection("users").updateOne(
+            { username: friendUsername },
+            { $push: { friends: username } }
         );
 
         res.json({ message: 'Friend added successfully', result });
@@ -106,10 +111,16 @@ app.post('/api/friends/:username/addFriend/:friendUsername', async (req, res) =>
 app.delete('/api/friends/:username/removeFriend/:friendUsername', async (req, res) => {
     try {
         const { username, friendUsername } = req.params;
+        // Remove the friend from the user's friends, and the user from the friend's friends
         const result = await (await db).collection("users").updateOne(
             { username: username },
-            { $pull: { friends: friendUsername } } // Remove the friend from the user's friends
+            { $pull: { friends: friendUsername } }
         );
+        await (await db).collection("users").updateOne(
+            { username: friendUsername },
+            { $pull: { friends: username } }
+        );
+
         res.json(result);
     } catch (error) {
         console.error('Error removing friend:', error);
@@ -524,12 +535,23 @@ app.get('/api/search', async (req, res) => {
   
       // Search playlists
       const playlists = await dbInstance.collection('playlists').find({ 
-        name: { $regex: query, $options: 'i' } 
+        $or: [
+            { name: { $regex: query, $options: 'i' } },
+            { description: { $regex: query, $options: 'i' } },
+            { creator: { $regex: query, $options: 'i' } },
+            { genre: { $regex: query, $options: 'i' } },
+            { tags: { $regex: query, $options: 'i' } }
+            ]
       }).toArray();
   
       // Search songs
       const songs = await dbInstance.collection('songs').find({ 
-        title: { $regex: query, $options: 'i' } 
+        $or: [
+            { name: { $regex: query, $options: 'i' } },
+            { artist: { $regex: query, $options: 'i' } },
+            { genre: { $regex: query, $options: 'i' } },
+            { tags: { $regex: query, $options: 'i' } }
+            ]
       }).toArray();
   
       // Search users/friends by username or name

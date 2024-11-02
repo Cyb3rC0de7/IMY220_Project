@@ -15,7 +15,6 @@ const ProfilePage = () => {
   const { username } = useParams();
   const navigate = useNavigate();
 
-  const [playlists, setPlaylists] = useState([]);
   const [likedPlaylists, setLikedPlaylists] = useState([]);
   const [owner, setOwner] = useState(null); // Owner is the currently logged-in user
   const [user, setUser] = useState(null); // User is the profile being viewed
@@ -38,29 +37,25 @@ const ProfilePage = () => {
     };
 
     fetchOwner();
-  }, []);
+  }, [username]);
 
   // Fetch the profile user data and playlists whenever the `username` changes
+  const fetchUserData = async () => {
+    try {
+      const userResponse = await fetch(`/api/users/${username}`);
+      const userData = await userResponse.json();
+      setUser(userData);
+
+      const friendResponse = await fetch(`/api/friends/${username}`);
+      const friendData = await friendResponse.json();
+      setFriends(friendData.reverse());
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userResponse = await fetch(`/api/users/${username}`);
-        const userData = await userResponse.json();
-        setUser(userData);
-
-        const friendResponse = await fetch(`/api/friends/${username}`);
-        const friendData = await friendResponse.json();
-        setFriends(friendData);
-
-        const playlistResponse = await fetch(`/api/playlists/user/${username}`);
-        const playlistData = await playlistResponse.json();
-        setPlaylists(playlistData);
-
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
     fetchUserData();
   }, [username]);
 
@@ -70,7 +65,7 @@ const ProfilePage = () => {
       try {
         const response = await fetch(`/api/playlists/liked/${owner.username}`);
         const data = await response.json();
-        setLikedPlaylists(data.map((playlist) => playlist._id)); // Store only the IDs of liked playlists
+        setLikedPlaylists(data.reverse().map((playlist) => playlist._id)); // Store only the IDs of liked playlists
       } catch (error) {
         console.error('Error fetching liked playlists:', error);
       }
@@ -104,6 +99,7 @@ const ProfilePage = () => {
       });
       if (response.ok) {
         setIsFriend(true);
+        fetchUserData(); // Refresh friends list after adding friend
         alert('Friend added successfully');
       } else {
         console.error('Failed to add friend');
@@ -121,6 +117,7 @@ const ProfilePage = () => {
       });
       if (response.ok) {
         setIsFriend(false);
+        fetchUserData(); // Refresh friends list after removing friend
         alert('Friend removed successfully');
       } else {
         console.error('Failed to remove friend');
@@ -162,7 +159,7 @@ const ProfilePage = () => {
         <div className="left-column">
           <NavBar />
           <MyPlaylistColumn
-            user={user}
+            user={(isFriend || user.username === owner?.username) ? user : owner}
             likedPlaylists={likedPlaylists}
             onLikeToggle={handleLikeToggle}
           />
@@ -176,7 +173,7 @@ const ProfilePage = () => {
             onAddFriend={addFriend}
             onRemoveFriend={removeFriend}
           />
-          <FriendsColumn friends={friends} onFriendClick={viewFriendProfile} />
+          <FriendsColumn isEditable={user.username === owner?.username} isFriend={isFriend} friends={friends} onFriendClick={viewFriendProfile} />
         </div>
       </div>
       <Footer />

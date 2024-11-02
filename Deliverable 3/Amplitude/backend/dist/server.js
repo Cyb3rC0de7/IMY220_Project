@@ -264,28 +264,39 @@ app.post('/api/friends/:username/addFriend/:friendUsername', /*#__PURE__*/functi
             $push: {
               friends: friendUsername
             }
-          } // Add the friend to the user's friends
-          );
+          });
         case 20:
           result = _context5.sent;
+          _context5.next = 23;
+          return db;
+        case 23:
+          _context5.next = 25;
+          return _context5.sent.collection("users").updateOne({
+            username: friendUsername
+          }, {
+            $push: {
+              friends: username
+            }
+          });
+        case 25:
           res.json({
             message: 'Friend added successfully',
             result: result
           });
-          _context5.next = 28;
+          _context5.next = 32;
           break;
-        case 24:
-          _context5.prev = 24;
+        case 28:
+          _context5.prev = 28;
           _context5.t0 = _context5["catch"](0);
           console.error('Error adding friend:', _context5.t0);
           res.status(500).json({
             message: 'Failed to add friend'
           });
-        case 28:
+        case 32:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[0, 24]]);
+    }, _callee5, null, [[0, 28]]);
   }));
   return function (_x9, _x10) {
     return _ref5.apply(this, arguments);
@@ -300,7 +311,7 @@ app["delete"]('/api/friends/:username/removeFriend/:friendUsername', /*#__PURE__
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
           _context6.prev = 0;
-          _req$params2 = req.params, username = _req$params2.username, friendUsername = _req$params2.friendUsername;
+          _req$params2 = req.params, username = _req$params2.username, friendUsername = _req$params2.friendUsername; // Remove the friend from the user's friends, and the user from the friend's friends
           _context6.next = 4;
           return db;
         case 4:
@@ -311,25 +322,36 @@ app["delete"]('/api/friends/:username/removeFriend/:friendUsername', /*#__PURE__
             $pull: {
               friends: friendUsername
             }
-          } // Remove the friend from the user's friends
-          );
+          });
         case 6:
           result = _context6.sent;
+          _context6.next = 9;
+          return db;
+        case 9:
+          _context6.next = 11;
+          return _context6.sent.collection("users").updateOne({
+            username: friendUsername
+          }, {
+            $pull: {
+              friends: username
+            }
+          });
+        case 11:
           res.json(result);
-          _context6.next = 14;
+          _context6.next = 18;
           break;
-        case 10:
-          _context6.prev = 10;
+        case 14:
+          _context6.prev = 14;
           _context6.t0 = _context6["catch"](0);
           console.error('Error removing friend:', _context6.t0);
           res.status(500).json({
             message: 'Failed to remove friend'
           });
-        case 14:
+        case 18:
         case "end":
           return _context6.stop();
       }
-    }, _callee6, null, [[0, 10]]);
+    }, _callee6, null, [[0, 14]]);
   }));
   return function (_x11, _x12) {
     return _ref6.apply(this, arguments);
@@ -1583,19 +1605,58 @@ app.get('/api/search', /*#__PURE__*/function () {
           dbInstance = _context33.sent;
           _context33.next = 7;
           return dbInstance.collection('playlists').find({
-            name: {
-              $regex: query,
-              $options: 'i'
-            }
+            $or: [{
+              name: {
+                $regex: query,
+                $options: 'i'
+              }
+            }, {
+              description: {
+                $regex: query,
+                $options: 'i'
+              }
+            }, {
+              creator: {
+                $regex: query,
+                $options: 'i'
+              }
+            }, {
+              genre: {
+                $regex: query,
+                $options: 'i'
+              }
+            }, {
+              tags: {
+                $regex: query,
+                $options: 'i'
+              }
+            }]
           }).toArray();
         case 7:
           playlists = _context33.sent;
           _context33.next = 10;
           return dbInstance.collection('songs').find({
-            title: {
-              $regex: query,
-              $options: 'i'
-            }
+            $or: [{
+              name: {
+                $regex: query,
+                $options: 'i'
+              }
+            }, {
+              artist: {
+                $regex: query,
+                $options: 'i'
+              }
+            }, {
+              genre: {
+                $regex: query,
+                $options: 'i'
+              }
+            }, {
+              tags: {
+                $regex: query,
+                $options: 'i'
+              }
+            }]
           }).toArray();
         case 10:
           songs = _context33.sent;

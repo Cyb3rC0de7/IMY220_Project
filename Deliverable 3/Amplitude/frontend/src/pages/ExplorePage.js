@@ -31,7 +31,7 @@ const ExplorePage = () => {
     try {
       const response = await fetch(`/api/playlists/liked/${username}`);
       const data = await response.json();
-      setLikedPlaylists(data.map((playlist) => playlist._id)); // Store only the IDs of liked playlists
+      setLikedPlaylists(data.reverse().map((playlist) => playlist._id)); // Store only the IDs of liked playlists
     } catch (error) {
       console.error('Error fetching liked playlists:', error);
     }
@@ -40,7 +40,7 @@ const ExplorePage = () => {
   useEffect(() => {
     fetchUser();
     fetchLikedPlaylists();
-  }, [user]);
+  }, [username]);
 
   // Toggle like/unlike for playlists
   const handleLikeToggle = async (playlistId) => {
@@ -78,7 +78,7 @@ const ExplorePage = () => {
         </div>
         <div className='right-column'>
           <Header user={user} />
-          <AllPlaylistColumn user={user} likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle} />
+          <AllPlaylistColumn likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle} />
         </div>
       </div>
       <Footer />

@@ -19,7 +19,7 @@ const MyPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
         : `/api/playlists/liked/${user ? user.username : username}`);
       const response = await fetch(url);
       const data = await response.json();
-      setUserPlaylists(data);
+      setUserPlaylists(data.reverse());
     } catch (error) {
       console.error('Error fetching playlists:', error);
     }
@@ -55,28 +55,35 @@ const MyPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
         )}
       </div>
       <div className="playlistCol-grid">
-        {userPlaylists.map((playlist) => (
-          <div
-            key={playlist._id}
-            className="playlist-item"
-            onClick={() => navigate(`/playlist/${playlist._id}`)}
-          >
-            <img src={playlist.thumbnail || '/images/placeholder.png'} alt={playlist.name} />
-            <div className="playlist-info">
-              <h3>{playlist.name}</h3>
-              <p>{playlist.description}</p>
-            </div>
-            <img
-              src={likedPlaylists.includes(playlist._id) ? likedIcon : unlikedIcon}
-              alt={likedPlaylists.includes(playlist._id) ? 'Unlike' : 'Like'}
-              className="heart-icon"
-              onClick={(e) => {
-                e.stopPropagation();
-                onLikeToggle(playlist._id);
-              }}
-            />
+        {userPlaylists.length === 0 ? (
+          <div className="no-playlists">
+            <h2>No playlists found</h2>
           </div>
-        ))}
+        ) : (
+          userPlaylists.map((playlist) => (
+            <div
+              key={playlist._id}
+              className="playlist-item"
+              onClick={() => navigate(`/playlist/${playlist._id}`)}
+            >
+              <img src={playlist.thumbnail || '/images/placeholder.png'} alt={playlist.name} />
+              <div className="playlist-info">
+                <h2>{playlist.name}</h2>
+                <p>{playlist.description}</p>
+                <h4>{playlist.songs.length} songs</h4>
+              </div>
+              <img
+                src={likedPlaylists.includes(playlist._id) ? likedIcon : unlikedIcon}
+                alt={likedPlaylists.includes(playlist._id) ? 'Unlike' : 'Like'}
+                className="heart-icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onLikeToggle(playlist._id);
+                }}
+              />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

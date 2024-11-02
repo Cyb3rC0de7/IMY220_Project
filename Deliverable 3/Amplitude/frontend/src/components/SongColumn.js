@@ -13,7 +13,7 @@ const SongColumn = ({ addSongToPlaylist, removeSongFromPlaylist, isHomePage }) =
       try {
         const response = await fetch('/api/songs');
         const data = await response.json();
-        setSongs(data);
+        setSongs(data.reverse());
       } catch (error) {
         console.error('Error fetching songs:', error);
       }
@@ -30,8 +30,7 @@ const SongColumn = ({ addSongToPlaylist, removeSongFromPlaylist, isHomePage }) =
       });
 
       if (response.ok) {
-        // Remove song from state after deleting from database
-        
+        // No need to fetch the updated list of songs after removing a song due to the useEffect hook above checking for isRemoveMode
       } else {
         console.error('Error removing song from database');
       }
@@ -62,6 +61,9 @@ const SongColumn = ({ addSongToPlaylist, removeSongFromPlaylist, isHomePage }) =
             </button>
           </div>
         ) : null}
+      </div>
+      <div> 
+        <h4 className="songCol-subtitle">Total songs: {songs.length}</h4>
       </div>
       <div className="songCol-grid">
         {songs.map((song) => (

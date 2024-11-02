@@ -7,9 +7,11 @@ import listIcon from '../images/grid-icon.png';
 import gridIcon from '../images/list-icon.png';
 import '../styles/components/AllPlaylistColumn.css';
 
-const AllPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
+const AllPlaylistColumn = ({ likedPlaylists, onLikeToggle }) => {
   const [playlists, setPlaylists] = useState([]);
   const [viewMode, setViewMode] = useState('list'); // Toggle state for grid or list view
+
+  const username = sessionStorage.getItem('username');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,14 +19,14 @@ const AllPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
       try {
         const response = await fetch('/api/playlists');
         const data = await response.json();
-        setPlaylists(data);
+        setPlaylists(data.reverse());
       } catch (error) {
         console.error('Error fetching playlists:', error);
       }
     };
 
     fetchPlaylists();
-  }, [user]);
+  }, [username]);
 
   const toggleViewMode = () => {
     setViewMode(viewMode === 'grid' ? 'list' : 'grid');
@@ -41,6 +43,9 @@ const AllPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
           onClick={toggleViewMode}
         />
       </div>
+      <div> 
+        <h4 className="songCol-subtitle">Total playlists: {playlists.length}</h4>
+      </div>
       <div className={`allPlaylistCol-grid ${viewMode}`}>
         {playlists.map((playlist) => (
           <div
@@ -53,6 +58,7 @@ const AllPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
               <h3>Created by: {<NavLink to={`/profile/${playlist.creator}`}>{playlist.creator}</NavLink>}</h3>
               <p>{playlist.tags}</p>
               <p>{playlist.description}</p>
+              <h4>{playlist.songs.length} songs</h4>
             </div>
             <img
               src={likedPlaylists.includes(playlist._id) ? likedIcon : unlikedIcon}

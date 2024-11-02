@@ -15,7 +15,7 @@ const ListCommentsColumn = ({ playlistId }) => {
       try {
         const response = await fetch(`/api/playlists/${playlistId}/comments`);
         const data = await response.json();
-        setPlaylistComments(data); // Update state with fetched comments
+        setPlaylistComments(data.reverse()); // Update state with fetched comments
       } catch (error) {
         console.error('Error fetching playlist comments:', error);
       }
@@ -37,7 +37,7 @@ const ListCommentsColumn = ({ playlistId }) => {
         // Fetch the updated list of playlist comments after removing the comment
         const updatedResponse = await fetch(`/api/playlists/${playlistId}/comments`);
         const updatedComments = await updatedResponse.json();
-        setPlaylistComments(updatedComments);
+        setPlaylistComments(updatedComments.reverse());
       } else {
         console.error('Error removing comment from playlist');
       }
@@ -68,7 +68,9 @@ const ListCommentsColumn = ({ playlistId }) => {
               </button>
           </div>
       </div>
-
+      <div>
+        {playlistComments.length === 0 ? <h4>No comments for this playlist</h4> : <h4>Total comments: {playlistComments.length}</h4>}
+      </div>
       {playlistComments.map((comment, index) => (
         <div 
         key={comment._id} 

@@ -32,7 +32,7 @@ const HomePage = () => {
     try {
       const response = await fetch('/api/playlists');
       const data = await response.json();
-      setPlaylists(data);
+      setPlaylists(data.reverse());
     } catch (error) {
       console.error('Error fetching playlists:', error);
     }
@@ -42,7 +42,7 @@ const HomePage = () => {
     try {
       const response = await fetch(`/api/playlists/liked/${username}`);
       const data = await response.json();
-      setLikedPlaylists(data.map((playlist) => playlist._id)); // Store only the IDs of liked playlists
+      setLikedPlaylists(data.reverse().map((playlist) => playlist._id)); // Store only the IDs of liked playlists
     } catch (error) {
       console.error('Error fetching liked playlists:', error);
     }

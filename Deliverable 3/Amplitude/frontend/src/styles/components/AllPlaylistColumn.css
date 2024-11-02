@@ -30,12 +30,13 @@
 /*Grid view*/
 .allPlaylistCol-grid.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 20px;
 }
 
 .allPlaylist-item.grid {
   align-items: center;
+  justify-content: space-between;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -64,8 +65,8 @@
 
 .allPlaylist-item img {
   border-radius: 10px;
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   cursor: pointer;
 }
 

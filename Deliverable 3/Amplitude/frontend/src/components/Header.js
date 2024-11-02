@@ -123,7 +123,7 @@ const Header = () => {
             />
             {showDropdown && (
               <div className="dropdown-menu">
-                <NavLink to={`/profile/${user.username}`} className="dropdown-item">
+                <NavLink to={`/profile/${user.username}`} className="dropdown-item" onClick={toggleDropdown}>
                   View Profile
                 </NavLink>
                 <button onClick={handleLogout} className="dropdown-item">

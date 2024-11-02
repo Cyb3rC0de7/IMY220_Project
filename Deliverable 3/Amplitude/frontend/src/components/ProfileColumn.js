@@ -8,12 +8,17 @@ const ProfileColumn = ({ user, isEditable, isFriend, onAddFriend, onRemoveFriend
   return (
     <div className="user-details">
       <img src={user.profileImage} alt={user.name} className="profile-image" />
-      <div className="user-info">
+      {isFriend || isEditable ? (
+        <div className="user-info">
         <h2>{user.name}</h2>
         <p>Username: {user.username}</p>
         <p>Pronouns: {user.pronouns}</p>
         <p>Bio: {user.bio}</p>
-      </div>
+        </div>) : (
+          <div className="user-info">
+          <h2>{user.name}</h2>
+          </div>
+        )}
       
       {isEditable ? (
         <NavLink to={`/editProfile/${user.username}`} className="nav-link">

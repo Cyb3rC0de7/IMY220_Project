@@ -17,7 +17,7 @@ const ListSongsColumn = ({ playlistId, isCreator }) => {
       try {
         const response = await fetch(`/api/playlists/${playlistId}/songs`);
         const data = await response.json();
-        setPlaylistSongs(data);
+        setPlaylistSongs(data.reverse());
       } catch (error) {
         console.error('Error fetching playlist songs:', error);
       }
@@ -37,7 +37,7 @@ const ListSongsColumn = ({ playlistId, isCreator }) => {
         // Fetch updated list of playlist songs after adding the song
         const updatedResponse = await fetch(`/api/playlists/${playlistId}/songs`);
         const updatedSongs = await updatedResponse.json();
-        setPlaylistSongs(updatedSongs);
+        setPlaylistSongs(updatedSongs.reverse());
       } else {
         console.error('Error adding song to playlist');
       }
@@ -59,7 +59,7 @@ const ListSongsColumn = ({ playlistId, isCreator }) => {
         // Fetch the updated list of playlist songs after removing the song
         const updatedResponse = await fetch(`/api/playlists/${playlistId}/songs`);
         const updatedSongs = await updatedResponse.json();
-        setPlaylistSongs(updatedSongs);
+        setPlaylistSongs(updatedSongs.reverse());
       } else {
         console.error('Error removing song from playlist');
       }
@@ -86,7 +86,9 @@ const ListSongsColumn = ({ playlistId, isCreator }) => {
           </button>
         </div>): null}
       </div>
-
+      <div>
+        {playlistSongs.length === 0 ? <h4>No songs in this playlist</h4> : <h4>Total songs: {playlistSongs.length}</h4>}
+      </div>
       {playlistSongs.map((song, index) => (
         <div 
           key={song._id} 
