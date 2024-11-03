@@ -1,30 +1,25 @@
-//u21669849, Qwinton Knocklein
-import React, { useState, useEffect} from 'react';
+// u21669849, Qwinton Knocklein
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import MyPlaylistColumn from '../components/MyPlaylistColumn';
-import PlaylistDetails from '../components/PlaylistDetailsColumn';
-import ListSongs from '../components/ListSongsColumn';
-import ListComments from '../components/ListCommentsColumn';
+import SongDetails from '../components/SongDetailsColumn';
 import Footer from '../components/Footer';
 
-import '../styles/pages/PlaylistPage.css';
+import '../styles/pages/SongPage.css';
 
-const PlaylistPage = () => {
-  const { playlistId } = useParams();
-  const [showCommentColumn, setShowCommentColumn] = useState(false);
-  const toggleShowCommentColumn = () => setShowCommentColumn(!showCommentColumn);
+const SongPage = () => {
+  const { songId } = useParams();
   const [user, setUser] = useState(null);
-  const [playlist, setPlaylist] = useState(null);
+  const [song, setSong] = useState(null);
   const [playlists, setPlaylists] = useState([]);
   const [likedPlaylists, setLikedPlaylists] = useState([]);
   const [searchInput, setSearchInput] = useState('');
 
   // Get the username from session storage
-  if (sessionStorage.getItem('username'))
-    var username = sessionStorage.getItem('username');
+  const username = sessionStorage.getItem('username') || '';
 
   const fetchLikedPlaylists = async () => {
     try {
@@ -50,10 +45,10 @@ const PlaylistPage = () => {
     fetchPlaylists();
     fetchLikedPlaylists();
     setSearchInput('');
-  }, [playlistId]);
+  }, [songId]);
 
+  // Fetch the user details
   useEffect(() => {
-
     const fetchUser = async () => {
       try {
         const response = await fetch(`/api/users/${username}`);
@@ -64,26 +59,23 @@ const PlaylistPage = () => {
       }
     };
 
-    fetchUser();
+    if (username) fetchUser();
   }, [username]);
 
+  // Fetch the song details
   useEffect(() => {
-    
-    const fetchPlaylist = async () => {
+    const fetchSong = async () => {
       try {
-        const response = await fetch(`/api/playlists/${playlistId}`);
+        const response = await fetch(`/api/songs/${songId}`);
         const data = await response.json();
-        setPlaylist(data);
+        setSong(data);
       } catch (error) {
-        console.error('Error fetching playlist:', error);
+        console.error('Error fetching song:', error);
       }
     };
 
-    setPlaylist(null);
-    fetchPlaylist();
-
-    setShowCommentColumn(false);
-  }, [playlistId]);
+    fetchSong();
+  }, [songId]);
 
   // Toggle like/unlike for playlists
   const handleLikeToggle = async (playlistId) => {
@@ -107,37 +99,23 @@ const PlaylistPage = () => {
     }
   };
 
+  // Set up search for tags in songs
   const handleTagSearch = async (tag) => {
-    setSearchInput('@'+tag);
-    console.log(searchInput);
+    setSearchInput(`#${tag}`);
   };
-  
 
-  if (!playlist) {
-    return <h2>Playlist not found</h2>;
-  }
+  if (!song) return <h2>Song not found</h2>;
 
   return (
-    <div className="playlist-page">
+    <div className="song-page">
       <div className="content-area">
         <div className="left-column">
-            <NavBar />
-            <MyPlaylistColumn playlists={playlists} likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle}/>
+          <NavBar />
+          <MyPlaylistColumn playlists={playlists} likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle}/>
         </div>
         <div className="right-column">
-          <Header user={user} initialSearchQuery={searchInput}/>
-          <PlaylistDetails playlist={playlist} user={user} isLiked={likedPlaylists.includes(playlist._id)} onLikeToggle={handleLikeToggle} onTagClick={handleTagSearch} />
-
-          <div className='song-comment-toggle'>
-            <button onClick={toggleShowCommentColumn}>
-              {showCommentColumn ? 'Hide Comments' : 'Show Comments'}
-            </button>
-          </div>
-          {showCommentColumn ? (
-            <ListComments key={`comments-${playlistId}`} user={user} playlistId={playlist._id} isCreator={user?.username === playlist.creator} />
-          ) : (
-            <ListSongs key={`songs-${playlistId}`} user={user} playlistId={playlist._id} isCreator={user?.username === playlist.creator}/>
-          )}
+          <Header user={user} initialSearchQuery={searchInput} />
+          <SongDetails song={song} user={user} onTagClick={handleTagSearch} />
         </div>
       </div>
       <Footer />
@@ -145,4 +123,4 @@ const PlaylistPage = () => {
   );
 };
 
-export default PlaylistPage;
+export default SongPage;

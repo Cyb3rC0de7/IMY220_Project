@@ -26,6 +26,31 @@ async function connectToDatabase() { // Connect to the database
 const db = connectToDatabase(); // Connect to the database
 // API routes
 
+// Make user an admin
+app.post('/api/admin/makeAdmin/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const result = await (await db).collection("users").updateOne({username}, {$set: {isAdmin: true}});
+        res.json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Failed to make user an admin"});
+    }
+});
+
+// Remove admin status from user
+app.post('/api/admin/removeAdmin/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const result = await (await db).collection("users").updateOne({username}, {$set: {isAdmin: false}});
+        res.json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Failed to remove admin status from user"});
+    }
+});
+
+
 // Fetch all users
 app.get('/api/users', async (req, res) => {
     try {
@@ -530,45 +555,62 @@ app.delete('/api/comments/:id', async (req, res) => {
 app.get('/api/search', async (req, res) => {
     try {
       const query = req.query.q; // Get search query from query parameters
-  
       const dbInstance = await db;
-  
-      // Search playlists
-      const playlists = await dbInstance.collection('playlists').find({ 
-        $or: [
+
+      let playlists = [];
+      let songs = [];
+      let friends = [];
+
+      // Check if the query starts with #
+      if (query.startsWith('@')) {
+        const tagQuery = query.slice(1); // Remove @ symbol
+        
+        // Search only in tags fields for playlists and songs
+        playlists = await dbInstance.collection('playlists').find({
+          tags: { $regex: tagQuery, $options: 'i' }
+        }).toArray();
+
+        songs = await dbInstance.collection('songs').find({
+          genre: { $regex: tagQuery, $options: 'i' }
+        }).toArray();
+
+      } else {
+        // General search for playlists
+        playlists = await dbInstance.collection('playlists').find({ 
+          $or: [
             { name: { $regex: query, $options: 'i' } },
             { description: { $regex: query, $options: 'i' } },
             { creator: { $regex: query, $options: 'i' } },
             { genre: { $regex: query, $options: 'i' } },
             { tags: { $regex: query, $options: 'i' } }
-            ]
-      }).toArray();
-  
-      // Search songs
-      const songs = await dbInstance.collection('songs').find({ 
-        $or: [
+          ]
+        }).toArray();
+
+        // General search for songs
+        songs = await dbInstance.collection('songs').find({ 
+          $or: [
             { name: { $regex: query, $options: 'i' } },
             { artist: { $regex: query, $options: 'i' } },
             { genre: { $regex: query, $options: 'i' } },
             { tags: { $regex: query, $options: 'i' } }
-            ]
-      }).toArray();
-  
-      // Search users/friends by username or name
-      const friends = await dbInstance.collection('users').find({
-        $or: [
-          { username: { $regex: query, $options: 'i' } },
-          { name: { $regex: query, $options: 'i' } }
-        ]
-      }).toArray();
-  
+          ]
+        }).toArray();
+
+        // General search for users/friends by username or name
+        friends = await dbInstance.collection('users').find({
+          $or: [
+            { username: { $regex: query, $options: 'i' } },
+            { name: { $regex: query, $options: 'i' } }
+          ]
+        }).toArray();
+      }
+
       res.json({ playlists, songs, friends });
     } catch (error) {
       console.error('Error searching:', error);
       res.status(500).json({ message: 'Error performing search' });
     }
-  });
-  
+});
 
 
 app.get('*', (req, res) => {

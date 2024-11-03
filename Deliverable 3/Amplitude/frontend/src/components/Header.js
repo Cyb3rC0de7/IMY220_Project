@@ -1,21 +1,19 @@
-//u21669849, Qwinton Knocklein
+// u21669849, Qwinton Knocklein
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import '../styles/components/Header.css';
 import placeholder from '../images/placeholder.png';
 
-const Header = () => {
+const Header = ({ initialSearchQuery }) => {
   const [user, setUser] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false); // State to control dropdown visibility
-  const [searchQuery, setSearchQuery] = useState(''); // State for the search input
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery || ''); // State for the search input
   const [searchResults, setSearchResults] = useState({ playlists: [], songs: [], friends: [] }); // State to store search results
   const navigate = useNavigate();
 
-  // Get the username from session storage
-  const username = sessionStorage.getItem('username');
+  const username = sessionStorage.getItem('username'); // Get the username from session storage
 
-  // Fetch user data
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -27,23 +25,18 @@ const Header = () => {
       }
     };
 
-    if (username) {
-      fetchUser();
-    }
+    if (username) fetchUser();
   }, [username]);
 
-  // Toggle dropdown visibility
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
-  // Handle logout
   const handleLogout = () => {
     sessionStorage.removeItem('username');
     navigate('/');
   };
 
-  // Handle search query input
   const handleSearchInput = (e) => {
     setSearchQuery(e.target.value);
     if (e.target.value === '') {
@@ -51,14 +44,17 @@ const Header = () => {
     }
   };
 
-  // Handle search action when user types
+  useEffect(() => {
+    if (initialSearchQuery) setSearchQuery(initialSearchQuery);
+  }, [initialSearchQuery]);
+
   useEffect(() => {
     if (searchQuery) {
       const performSearch = async () => {
         try {
           const response = await fetch(`/api/search?q=${searchQuery}`);
           const data = await response.json();
-          setSearchResults(data); // Update search results
+          setSearchResults(data);
         } catch (error) {
           console.error('Error performing search:', error);
         }

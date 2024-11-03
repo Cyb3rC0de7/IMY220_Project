@@ -87,6 +87,40 @@ const ProfilePage = () => {
     return <h2>User not found</h2>;
   }
 
+  const makeAdmin = async () => {
+    try {
+      const response = await fetch(`/api/admin/makeAdmin/${user.username}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        fetchUserData(); // Refresh user data after making admin
+        console.log('User is now an admin');
+      }
+    }
+    catch (error) {
+      console.error('Error making user an admin:', error);
+    }
+  }
+
+  const removeAdmin = async () => {
+    try {
+      const response = await fetch(`/api/admin/removeAdmin/${user.username}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        fetchUserData(); // Refresh user data after removing admin
+        console.log('User is no longer an admin');
+      }
+    }
+    catch (error) {
+      console.error('Error removing user as admin:', error);
+    }
+  }
+
   const viewFriendProfile = (friendUsername) => {
     navigate(`/profile/${friendUsername}`);
   };
@@ -167,11 +201,14 @@ const ProfilePage = () => {
         <div className="right-column">
           <Header user={owner} />
           <ProfileColumn
+            owner={owner}
             user={user}
             isEditable={user.username === owner?.username}
             isFriend={isFriend}
             onAddFriend={addFriend}
             onRemoveFriend={removeFriend}
+            onMakeAdmin={makeAdmin}
+            onRemoveAdmin={removeAdmin}
           />
           <FriendsColumn isEditable={user.username === owner?.username} isFriend={isFriend} friends={friends} onFriendClick={viewFriendProfile} />
         </div>

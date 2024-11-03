@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import '../styles/components/ListCommentsColumn.css';
 
-const ListCommentsColumn = ({ playlistId }) => { 
+const ListCommentsColumn = ({ user, playlistId, isCreator }) => { 
   const [playlistComments, setPlaylistComments] = useState([]); // Comment list state
   const [addComment, setAddComment] = useState(false); // State to toggle between adding and removing comments
   const [isRemoveMode, setIsRemoveMode] = useState(false); // To toggle between Add and Remove modes
@@ -63,9 +63,11 @@ const ListCommentsColumn = ({ playlistId }) => {
                   {addComment ? 'Cancel Add' : '+ Add Comment'}
                 </button>
               </NavLink>
-              <button type="button" onClick={toggleRemoveMode}>
+              {user?.isAdmin ? (
+                <button type="button" onClick={toggleRemoveMode}>
                 {isRemoveMode ? 'Cancel Remove' : 'Remove Comment'}
-              </button>
+                </button>) : null
+              }
           </div>
       </div>
       <div>
