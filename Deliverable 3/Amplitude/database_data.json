@@ -1,0 +1,623 @@
+[
+    {
+        "_id": "1",
+        "username": "johndoe",
+        "name": "John Doe",
+        "pronouns": "he/him",
+        "bio": "Music enthusiast and chill vibes curator.",
+        "email": "john@example.com",
+        "passwordHash": "hashed_password1",
+        "profileImage": "https://img.freepik.com/free-vector/mysterious-mafia-character-with-hat_23-2148473223.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "friends": [
+            "janedoe",
+            "mikeross"
+        ],
+        "playlists": [
+            "1",
+            "6",
+            "8"
+        ],
+        "likes": [
+            "3",
+            "9",
+            "10"
+        ],
+        "isAdmin": true
+    },
+    {
+        "_id": "2",
+        "username": "janedoe",
+        "name": "Jane Doe",
+        "pronouns": "she/her",
+        "bio": "Lover of all things music!",
+        "email": "jane@example.com",
+        "passwordHash": "hashed_password2",
+        "profileImage": "https://img.freepik.com/free-photo/portrait-pretty-young-woman_23-2148604238.jpg",
+        "friends": [
+            "johndoe",
+            "mikeross"
+        ],
+        "playlists": [
+            "2",
+            "10"
+        ],
+        "likes": [
+            "5",
+            "7"
+        ],
+        "isAdmin": false
+    },
+    {
+        "_id": "3",
+        "username": "mikeross",
+        "name": "Mike Ross",
+        "pronouns": "he/him",
+        "bio": "Playlist creator extraordinaire.",
+        "email": "mike@example.com",
+        "passwordHash": "hashed_password3",
+        "profileImage": "https://img.freepik.com/free-vector/he-is-playing-rock-concert_1045-142.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "friends": [
+            "johndoe",
+            "janedoe"
+        ],
+        "playlists": [
+            "3",
+            "7"
+        ],
+        "likes": [
+            "6",
+            "2",
+            "8"
+        ],
+        "isAdmin": false
+    },
+    {
+        "_id": "4",
+        "username": "alexturner",
+        "name": "Alex Turner",
+        "pronouns": "they/them",
+        "bio": "Country music fan!",
+        "email": "alex@example.com",
+        "passwordHash": "hashed_password4",
+        "profileImage": "https://img.freepik.com/free-photo/portrait-man_23-2148775692.jpg",
+        "friends": [
+            "johndoe"
+        ],
+        "playlists": [
+            "4",
+            "9"
+        ],
+        "likes": [
+            "1",
+            "2"
+        ],
+        "isAdmin": false
+    },
+    {
+        "_id": "5",
+        "username": "lisa87",
+        "name": "Lisa Moon",
+        "pronouns": "she/her",
+        "bio": "Hip-hop and beats lover.",
+        "email": "lisa@example.com",
+        "passwordHash": "hashed_password5",
+        "profileImage": "https://img.freepik.com/free-photo/portrait-beautiful-woman_23-2148532678.jpg",
+        "friends": [
+            "johndoe",
+            "sarah.connor"
+        ],
+        "playlists": [
+            "5"
+        ],
+        "likes": [
+            "5",
+            "10"
+        ],
+        "isAdmin": false
+    },
+    {
+        "_id": "6",
+        "username": "sarah.connor",
+        "name": "Sarah Connor",
+        "pronouns": "she/her",
+        "bio": "Classics and retro beats only!",
+        "email": "sarah@example.com",
+        "passwordHash": "hashed_password6",
+        "profileImage": "https://img.freepik.com/free-vector/watercolor-woman-with-hat_23-2147522928.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "friends": [
+            "johndoe",
+            "lisa87"
+        ],
+        "playlists": [
+            "7",
+            "8"
+        ],
+        "likes": [
+            "1",
+            "4",
+            "6"
+        ],
+        "isAdmin": false
+    },
+    {
+        "_id": "7",
+        "username": "max_rock",
+        "name": "Max Rockwell",
+        "pronouns": "he/him",
+        "bio": "Rock & Roll enthusiast, playlist creator.",
+        "email": "max@example.com",
+        "passwordHash": "hashed_password7",
+        "profileImage": "https://img.freepik.com/free-photo/closeup-portrait-handsome-young-man_23-2148216298.jpg",
+        "friends": [
+            "johndoe",
+            "janedoe"
+        ],
+        "playlists": [
+            "4"
+        ],
+        "likes": [
+            "2",
+            "5",
+            "9"
+        ],
+        "isAdmin": false
+    },
+    {
+        "_id": "8",
+        "username": "popqueen88",
+        "name": "Ella Mae",
+        "pronouns": "she/her",
+        "bio": "Pop music addict, loves all things glittery!",
+        "email": "ella@example.com",
+        "passwordHash": "hashed_password8",
+        "profileImage": "https://img.freepik.com/free-photo/portrait-beautiful-woman-with-curly-hair_23-2148654512.jpg",
+        "friends": [
+            "janedoe",
+            "alexturner"
+        ],
+        "playlists": [
+            "5",
+            "9"
+        ],
+        "likes": [
+            "3",
+            "7",
+            "10"
+        ],
+        "isAdmin": false
+    },
+    {
+        "_id": "9",
+        "username": "dj_blast",
+        "name": "Marcus Lee",
+        "pronouns": "he/him",
+        "bio": "Electronic and house music DJ.",
+        "email": "marcus@example.com",
+        "passwordHash": "hashed_password9",
+        "profileImage": "https://img.freepik.com/free-photo/young-man-with-headphones_23-2148773687.jpg",
+        "friends": [
+            "sarah.connor",
+            "max_rock"
+        ],
+        "playlists": [
+            "2"
+        ],
+        "likes": [
+            "1",
+            "8"
+        ],
+        "isAdmin": false
+    },
+    {
+        "_id": "10",
+        "username": "lofi_love",
+        "name": "Ava Williams",
+        "pronouns": "they/them",
+        "bio": "Lofi beats to relax and chill.",
+        "email": "ava@example.com",
+        "passwordHash": "hashed_password10",
+        "profileImage": "https://img.freepik.com/free-photo/young-woman-listening-music_23-2148699238.jpg",
+        "friends": [
+            "johndoe",
+            "popqueen88"
+        ],
+        "playlists": [
+            "6",
+            "10"
+        ],
+        "likes": [
+            "4",
+            "5",
+            "7"
+        ],
+        "isAdmin": false
+    }
+]
+
+[
+    {
+        "_id": "1",
+        "title": "Morning Vibes",
+        "artist": "Smooth Jazz Band",
+        "album": "Easy Mornings",
+        "thumbnail": "https://img.freepik.com/free-vector/creative-good-morning-lettering-illustration_23-2148240431.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "genre": "Jazz",
+        "duration": "3:20",
+        "date": "2024-11-03"
+    },
+    {
+        "_id": "2",
+        "title": "Energetic Beats",
+        "artist": "DJ Pulse",
+        "album": "Workout Power",
+        "thumbnail": "https://img.freepik.com/free-vector/hand-drawn-butterfly-illustration_52683-114320.jpg?t=st=1730666941~exp=1730670541~hmac=2818cb5c610a6e8f7848219e3885fe82cbef49b4298b1a686e5f28f9bce20ce4&w=1480",
+        "genre": "Electronic",
+        "duration": "4:00",
+        "date": "2024-11-03"
+    },
+    {
+        "_id": "3",
+        "title": "Peaceful Piano",
+        "artist": "Calm Collective",
+        "album": "Meditation Moments",
+        "thumbnail": "https://img.freepik.com/premium-vector/grand-piano-sheet-music-stand-music-instrument-treble-clef-with-notes-wavy-lines_625536-3408.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "genre": "Classical",
+        "duration": "3:45",
+        "date": "2024-11-03"
+    },
+    {
+        "_id": "4",
+        "title": "Rocking Out",
+        "artist": "The Guitarists",
+        "album": "Rock Revival",
+        "thumbnail": "https://img.freepik.com/free-photo/colorful-paint-texture-background_23-2148435061.jpg",
+        "genre": "Rock",
+        "duration": "3:15"
+    },
+    {
+        "_id": "5",
+        "title": "Sunny Days",
+        "artist": "Pop Stars",
+        "album": "Feel Good Hits",
+        "thumbnail": "https://img.freepik.com/premium-vector/sunny-days-lettering_1262-8871.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "genre": "Pop",
+        "duration": "2:50",
+        "date": "2024-11-03"
+    },
+    {
+        "_id": "6",
+        "title": "Nighttime Chill",
+        "artist": "DJ Relax",
+        "album": "Late Night Lounge",
+        "thumbnail": "https://img.freepik.com/free-photo/moody-blue-background_23-2150279534.jpg",
+        "genre": "Electronic",
+        "duration": "4:40"
+    },
+    {
+        "_id": "7",
+        "title": "Faster, Stronger",
+        "artist": "Workout Kings",
+        "album": "Beats",
+        "thumbnail": "https://img.freepik.com/free-photo/beautiful-silver-stars-background_23-2150160796.jpg",
+        "genre": "Electronic",
+        "duration": "4:10"
+    },
+    {
+        "_id": "8",
+        "title": "Country Roads",
+        "artist": "Acoustic Trio",
+        "album": "Country Classics",
+        "thumbnail": "https://img.freepik.com/free-vector/winding-mountain-road-perspective_107791-25125.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "genre": "Country",
+        "duration": "3:55",
+        "date": "2024-11-03"
+    },
+    {
+        "_id": "9",
+        "title": "Hip Hop Vibes",
+        "artist": "Beatz Crew",
+        "album": "Urban Essentials",
+        "thumbnail": "https://as2.ftcdn.net/jpg/03/20/28/91/1000_F_320289163_lomT306GZSdso2VoQmXrCu0DQDHzSiv3.jpg",
+        "genre": "Hip-hop",
+        "duration": "3:10",
+        "date": "2024-11-03"
+    },
+    {
+        "_id": "10",
+        "title": "Soothing Rain",
+        "artist": "Nature Sounds",
+        "album": "Nature Therapy",
+        "thumbnail": "https://img.freepik.com/free-vector/falling-wet-raindrop-dark-background-design_1017-55006.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "genre": "Ambient",
+        "duration": "4:25",
+        "date": "2024-11-03"
+    }
+]
+
+[
+    {
+        "_id": "1",
+        "name": "Chill Playlist",
+        "description": "Relaxing songs for winding down.",
+        "creator": "johndoe",
+        "thumbnail": "https://img.freepik.com/free-photo/sweetmeats-aligned-spiral-shape_23-2148286731.jpg",
+        "songs": [
+            "1",
+            "2",
+            "3",
+            "10"
+        ],
+        "comments": [
+            "1",
+            "2"
+        ],
+        "likedBy": [
+            "johndoe",
+            "3"
+        ],
+        "tags": [
+            "Chill"
+        ]
+    },
+    {
+        "_id": "2",
+        "name": "Workout Boost",
+        "description": "High-energy beats to fuel your workout.",
+        "creator": "janedoe",
+        "thumbnail": "https://img.freepik.com/free-photo/colorful-beach-sunset-background_23-2149206819.jpg",
+        "songs": [
+            "2",
+            "4",
+            "7",
+            "9"
+        ],
+        "comments": [
+            "3"
+        ],
+        "likedBy": [
+            "mikeross",
+            "johndoe"
+        ],
+        "tags": [
+            "Energy",
+            "Workout"
+        ]
+    },
+    {
+        "_id": "3",
+        "name": "Acoustic Evening",
+        "description": "Soft and soulful acoustic hits.",
+        "creator": "mikeross",
+        "thumbnail": "https://img.freepik.com/premium-vector/man-playing-guitar-nature-flat-vector-illustration-man-playing-guitar-sunset_753333-16973.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "songs": [
+            "1",
+            "3",
+            "5"
+        ],
+        "comments": [
+            "4"
+        ],
+        "likedBy": [
+            "janedoe"
+        ],
+        "tags": [
+            "Acoustic",
+            "Evening"
+        ]
+    },
+    {
+        "_id": "4",
+        "name": "Country Roads",
+        "description": "Classic country tunes.",
+        "creator": "alexturner",
+        "thumbnail": "https://img.freepik.com/free-vector/country-landscape-with-road-flat-style_1284-52162.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "songs": [
+            "8"
+        ],
+        "comments": [
+            "5",
+            "6"
+        ],
+        "likedBy": [
+            "johndoe",
+            "alexturner"
+        ],
+        "tags": [
+            "Country",
+            "Road"
+        ]
+    },
+    {
+        "_id": "5",
+        "name": "Hip Hop Vibes",
+        "description": "Urban beats for the street.",
+        "creator": "lisa87",
+        "thumbnail": "https://img.freepik.com/premium-vector/urban-street-vibes-graffiti-artist-with-boombox_1291195-984.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "songs": [
+            "9"
+        ],
+        "comments": [
+            "7"
+        ],
+        "likedBy": [
+            "janedoe"
+        ],
+        "tags": [
+            "Hip-hop"
+        ]
+    },
+    {
+        "_id": "6",
+        "name": "Jazz Relaxation",
+        "description": "Chill jazz for a quiet evening.",
+        "creator": "johndoe",
+        "thumbnail": "https://img.freepik.com/premium-vector/romantic-saxophonist-playing-melody-mixed-media-flair_9493-90572.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "songs": [
+            "1",
+            "6"
+        ],
+        "comments": [
+            "8"
+        ],
+        "likedBy": [
+            "mikeross"
+        ],
+        "tags": [
+            "Jazz",
+            "Relax"
+        ]
+    },
+    {
+        "_id": "7",
+        "name": "Night Drive",
+        "description": "Mellow tunes for late-night drives.",
+        "creator": "sarah.connor",
+        "thumbnail": "https://img.freepik.com/premium-vector/highway-with-sign-that-says-light-trails-side_1181862-297.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "songs": [
+            "10"
+        ],
+        "comments": [
+            "9"
+        ],
+        "likedBy": [
+            "mikeross",
+            "lisa87"
+        ],
+        "tags": [
+            "Night",
+            "Drive"
+        ]
+    },
+    {
+        "_id": "8",
+        "name": "Soothing Nature",
+        "description": "Relaxing nature sounds for sleep.",
+        "creator": "johndoe",
+        "thumbnail": "https://img.freepik.com/premium-vector/serene-mountain-lake-with-morning-mist_907300-858.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "songs": [
+            "10"
+        ],
+        "comments": [
+            "10"
+        ],
+        "likedBy": [
+            "alexturner"
+        ],
+        "tags": [
+            "Nature",
+            "Ambient"
+        ]
+    },
+    {
+        "_id": "9",
+        "name": "Golden Oldies",
+        "description": "Classics that never get old.",
+        "creator": "alexturner",
+        "thumbnail": "https://img.freepik.com/premium-vector/vintage-retro-logos-vector-flat_667864-3073.jpg?ga=GA1.1.1390814760.1727873490&semt=ais_hybrid",
+        "songs": [
+            "5",
+            "8"
+        ],
+        "comments": [],
+        "likedBy": [
+            "johndoe"
+        ],
+        "tags": [
+            "Classics",
+            "Oldies"
+        ]
+    },
+    {
+        "_id": "10",
+        "name": "Pump Up",
+        "description": "Energy-packed tunes to get moving.",
+        "creator": "janedoe",
+        "thumbnail": "https://img.freepik.com/free-photo/energetic-neon-background_23-2149234598.jpg",
+        "songs": [
+            "4",
+            "2"
+        ],
+        "comments": [],
+        "likedBy": [
+            "johndoe",
+            "mikeross"
+        ],
+        "tags": [
+            "Energy",
+            "Workout"
+        ]
+    }
+]
+
+[
+    {
+        "_id": "1",
+        "playlistId": "1",
+        "user": "janedoe",
+        "text": "Great playlist, super relaxing!",
+        "date": "2024-09-01"
+    },
+    {
+        "_id": "2",
+        "playlistId": "1",
+        "user": "mikeross",
+        "text": "Love these tracks!",
+        "date": "2024-09-02"
+    },
+    {
+        "_id": "3",
+        "playlistId": "2",
+        "user": "johndoe",
+        "text": "Perfect for a workout!",
+        "date": "2024-09-03"
+    },
+    {
+        "_id": "4",
+        "playlistId": "3",
+        "user": "lisa87",
+        "text": "Amazing acoustic set!",
+        "date": "2024-09-04"
+    },
+    {
+        "_id": "5",
+        "playlistId": "4",
+        "user": "alexturner",
+        "text": "Nothing beats classics!",
+        "date": "2024-09-05"
+    },
+    {
+        "_id": "6",
+        "playlistId": "4",
+        "user": "janedoe",
+        "text": "Love the country vibes.",
+        "date": "2024-09-06"
+    },
+    {
+        "_id": "7",
+        "playlistId": "5",
+        "user": "mikeross",
+        "text": "Great hip-hop tracks!",
+        "date": "2024-09-07"
+    },
+    {
+        "_id": "8",
+        "playlistId": "6",
+        "user": "johndoe",
+        "text": "So relaxing to listen to.",
+        "date": "2024-09-08"
+    },
+    {
+        "_id": "9",
+        "playlistId": "7",
+        "user": "lisa87",
+        "text": "Awesome for night drives!",
+        "date": "2024-09-09"
+    },
+    {
+        "_id": "10",
+        "playlistId": "8",
+        "user": "alexturner",
+        "text": "Nature sounds are so calming.",
+        "date": "2024-09-10"
+    }
+]
