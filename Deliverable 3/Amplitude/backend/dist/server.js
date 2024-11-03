@@ -554,20 +554,20 @@ app.post('/api/users/signup', /*#__PURE__*/function () {
 }());
 
 // Delete a single user
-app["delete"]('/api/users/:id', /*#__PURE__*/function () {
+app["delete"]('/api/users/:username', /*#__PURE__*/function () {
   var _ref11 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee11(req, res) {
-    var id, result;
+    var username, result;
     return _regeneratorRuntime().wrap(function _callee11$(_context11) {
       while (1) switch (_context11.prev = _context11.next) {
         case 0:
           _context11.prev = 0;
-          id = req.params.id;
+          username = req.params.username;
           _context11.next = 4;
           return db;
         case 4:
           _context11.next = 6;
           return _context11.sent.collection("users").deleteOne({
-            _id: id
+            username: username
           });
         case 6:
           result = _context11.sent;

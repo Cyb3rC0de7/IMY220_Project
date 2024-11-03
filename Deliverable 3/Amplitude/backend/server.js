@@ -188,10 +188,10 @@ app.post('/api/users/signup', async (req, res) => {
   });
 
 // Delete a single user
-app.delete('/api/users/:id', async (req, res) => {
+app.delete('/api/users/:username', async (req, res) => {
     try {
-        const id = req.params.id;
-        const result = await (await db).collection("users").deleteOne({_id: id});
+        const username = req.params.username;
+        const result = await (await db).collection("users").deleteOne({username: username});
         res.json(result);
     } catch (error) {
         console.error(error);

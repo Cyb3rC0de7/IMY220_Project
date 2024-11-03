@@ -9,22 +9,24 @@ const EditProfilePage = () => {
   const [pronouns, setPronouns] = useState('');
   const [bio, setBio] = useState('');
   const [profileImage, setProfileImage] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await fetch(`/api/users/${username}`);
-        const data = await response.json();
-        setName(data.name);
-        setPronouns(data.pronouns);
-        setBio(data.bio);
-        setProfileImage(data.profileImage);
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-      }
-    };
+  const fetchUserProfile = async () => {
+        try {
+          const response = await fetch(`/api/users/${username}`);
+          const data = await response.json();
+          setName(data.name);
+          setPronouns(data.pronouns);
+          setBio(data.bio);
+          setIsAdmin(data.isAdmin);
+          setProfileImage(data.profileImage);
+        } catch (error) {
+          console.error('Error fetching user profile:', error);
+        }
+      };
 
+  useEffect(() => {
     fetchUserProfile();
   }, [username]);
 
@@ -57,7 +59,7 @@ const EditProfilePage = () => {
 
   // Function to delete the user account
   const deleteAccount = async (e) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this playlist?');
+    const confirmDelete = window.confirm('Are you sure you want to delete this account?');
 
     if (confirmDelete) {
       try {
@@ -67,8 +69,12 @@ const EditProfilePage = () => {
         });
 
         if (response.ok) {
-          sessionStorage.clear();
-          navigate('/');
+          if (localStorage.getItem('username') === username) {
+            localStorage.removeItem('username');
+            navigate('/');
+          }else{
+            navigate('/home');
+          }
         } else {
           console.error('Error deleting profile');
         }
@@ -77,6 +83,39 @@ const EditProfilePage = () => {
       }
     }
   };
+
+  const makeAdmin = async () => {
+    try {
+      const response = await fetch(`/api/admin/makeAdmin/${username}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        fetchUserProfile(); // Refresh user data after making admin
+      }
+    }
+    catch (error) {
+      console.error('Error making user an admin:', error);
+    }
+  }
+
+  const removeAdmin = async () => {
+    try {
+      const response = await fetch(`/api/admin/removeAdmin/${username}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      
+      if (response.ok) {
+        fetchUserProfile(); // Refresh user data after removing admin
+      }
+    }
+    catch (error) {
+      console.error('Error removing user as admin:', error);
+    }
+  }
+
 
   return (
     <div className="edit-profile-container">
@@ -108,6 +147,11 @@ const EditProfilePage = () => {
         
         <div className="edit-profile-btn">
           <button type="button" onClick={() => navigate(`/profile/${username}`)}>Cancel</button>
+          {isAdmin ? (
+            <button type="button" onClick={removeAdmin}>Remove Admin</button>
+          ) : (
+            <button type="button" onClick={makeAdmin}>Make Admin</button>
+          )}
           <button type="button" onClick={deleteAccount}>Delete Account</button>
           <button type="submit">Save Changes</button>
         </div>

@@ -1,7 +1,7 @@
 INSTRUCTIONS FOR RUNNING THE PROJECT
 
 Prerequisites:
-    1. Ensure Docker Desktop is installed
+    1. Ensure Docker Desktop is installed and running
     2. Ensure the VS Code Docker Extension is installed
 
 Steps to run the project:

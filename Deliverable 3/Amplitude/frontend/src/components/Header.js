@@ -95,7 +95,7 @@ const Header = ({ initialSearchQuery }) => {
                 </NavLink>
               ))
             )}
-            <h3>Friends</h3>
+            <h3>Users</h3>
             {searchResults.friends.length === 0 ? (
               <p>No friends found</p>
             ) : (
