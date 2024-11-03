@@ -99,9 +99,9 @@ const ListSongsColumn = ({ user, playlistId, isCreator }) => {
             }
           }}
         >
-          <img src={song.thumbnail} alt={song.name} className="song-thumbnail" />
+          <img src={song.thumbnail} alt={song.title} className="song-thumbnail" />
           <div className="song-info">
-            <h3>{song.name}</h3>
+            <h3>{song.title}</h3>
             <p>{song.artist}</p>
           </div>
           <div className="song-duration">

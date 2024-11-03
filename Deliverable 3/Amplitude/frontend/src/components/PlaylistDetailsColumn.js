@@ -32,7 +32,6 @@ const PlaylistDetailsColumn = ({ playlist, user, isLiked, onLikeToggle, onTagCli
             </span>
           ))}
         </div>
-        
         <p>{playlist.description}</p>
       </div>
 

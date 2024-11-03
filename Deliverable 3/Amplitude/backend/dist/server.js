@@ -19,26 +19,26 @@ function connectToDatabase() {
   return _connectToDatabase.apply(this, arguments);
 }
 function _connectToDatabase() {
-  _connectToDatabase = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee36() {
-    return _regeneratorRuntime().wrap(function _callee36$(_context36) {
-      while (1) switch (_context36.prev = _context36.next) {
+  _connectToDatabase = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee37() {
+    return _regeneratorRuntime().wrap(function _callee37$(_context37) {
+      while (1) switch (_context37.prev = _context37.next) {
         case 0:
-          _context36.prev = 0;
-          _context36.next = 3;
+          _context37.prev = 0;
+          _context37.next = 3;
           return client.connect();
         case 3:
           console.log("Connected to the database");
-          return _context36.abrupt("return", client.db("Amplitude"));
+          return _context37.abrupt("return", client.db("Amplitude"));
         case 7:
-          _context36.prev = 7;
-          _context36.t0 = _context36["catch"](0);
-          console.error(_context36.t0);
+          _context37.prev = 7;
+          _context37.t0 = _context37["catch"](0);
+          console.error(_context37.t0);
           process.exit(1);
         case 11:
         case "end":
-          return _context36.stop();
+          return _context37.stop();
       }
-    }, _callee36, null, [[0, 7]]);
+    }, _callee37, null, [[0, 7]]);
   }));
   return _connectToDatabase.apply(this, arguments);
 }
@@ -1450,10 +1450,10 @@ app["delete"]('/api/songs/:songId', /*#__PURE__*/function () {
   };
 }());
 
-// Get all comments
-app.get('/api/comments', /*#__PURE__*/function () {
+// Get all tags
+app.get('/api/tags', /*#__PURE__*/function () {
   var _ref30 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee30(req, res) {
-    var comments;
+    var tags;
     return _regeneratorRuntime().wrap(function _callee30$(_context30) {
       while (1) switch (_context30.prev = _context30.next) {
         case 0:
@@ -1462,10 +1462,10 @@ app.get('/api/comments', /*#__PURE__*/function () {
           return db;
         case 3:
           _context30.next = 5;
-          return _context30.sent.collection("comments").find().toArray();
+          return _context30.sent.collection("tags").find().toArray();
         case 5:
-          comments = _context30.sent;
-          res.json(comments);
+          tags = _context30.sent;
+          res.json(tags);
           _context30.next = 13;
           break;
         case 9:
@@ -1473,7 +1473,7 @@ app.get('/api/comments', /*#__PURE__*/function () {
           _context30.t0 = _context30["catch"](0);
           console.error(_context30.t0);
           res.status(500).json({
-            message: "Failed to fetch comments"
+            message: "Failed to fetch tags"
           });
         case 13:
         case "end":
@@ -1486,119 +1486,155 @@ app.get('/api/comments', /*#__PURE__*/function () {
   };
 }());
 
-// Get a single comment
-app.get('/api/comments/:id', /*#__PURE__*/function () {
+// Get all comments
+app.get('/api/comments', /*#__PURE__*/function () {
   var _ref31 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee31(req, res) {
-    var id, comment;
+    var comments;
     return _regeneratorRuntime().wrap(function _callee31$(_context31) {
       while (1) switch (_context31.prev = _context31.next) {
         case 0:
           _context31.prev = 0;
-          id = req.params.id;
-          _context31.next = 4;
+          _context31.next = 3;
           return db;
-        case 4:
-          _context31.next = 6;
-          return _context31.sent.collection("comments").findOne({
-            _id: id
-          });
-        case 6:
-          comment = _context31.sent;
-          res.json(comment);
-          _context31.next = 14;
+        case 3:
+          _context31.next = 5;
+          return _context31.sent.collection("comments").find().toArray();
+        case 5:
+          comments = _context31.sent;
+          res.json(comments);
+          _context31.next = 13;
           break;
-        case 10:
-          _context31.prev = 10;
+        case 9:
+          _context31.prev = 9;
           _context31.t0 = _context31["catch"](0);
           console.error(_context31.t0);
           res.status(500).json({
-            message: "Failed to fetch comment"
+            message: "Failed to fetch comments"
           });
-        case 14:
+        case 13:
         case "end":
           return _context31.stop();
       }
-    }, _callee31, null, [[0, 10]]);
+    }, _callee31, null, [[0, 9]]);
   }));
   return function (_x61, _x62) {
     return _ref31.apply(this, arguments);
   };
 }());
 
-// Update a single comment
-app.put('/api/comments/:id', /*#__PURE__*/function () {
+// Get a single comment
+app.get('/api/comments/:id', /*#__PURE__*/function () {
   var _ref32 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee32(req, res) {
-    var id, updatedComment, result;
+    var id, comment;
     return _regeneratorRuntime().wrap(function _callee32$(_context32) {
       while (1) switch (_context32.prev = _context32.next) {
         case 0:
           _context32.prev = 0;
           id = req.params.id;
-          updatedComment = req.body;
-          _context32.next = 5;
+          _context32.next = 4;
           return db;
-        case 5:
-          _context32.next = 7;
-          return _context32.sent.collection("comments").updateOne({
+        case 4:
+          _context32.next = 6;
+          return _context32.sent.collection("comments").findOne({
             _id: id
-          }, {
-            $set: updatedComment
           });
-        case 7:
-          result = _context32.sent;
-          res.json(result);
-          _context32.next = 15;
+        case 6:
+          comment = _context32.sent;
+          res.json(comment);
+          _context32.next = 14;
           break;
-        case 11:
-          _context32.prev = 11;
+        case 10:
+          _context32.prev = 10;
           _context32.t0 = _context32["catch"](0);
           console.error(_context32.t0);
           res.status(500).json({
-            message: "Failed to update comment"
+            message: "Failed to fetch comment"
           });
-        case 15:
+        case 14:
         case "end":
           return _context32.stop();
       }
-    }, _callee32, null, [[0, 11]]);
+    }, _callee32, null, [[0, 10]]);
   }));
   return function (_x63, _x64) {
     return _ref32.apply(this, arguments);
   };
 }());
 
-// Create a single comment
-app.post('/api/comments', /*#__PURE__*/function () {
+// Update a single comment
+app.put('/api/comments/:id', /*#__PURE__*/function () {
   var _ref33 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee33(req, res) {
-    var newComment, maxId, id, result;
+    var id, updatedComment, result;
     return _regeneratorRuntime().wrap(function _callee33$(_context33) {
       while (1) switch (_context33.prev = _context33.next) {
         case 0:
           _context33.prev = 0;
+          id = req.params.id;
+          updatedComment = req.body;
+          _context33.next = 5;
+          return db;
+        case 5:
+          _context33.next = 7;
+          return _context33.sent.collection("comments").updateOne({
+            _id: id
+          }, {
+            $set: updatedComment
+          });
+        case 7:
+          result = _context33.sent;
+          res.json(result);
+          _context33.next = 15;
+          break;
+        case 11:
+          _context33.prev = 11;
+          _context33.t0 = _context33["catch"](0);
+          console.error(_context33.t0);
+          res.status(500).json({
+            message: "Failed to update comment"
+          });
+        case 15:
+        case "end":
+          return _context33.stop();
+      }
+    }, _callee33, null, [[0, 11]]);
+  }));
+  return function (_x65, _x66) {
+    return _ref33.apply(this, arguments);
+  };
+}());
+
+// Create a single comment
+app.post('/api/comments', /*#__PURE__*/function () {
+  var _ref34 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee34(req, res) {
+    var newComment, maxId, id, result;
+    return _regeneratorRuntime().wrap(function _callee34$(_context34) {
+      while (1) switch (_context34.prev = _context34.next) {
+        case 0:
+          _context34.prev = 0;
           newComment = req.body; // Create an ID for the new comment by finding the max ID and incrementing it by 1
-          _context33.next = 4;
+          _context34.next = 4;
           return db;
         case 4:
-          _context33.next = 6;
-          return _context33.sent.collection('comments').find().sort({
+          _context34.next = 6;
+          return _context34.sent.collection('comments').find().sort({
             _id: 1
           }).toArray();
         case 6:
-          maxId = _context33.sent;
+          maxId = _context34.sent;
           id = maxId.length > 0 ? maxId.length + 1 : 1;
           newComment._id = id.toString();
-          _context33.next = 11;
+          _context34.next = 11;
           return db;
         case 11:
-          _context33.next = 13;
-          return _context33.sent.collection("comments").insertOne(newComment);
+          _context34.next = 13;
+          return _context34.sent.collection("comments").insertOne(newComment);
         case 13:
-          result = _context33.sent;
-          _context33.next = 16;
+          result = _context34.sent;
+          _context34.next = 16;
           return db;
         case 16:
-          _context33.next = 18;
-          return _context33.sent.collection("playlists").updateOne({
+          _context34.next = 18;
+          return _context34.sent.collection("playlists").updateOne({
             _id: newComment.playlistId
           }, {
             $push: {
@@ -1607,98 +1643,98 @@ app.post('/api/comments', /*#__PURE__*/function () {
           });
         case 18:
           res.json(result);
-          _context33.next = 25;
+          _context34.next = 25;
           break;
         case 21:
-          _context33.prev = 21;
-          _context33.t0 = _context33["catch"](0);
-          console.error(_context33.t0);
+          _context34.prev = 21;
+          _context34.t0 = _context34["catch"](0);
+          console.error(_context34.t0);
           res.status(500).json({
             message: "Failed to create comment"
           });
         case 25:
         case "end":
-          return _context33.stop();
-      }
-    }, _callee33, null, [[0, 21]]);
-  }));
-  return function (_x65, _x66) {
-    return _ref33.apply(this, arguments);
-  };
-}());
-
-// Delete a single comment
-app["delete"]('/api/comments/:id', /*#__PURE__*/function () {
-  var _ref34 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee34(req, res) {
-    var id, result;
-    return _regeneratorRuntime().wrap(function _callee34$(_context34) {
-      while (1) switch (_context34.prev = _context34.next) {
-        case 0:
-          _context34.prev = 0;
-          id = req.params.id;
-          _context34.next = 4;
-          return db;
-        case 4:
-          _context34.next = 6;
-          return _context34.sent.collection("comments").deleteOne({
-            _id: id
-          });
-        case 6:
-          result = _context34.sent;
-          _context34.next = 9;
-          return db;
-        case 9:
-          _context34.next = 11;
-          return _context34.sent.collection("playlists").updateMany({}, {
-            $pull: {
-              comments: id
-            }
-          });
-        case 11:
-          res.json(result);
-          _context34.next = 18;
-          break;
-        case 14:
-          _context34.prev = 14;
-          _context34.t0 = _context34["catch"](0);
-          console.error(_context34.t0);
-          res.status(500).json({
-            message: "Failed to delete comment"
-          });
-        case 18:
-        case "end":
           return _context34.stop();
       }
-    }, _callee34, null, [[0, 14]]);
+    }, _callee34, null, [[0, 21]]);
   }));
   return function (_x67, _x68) {
     return _ref34.apply(this, arguments);
   };
 }());
 
-// Search API to search playlists, songs, and friends
-app.get('/api/search', /*#__PURE__*/function () {
+// Delete a single comment
+app["delete"]('/api/comments/:id', /*#__PURE__*/function () {
   var _ref35 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee35(req, res) {
-    var query, dbInstance, playlists, songs, friends, tagQuery;
+    var id, result;
     return _regeneratorRuntime().wrap(function _callee35$(_context35) {
       while (1) switch (_context35.prev = _context35.next) {
         case 0:
           _context35.prev = 0;
-          query = req.query.q; // Get search query from query parameters
+          id = req.params.id;
           _context35.next = 4;
           return db;
         case 4:
-          dbInstance = _context35.sent;
+          _context35.next = 6;
+          return _context35.sent.collection("comments").deleteOne({
+            _id: id
+          });
+        case 6:
+          result = _context35.sent;
+          _context35.next = 9;
+          return db;
+        case 9:
+          _context35.next = 11;
+          return _context35.sent.collection("playlists").updateMany({}, {
+            $pull: {
+              comments: id
+            }
+          });
+        case 11:
+          res.json(result);
+          _context35.next = 18;
+          break;
+        case 14:
+          _context35.prev = 14;
+          _context35.t0 = _context35["catch"](0);
+          console.error(_context35.t0);
+          res.status(500).json({
+            message: "Failed to delete comment"
+          });
+        case 18:
+        case "end":
+          return _context35.stop();
+      }
+    }, _callee35, null, [[0, 14]]);
+  }));
+  return function (_x69, _x70) {
+    return _ref35.apply(this, arguments);
+  };
+}());
+
+// Search API to search playlists, songs, and friends
+app.get('/api/search', /*#__PURE__*/function () {
+  var _ref36 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee36(req, res) {
+    var query, dbInstance, playlists, songs, friends, tagQuery;
+    return _regeneratorRuntime().wrap(function _callee36$(_context36) {
+      while (1) switch (_context36.prev = _context36.next) {
+        case 0:
+          _context36.prev = 0;
+          query = req.query.q; // Get search query from query parameters
+          _context36.next = 4;
+          return db;
+        case 4:
+          dbInstance = _context36.sent;
           playlists = [];
           songs = [];
           friends = []; // Check if the query starts with #
           if (!query.startsWith('@')) {
-            _context35.next = 18;
+            _context36.next = 18;
             break;
           }
           tagQuery = query.slice(1); // Remove @ symbol
           // Search only in tags fields for playlists and songs
-          _context35.next = 12;
+          _context36.next = 12;
           return dbInstance.collection('playlists').find({
             tags: {
               $regex: tagQuery,
@@ -1706,8 +1742,8 @@ app.get('/api/search', /*#__PURE__*/function () {
             }
           }).toArray();
         case 12:
-          playlists = _context35.sent;
-          _context35.next = 15;
+          playlists = _context36.sent;
+          _context36.next = 15;
           return dbInstance.collection('songs').find({
             genre: {
               $regex: tagQuery,
@@ -1715,11 +1751,11 @@ app.get('/api/search', /*#__PURE__*/function () {
             }
           }).toArray();
         case 15:
-          songs = _context35.sent;
-          _context35.next = 27;
+          songs = _context36.sent;
+          _context36.next = 27;
           break;
         case 18:
-          _context35.next = 20;
+          _context36.next = 20;
           return dbInstance.collection('playlists').find({
             $or: [{
               name: {
@@ -1749,8 +1785,8 @@ app.get('/api/search', /*#__PURE__*/function () {
             }]
           }).toArray();
         case 20:
-          playlists = _context35.sent;
-          _context35.next = 23;
+          playlists = _context36.sent;
+          _context36.next = 23;
           return dbInstance.collection('songs').find({
             $or: [{
               name: {
@@ -1775,8 +1811,8 @@ app.get('/api/search', /*#__PURE__*/function () {
             }]
           }).toArray();
         case 23:
-          songs = _context35.sent;
-          _context35.next = 26;
+          songs = _context36.sent;
+          _context36.next = 26;
           return dbInstance.collection('users').find({
             $or: [{
               username: {
@@ -1791,30 +1827,30 @@ app.get('/api/search', /*#__PURE__*/function () {
             }]
           }).toArray();
         case 26:
-          friends = _context35.sent;
+          friends = _context36.sent;
         case 27:
           res.json({
             playlists: playlists,
             songs: songs,
             friends: friends
           });
-          _context35.next = 34;
+          _context36.next = 34;
           break;
         case 30:
-          _context35.prev = 30;
-          _context35.t0 = _context35["catch"](0);
-          console.error('Error searching:', _context35.t0);
+          _context36.prev = 30;
+          _context36.t0 = _context36["catch"](0);
+          console.error('Error searching:', _context36.t0);
           res.status(500).json({
             message: 'Error performing search'
           });
         case 34:
         case "end":
-          return _context35.stop();
+          return _context36.stop();
       }
-    }, _callee35, null, [[0, 30]]);
+    }, _callee36, null, [[0, 30]]);
   }));
-  return function (_x69, _x70) {
-    return _ref35.apply(this, arguments);
+  return function (_x71, _x72) {
+    return _ref36.apply(this, arguments);
   };
 }());
 app.get('*', function (req, res) {

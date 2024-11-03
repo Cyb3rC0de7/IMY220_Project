@@ -6,7 +6,8 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import SongPage from './pages/SongPage';
-import AddNewSongPage from './pages/AddNewSongPage';
+import AddSongPage from './pages/AddSongPage';
+import EditSongPage from './pages/EditSongPage';
 import ProfilePage from './pages/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage';
 import PlaylistPage from './pages/PlaylistPage';
@@ -25,7 +26,8 @@ const App = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/home/" element={<HomePage />} />
         <Route path="/song/:songId" element={<SongPage />} />
-        <Route path="/addNewSong" element={<AddNewSongPage />} />
+        <Route path="/addSong" element={<AddSongPage />} />
+        <Route path="/editSong/:songId" element={<EditSongPage />} />
         <Route path="/profile/:username" element={<ProfilePage />} />
         <Route path="/editProfile/:username" element={<EditProfilePage />} />
         <Route path="/explore" element={<ExplorePage />} />

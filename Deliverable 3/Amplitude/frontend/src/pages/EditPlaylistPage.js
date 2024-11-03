@@ -1,6 +1,7 @@
 // u21669849, Qwinton Knocklein
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import '../styles/pages/EditPlaylistPage.css';
 
 const EditPlaylistPage = () => {
@@ -92,9 +93,7 @@ const EditPlaylistPage = () => {
         <label>Select Tags:</label>
         <select multiple value={tags} onChange={handleTagChange}>
           {genericTags.map((tag) => (
-            <option key={tag} value={tag}>
-              {tag}
-            </option>
+            <option key={tag} value={tag}>{tag}</option>
           ))}
         </select>
 

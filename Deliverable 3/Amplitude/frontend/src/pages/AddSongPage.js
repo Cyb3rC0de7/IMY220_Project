@@ -1,7 +1,8 @@
 //u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate for redirect after adding a song
-import '../styles/pages/AddNewSongPage.css';
+
+import '../styles/pages/AddSongPage.css';
 
 const AddSongPage = () => {
   const [title, setTitle] = useState('');
@@ -10,8 +11,26 @@ const AddSongPage = () => {
   const [thumbnail, setThumbnail] = useState('');
   const [genre, setGenre] = useState('');
   const [duration, setDuration] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [genericTags, setGenericTags] = useState([]);
   const [error, setError] = useState(null); // Handle errors
   const navigate = useNavigate(); // Hook to navigate to other pages
+
+  const username = sessionStorage.getItem('username');
+
+  const fetchGenericTags = async () => {
+    try {
+      const response = await fetch('/api/tags');
+      const data = await response.json();
+      setGenericTags(data);
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGenericTags();
+  }, [username]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +42,7 @@ const AddSongPage = () => {
       thumbnail,
       genre,
       duration,
+      date,
     };
 
     try {
@@ -71,13 +91,14 @@ const AddSongPage = () => {
           onChange={(e) => setAlbum(e.target.value)}
           required
         />
-        <input
-          type="text"
-          placeholder="Genre"
-          value={genre}
-          onChange={(e) => setGenre(e.target.value)}
-          required
-        />
+        <label>
+          Genre:
+          <select value={genre} onChange={(e) => setGenre(e.target.value)} required>
+              {genericTags.map((tag) => (
+                  <option key={tag} value={tag}>#{tag}</option>
+              ))}
+          </select>
+      </label>
         <input
           type="text"
           placeholder="Duration"

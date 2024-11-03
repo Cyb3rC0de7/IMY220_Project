@@ -1,6 +1,7 @@
 // u21669849, Qwinton Knocklein
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import likedIcon from '../images/heart.png';
 import unlikedIcon from '../images/heart-no.png';
 import '../styles/components/MyPlaylistColumn.css';
@@ -61,12 +62,11 @@ const MyPlaylistColumn = ({ user, likedPlaylists, onLikeToggle }) => {
           </div>
         ) : (
           userPlaylists.map((playlist) => (
-            <div
-              key={playlist._id}
-              className="playlist-item"
-              onClick={() => navigate(`/playlist/${playlist._id}`)}
-            >
-              <img src={playlist.thumbnail || '/images/placeholder.png'} alt={playlist.name} />
+            <div key={playlist._id} className="playlist-item">
+              <img src={playlist.thumbnail || '/images/placeholder.png'} 
+                alt={playlist.name} 
+                onClick={() => navigate(`/playlist/${playlist._id}`)}
+              />
               <div className="playlist-info">
                 <h2>{playlist.name}</h2>
                 <p>{playlist.description}</p>

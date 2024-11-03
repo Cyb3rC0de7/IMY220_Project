@@ -476,6 +476,17 @@ app.delete('/api/songs/:songId', async (req, res) => {
     }
 });
 
+// Get all tags
+app.get('/api/tags', async (req, res) => {
+    try {
+        const tags = await (await db).collection("tags").find().toArray();
+        res.json(tags);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: "Failed to fetch tags"});
+    }
+});
+
 
 // Get all comments
 app.get('/api/comments', async (req, res) => {

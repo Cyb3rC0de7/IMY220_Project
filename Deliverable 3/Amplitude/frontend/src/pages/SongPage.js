@@ -101,7 +101,7 @@ const SongPage = () => {
 
   // Set up search for tags in songs
   const handleTagSearch = async (tag) => {
-    setSearchInput(`#${tag}`);
+    setSearchInput(`@${tag}`);
   };
 
   if (!song) return <h2>Song not found</h2>;

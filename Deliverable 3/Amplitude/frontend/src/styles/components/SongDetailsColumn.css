@@ -6,26 +6,38 @@
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
+    height: calc(100vh - 32%);
 }
 
-.song-thumbnail {
-    width: 150px;
-    height: 150px;
+.song-image {
+    width: 300px;
+    height: 300px;
     border-radius: 10px;
     margin-right: 20px;
 }
 
-.song-info {
+.song-information {
     flex: 1;
     color: white;
 }
 
-.song-info h2 {
+.song-information h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.song-information h2 {
     margin: 0;
     font-size: 24px;
 }
 
-.song-info p {
+.song-information h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #0889A6;
+}
+
+.song-information p {
     margin: 5px 0;
     font-size: 16px;
 }

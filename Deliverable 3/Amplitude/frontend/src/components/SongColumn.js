@@ -1,12 +1,13 @@
 //u21669849, Qwinton Knocklein
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 
 import '../styles/components/SongColumn.css';
 
 const SongColumn = ({ addSongToPlaylist, removeSongFromPlaylist, isHomePage }) => {
   const [songs, setSongs] = useState([]); // State to store the list of songs
   const [isRemoveMode, setIsRemoveMode] = useState(false); // State to toggle between adding and removing songs
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSongs = async () => {
@@ -78,11 +79,15 @@ const SongColumn = ({ addSongToPlaylist, removeSongFromPlaylist, isHomePage }) =
                   removeSongFromPlaylist && removeSongFromPlaylist(song); // Handle song removal in Remove mode
                 }
               } else {
-                addSongToPlaylist && addSongToPlaylist(song); // Handle song addition in Add mode
+                if (isHomePage) {
+                  navigate(`/song/${song._id}`); // Navigate to the song page
+                } else {
+                  addSongToPlaylist && addSongToPlaylist(song); // Handle song addition in Add mode
+                }
               }
             }}
           >
-            <img src={song.thumbnail} alt={song.title} />
+            <img src={song.thumbnail} alt={song.title}/>
             <div className="songCol-info">
               <h3>{song.title}</h3>
               <p>{song.artist}</p>
