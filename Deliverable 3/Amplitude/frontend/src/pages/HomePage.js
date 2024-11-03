@@ -93,7 +93,6 @@ const HomePage = () => {
           <SongColumn playlists={playlists} isHomePage={true} />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

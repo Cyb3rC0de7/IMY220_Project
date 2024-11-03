@@ -23,7 +23,7 @@ const SignUpPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, passwordHash: password }),
+        body: JSON.stringify({ username, email, passwordHash: password, isAdmin: false }),
       });
 
       if (response.ok) {

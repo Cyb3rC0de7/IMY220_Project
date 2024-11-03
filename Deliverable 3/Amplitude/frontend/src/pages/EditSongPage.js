@@ -74,6 +74,28 @@ const EditSongPage = () => {
         }
     };
 
+    // Delete the song
+    const deleteSong = async () => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this song?');
+    
+        if (confirmDelete) {
+            try {
+                const response = await fetch(`/api/songs/${songId}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+    
+                if (response.ok) {
+                    navigate('/home');
+                } else {
+                    console.error('Error deleting song');
+                }
+            } catch (error) {
+                console.error('Error deleting song:', error);
+            }
+        }
+    };
+
     return (
         <div className="edit-song-container">
             <h1>Edit Song</h1>
@@ -88,7 +110,11 @@ const EditSongPage = () => {
                 <input type="text" placeholder="Duration" value={duration} onChange={(e) => setDuration(e.target.value)} required />
                 <input type="text" placeholder="Thumbnail URL" value={thumbnail} onChange={(e) => setThumbnail(e.target.value)} required />
                 
-                <button type="submit">Save Changes</button>
+                <div className="edit-song-btn">
+                    <button type="button" onClick={() => navigate(`/song/${songId}`)}>Cancel</button>
+                    <button type="button" onClick={deleteSong}>Delete Song</button>
+                    <button type="submit">Save Changes</button>
+                </div>
             </form>
         </div>
     );

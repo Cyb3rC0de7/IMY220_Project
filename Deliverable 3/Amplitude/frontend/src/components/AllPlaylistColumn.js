@@ -9,7 +9,7 @@ import listIcon from '../images/grid-icon.png';
 import gridIcon from '../images/list-icon.png';
 import '../styles/components/AllPlaylistColumn.css';
 
-const AllPlaylistColumn = ({ likedPlaylists, onLikeToggle }) => {
+const AllPlaylistColumn = ({ likedPlaylists, onLikeToggle, onTagClick }) => {
   const [playlists, setPlaylists] = useState([]);
   const [viewMode, setViewMode] = useState('list'); // Toggle state for grid or list view
 
@@ -58,7 +58,15 @@ const AllPlaylistColumn = ({ likedPlaylists, onLikeToggle }) => {
             <div className="allPlaylist-info">
               <h2>{playlist.name}</h2>
               <h3>Created by: {<NavLink to={`/profile/${playlist.creator}`}>{playlist.creator}</NavLink>}</h3>
-              <p>{playlist.tags}</p>
+              {playlist.tags?.map((tag, index) => (
+              <span 
+                key={index} 
+                className="tag-item"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onTagClick(tag);
+                }}>#{tag}</span>
+              ))}
               <p>{playlist.description}</p>
               <h4>{playlist.songs.length} songs</h4>
             </div>

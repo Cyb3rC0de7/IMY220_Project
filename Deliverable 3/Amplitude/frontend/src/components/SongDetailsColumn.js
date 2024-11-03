@@ -11,7 +11,7 @@ const SongDetailsColumn = ({ song, onTagClick }) => {
       <div className="song-information">
         <h1>{song.title}</h1>
         <h2>Artist: {song.artist}</h2>
-        <h3 onClick={() => onTagClick(song.genre)}>Genre: {song.genre}</h3>
+        <h3 onClick={() => onTagClick(song.genre)}>Genre: #{song.genre}</h3>
         <h3>Duration: {song.duration}</h3>
         <h3>Date: {song.date}</h3>
         <h4>{song.description}</h4>

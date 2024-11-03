@@ -118,7 +118,6 @@ const SongPage = () => {
           <SongDetails song={song} user={user} onTagClick={handleTagSearch} />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -13,6 +13,7 @@ import '../styles/pages/ProfilePage.css';
 
 const ProfilePage = () => {
   const { username } = useParams();
+  const loggedUsername = sessionStorage.getItem('username');
   const navigate = useNavigate();
 
   const [likedPlaylists, setLikedPlaylists] = useState([]);
@@ -21,23 +22,15 @@ const ProfilePage = () => {
   const [friends, setFriends] = useState([]);
   const [isFriend, setIsFriend] = useState(false); // Check if the profile is a friend
 
-  // Fetch logged-in user data
-  useEffect(() => {
-    const fetchOwner = async () => {
-      const loggedUsername = sessionStorage.getItem('username');
-      if (!loggedUsername) return;
-
-      try {
-        const response = await fetch(`/api/users/${loggedUsername}`);
-        const data = await response.json();
-        setOwner(data);
-      } catch (error) {
-        console.error('Error fetching owner:', error);
-      }
-    };
-
-    fetchOwner();
-  }, [username]);
+  const fetchOwner = async () => {
+    try {
+      const response = await fetch(`/api/users/${loggedUsername}`);
+      const data = await response.json();
+      setOwner(data);
+    } catch (error) {
+      console.error('Error fetching owner:', error);
+    }
+  };
 
   // Fetch the profile user data and playlists whenever the `username` changes
   const fetchUserData = async () => {
@@ -56,6 +49,7 @@ const ProfilePage = () => {
   };
   
   useEffect(() => {
+    fetchOwner();
     fetchUserData();
   }, [username]);
 
@@ -74,7 +68,7 @@ const ProfilePage = () => {
   
   useEffect(() => {
     fetchLikedPlaylists();
-  }, [owner]);
+  }, [loggedUsername]);
 
   // Check if the profile is a friend of the logged-in user
   useEffect(() => {
@@ -213,7 +207,6 @@ const ProfilePage = () => {
           <FriendsColumn isEditable={user.username === owner?.username} isFriend={isFriend} friends={friends} onFriendClick={viewFriendProfile} />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

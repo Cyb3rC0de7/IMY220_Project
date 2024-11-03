@@ -11,7 +11,7 @@ const EditPlaylistPage = () => {
   const [thumbnail, setThumbnail] = useState('');
   const [tags, setTags] = useState([]); // To store selected tags
   const [customTag, setCustomTag] = useState(''); // For custom tag input
-  const [genericTags] = useState(["Pop", "Rock", "EDM", "Hiphop", "RnB", "Country", "Jazz"]); // Generic tags
+  const [genericTags, setGenericTags] = useState([]); // Generic tags
   const navigate = useNavigate(); // To redirect after updating
 
   useEffect(() => {
@@ -28,6 +28,17 @@ const EditPlaylistPage = () => {
       }
     };
 
+    const fetchGenericTags = async () => {
+      try {
+        const response = await fetch('/api/tags');
+        const data = await response.json();
+        setGenericTags(data);
+      } catch (error) {
+        console.error('Error fetching tags:', error);
+      }
+    };
+
+    fetchGenericTags();
     fetchPlaylist();
   }, [playlistId]);
 
@@ -41,6 +52,7 @@ const EditPlaylistPage = () => {
       tags,
     };
 
+    // Update the playlist details
     try {
       const response = await fetch(`/api/playlists/${playlistId}`, {
         method: 'PUT',
@@ -72,6 +84,28 @@ const EditPlaylistPage = () => {
     }
   };
 
+  // Delete playlist
+  const deletePlaylist = async () => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this playlist?');
+
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`/api/playlists/${playlistId}`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response.ok) {
+          navigate('/home');
+        } else {
+          console.error('Error deleting playlist');
+        }
+      } catch (error) {
+        console.error('Error deleting playlist:', error);
+      }
+    }
+  };
+
   return (
     <div className="edit-playlist-container">
       <h1>Edit Playlist</h1>
@@ -93,7 +127,7 @@ const EditPlaylistPage = () => {
         <label>Select Tags:</label>
         <select multiple value={tags} onChange={handleTagChange}>
           {genericTags.map((tag) => (
-            <option key={tag} value={tag}>{tag}</option>
+            <option key={tag._id} value={tag.genre}>#{tag.genre}</option>
           ))}
         </select>
 
@@ -112,7 +146,7 @@ const EditPlaylistPage = () => {
         <div className="selected-tags">
           <p>Selected Tags:</p>
           {tags.map((tag, index) => (
-            <ul key={index} className="tag-item">{tag}</ul>
+            <ul key={index} className="tag-item">#{tag}</ul>
           ))}
         </div>
 
@@ -123,7 +157,12 @@ const EditPlaylistPage = () => {
           required
         />
         
-        <button type="submit">Save Changes</button>
+        <div className="edit-playlist-btn">
+          <button type="button" onClick={() => navigate(`/playlist/${playlistId}`)}>Cancel</button>
+          <button type="button" onClick={deletePlaylist}>Delete Playlist</button>
+          <button type="submit">Save Changes</button>
+        </div>
+
       </form>
     </div>
   );

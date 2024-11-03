@@ -82,10 +82,10 @@ const AddPlaylistPage = () => {
         />
         
         <label>Select Genres:</label>
-        <select multiple value={tags} onChange={handleTagChange}>
+        <select className='genre-selector' multiple value={tags} onChange={handleTagChange}>
           {genericTags.map((tag) => (
-            <option key={tag} value={tag}>
-              {tag}
+            <option className='genre-option' key={tag} value={tag}>
+              #{tag}
             </option>
           ))}
         </select>
@@ -105,7 +105,7 @@ const AddPlaylistPage = () => {
         <div className="selected-tags">
           <p>Selected Tags:</p>
           {tags.map((tag, index) => (
-            <ul key={index} className="tag-item">{tag}</ul>
+            <ul key={index} className="tag-item">#{tag}</ul>
           ))}
         </div>
 
@@ -114,8 +114,10 @@ const AddPlaylistPage = () => {
           value={thumbnail}
           onChange={(e) => setThumbnail(e.target.value)}
         />
-        
-        <button type="submit">Add Playlist</button>
+        <div className="add-playlist-btn">
+          <button type="button" onClick={() => navigate('/home')}>Cancel</button>
+          <button type="submit">Add Playlist</button>
+        </div>
       </form>
       {error && <p className="error-message">{error}</p>}
     </div>

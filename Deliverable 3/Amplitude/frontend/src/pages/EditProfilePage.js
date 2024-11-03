@@ -55,6 +55,29 @@ const EditProfilePage = () => {
     }
   };
 
+  // Function to delete the user account
+  const deleteAccount = async (e) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this playlist?');
+
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`/api/users/${username}`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response.ok) {
+          sessionStorage.clear();
+          navigate('/');
+        } else {
+          console.error('Error deleting profile');
+        }
+      } catch (error) {
+        console.error('Error deleting profile:', error);
+      }
+    }
+  };
+
   return (
     <div className="edit-profile-container">
       <h1>Edit Profile</h1>
@@ -82,7 +105,13 @@ const EditProfilePage = () => {
           value={profileImage}
           onChange={(e) => setProfileImage(e.target.value)}
         />
-        <button type="submit">Save Changes</button>
+        
+        <div className="edit-profile-btn">
+          <button type="button" onClick={() => navigate(`/profile/${username}`)}>Cancel</button>
+          <button type="button" onClick={deleteAccount}>Delete Account</button>
+          <button type="submit">Save Changes</button>
+        </div>
+
       </form>
     </div>
   );

@@ -1,6 +1,6 @@
 //u21669849, Qwinton Knocklein
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate for redirect after adding a song
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import '../styles/pages/AddSongPage.css';
 
@@ -93,9 +93,9 @@ const AddSongPage = () => {
         />
         <label>
           Genre:
-          <select value={genre} onChange={(e) => setGenre(e.target.value)} required>
+          <select className='genre-selector' value={genre} onChange={(e) => setGenre(e.target.value)} required>
               {genericTags.map((tag) => (
-                  <option key={tag} value={tag}>#{tag}</option>
+                  <option className='genre-option' key={tag._id} value={tag.genre}>#{tag.genre}</option>
               ))}
           </select>
       </label>
@@ -112,8 +112,10 @@ const AddSongPage = () => {
           onChange={(e) => setThumbnail(e.target.value)}
           required
         />
-
-        <button type="submit">Add Song</button>
+        <div className="add-song-btn">
+          <button type="button" onClick={() => navigate('/home')}>Cancel</button>
+          <button type="submit">Add Song</button>
+        </div>
       </form>
       {error && <p className="error-message">{error}</p>}
     </div>

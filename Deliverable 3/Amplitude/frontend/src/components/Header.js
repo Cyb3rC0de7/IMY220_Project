@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import '../styles/components/Header.css';
-import placeholder from '../images/placeholder.png';
+//import placeholder from '../images/placeholder.png';
 
 const Header = ({ initialSearchQuery }) => {
   const [user, setUser] = useState([]);
@@ -75,7 +75,7 @@ const Header = ({ initialSearchQuery }) => {
         />
         {searchQuery && (
           <div className="search-results-dropdown">
-            <h4>Playlists</h4>
+            <h3>Playlists</h3>
             {searchResults.playlists.length === 0 ? (
               <p>No playlists found</p>
             ) : (
@@ -85,7 +85,7 @@ const Header = ({ initialSearchQuery }) => {
                 </NavLink>
               ))
             )}
-            <h4>Songs</h4>
+            <h3>Songs</h3>
             {searchResults.songs.length === 0 ? (
               <p>No songs found</p>
             ) : (
@@ -95,7 +95,7 @@ const Header = ({ initialSearchQuery }) => {
                 </NavLink>
               ))
             )}
-            <h4>Friends</h4>
+            <h3>Friends</h3>
             {searchResults.friends.length === 0 ? (
               <p>No friends found</p>
             ) : (
@@ -109,7 +109,7 @@ const Header = ({ initialSearchQuery }) => {
         )}
 
         <div className="header-right">
-          <img src={placeholder} alt="Notifications" className="icon" />
+          {/*<img src={placeholder} alt="Notifications" className="icon" />*/}
           <div className="profile-container">
             <img 
               src={user.profileImage} 

@@ -4,7 +4,7 @@ import { useNavigate, NavLink } from 'react-router-dom';
 
 import '../styles/components/SongColumn.css';
 
-const SongColumn = ({ addSongToPlaylist, removeSongFromPlaylist, isHomePage }) => {
+const SongColumn = ({ isAdmin, addSongToPlaylist, removeSongFromPlaylist, isHomePage }) => {
   const [songs, setSongs] = useState([]); // State to store the list of songs
   const [isRemoveMode, setIsRemoveMode] = useState(false); // State to toggle between adding and removing songs
   const navigate = useNavigate();
@@ -54,12 +54,14 @@ const SongColumn = ({ addSongToPlaylist, removeSongFromPlaylist, isHomePage }) =
         <h1 className="songCol-title">Songs</h1>
         {isHomePage ? (
           <div className='songCol-btn'>
-            <NavLink to="/addNewSong" className="nav-link">
+            <NavLink to="/addSong" className="nav-link">
               <button type="button">+ Add Song</button>
             </NavLink>
-            <button type="button" onClick={toggleRemoveMode}>
-              {isRemoveMode ? 'Cancel Remove' : 'Remove Song'}
-            </button>
+            {isAdmin ? (
+              <button type="button" onClick={toggleRemoveMode}>
+                {isRemoveMode ? 'Cancel Remove' : 'Remove Song'}
+              </button>
+            ) : null}
           </div>
         ) : null}
       </div>

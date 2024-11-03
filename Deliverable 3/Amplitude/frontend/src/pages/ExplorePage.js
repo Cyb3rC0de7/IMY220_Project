@@ -12,6 +12,7 @@ import '../styles/pages/ExplorePage.css';
 const ExplorePage = () => {
   const [likedPlaylists, setLikedPlaylists] = useState([]);
   const [user, setUser] = useState(null);
+  const [searchInput, setSearchInput] = useState('');
 
   // Get the username from session storage
   if (sessionStorage.getItem('username'))
@@ -63,6 +64,11 @@ const ExplorePage = () => {
       console.error('Error toggling like:', error);
     }
   };
+
+  const handleTagSearch = async (tag) => {
+    setSearchInput('@'+tag);
+    console.log(searchInput);
+  };
   
 
   if (!user) {
@@ -77,11 +83,10 @@ const ExplorePage = () => {
           <MyPlaylistColumn user={user} likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle} />
         </div>
         <div className='right-column'>
-          <Header user={user} />
-          <AllPlaylistColumn likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle} />
+          <Header user={user} initialSearchQuery={searchInput} />
+          <AllPlaylistColumn likedPlaylists={likedPlaylists} onLikeToggle={handleLikeToggle} onTagClick={handleTagSearch} />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

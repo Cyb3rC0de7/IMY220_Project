@@ -1,6 +1,6 @@
 //u21669849, Qwinton Knocklein
 import React, { useState } from 'react';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import '../styles/pages/AddCommentPage.css';
 
@@ -53,9 +53,11 @@ const AddCommentPage = () => {
             value={text}
             onChange={(e) => setComment(e.target.value)}
             />
-            <button type="submit">Submit</button>
+            <div className="button-container">
+                <button type="button" onClick={() => navigate(`/playlist/${playlistId}`)}>Cancel</button>
+                <button type="submit">Submit</button>
+            </div>
         </form>
-        <NavLink to={`/playlist/${playlistId}`}>Back to Playlist</NavLink>
         {error && <p className="error-message">{error}</p>}
         </div>
     );

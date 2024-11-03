@@ -140,7 +140,6 @@ const PlaylistPage = () => {
           )}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
